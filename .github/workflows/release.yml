@@ -27,9 +27,12 @@ jobs:
             binary: ondrane
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: build
+          cache-on-failure: true
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |

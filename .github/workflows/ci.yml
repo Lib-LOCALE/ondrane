@@ -27,17 +27,19 @@ jobs:
       matrix:
         os: [ubuntu-24.04, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev \
-            libvlc5 vlc-plugin-base vlc-plugin-video-output ffmpeg weston xvfb xauth dbus-x11 gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+            libvlc5 vlc-plugin-base vlc-plugin-video-output ffmpeg weston xvfb xauth dbus-x11 gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good pulseaudio pulseaudio-utils
       - name: Build
         run: cargo build --release --locked -p ondrane
       - name: Test
@@ -63,6 +65,10 @@ jobs:
           set -euo pipefail
           export XDG_RUNTIME_DIR="$(mktemp -d)"
           chmod 700 "$XDG_RUNTIME_DIR"
+          # The runner has no sound card; provide a real PulseAudio sink so
+          # native audio-error dialogs do not consume the fullscreen Escape.
+          pulseaudio --start --exit-idle-time=-1 --load="module-null-sink sink_name=ondrane_test"
+          pactl set-default-sink ondrane_test
           export XDG_CONFIG_HOME="$RUNNER_TEMP/ondrane-config"
           export XDG_CACHE_HOME="$RUNNER_TEMP/ondrane-cache"
           export VLC_SMOKE_MEDIA="$RUNNER_TEMP/test-a.mp4"
@@ -72,7 +78,7 @@ jobs:
           ffmpeg -v error -f lavfi -i smptebars=size=640x360:rate=30 -f lavfi -i sine=frequency=660 -t 30 -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac "$VLC_SMOKE_NEXT"
           weston --backend=headless-backend.so --socket=wayland-vlc-test --idle-time=0 --width=1280 --height=800 > "$RUNNER_TEMP/weston.log" 2>&1 &
           weston_pid=$!
-          trap 'kill "$weston_pid" 2>/dev/null || true' EXIT
+          trap 'pulseaudio -k || true; kill "$weston_pid" 2>/dev/null || true' EXIT
           for attempt in {1..50}; do
             [ -S "$XDG_RUNTIME_DIR/wayland-vlc-test" ] && break
             sleep 0.1
@@ -83,6 +89,14 @@ jobs:
           dbus-run-session -- timeout 120 cargo test --workspace --locked gui::smoke::desktop_themes -- --ignored --nocapture
           SLINT_BACKEND=winit-software dbus-run-session -- timeout 120 cargo test --workspace --locked gui::smoke::desktop_empty_player_clicks -- --ignored --nocapture
           VLC_SMOKE_X11=1 dbus-run-session -- xvfb-run -a timeout 120 cargo test --workspace --locked gui::smoke::desktop_playback -- --ignored --nocapture
+      - name: Desktop failure snapshots
+        if: failure() && runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-failure-snapshots
+          path: ${{ runner.temp }}/ondrane-captures
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Smoke test
         run: |
           cargo run --release -p ondrane -- --version

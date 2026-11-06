@@ -29,6 +29,10 @@ Dependencies include MIT, Apache-2.0, BSD, ISC, Zlib, BSL-1.0, Unicode-3.0 and U
 
 **option-ext 0.2.0** is **MPL-2.0**. Its MPL-covered source, licence and manifest are included under `licenses/option-ext-0.2.0/source` in distribution packages. That source is available under MPL-2.0, including any changes made to those covered files. Upstream source is also available from https://static.crates.io/crates/option-ext/option-ext-0.2.0.crate and https://github.com/soc/option-ext. This file-level condition does not relicense all application code as MPL.
 
+The generated bundle also includes `rust/COPYRIGHT-library.html`, its linked
+licence texts and the Rust toolchain version. These notices cover the standard
+library/runtime material that Cargo’s dependency graph does not enumerate.
+
 ## Font
 
 **Inter**, The Inter Project Authors, https://rsms.me/inter/ · https://github.com/rsms/inter

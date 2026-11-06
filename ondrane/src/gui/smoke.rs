@@ -123,7 +123,12 @@ fn desktop_playback() {
                     c.command("library");
                 }
                 4 => {
-                    assert!(!a.get_fullscreen());
+                    assert!(
+                        !a.get_fullscreen(),
+                        "Escape must leave fullscreen when no modal is open (dialog={}, menu={})",
+                        a.get_dialog(),
+                        a.get_menu_open()
+                    );
                     assert_eq!(a.get_view(), 1);
                     capture(&c, "03-library");
                     c.command("settings");

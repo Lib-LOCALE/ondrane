@@ -40,7 +40,7 @@ Install Xcode Command Line Tools, stable Rust and VLC 3. Build with `cargo build
 cargo xtask licenses
 ```
 
-This generates `target/third-party-licenses` from `cargo metadata --locked`, copies available upstream licence/copyright/notice files (including alternative licence texts), records versions in a CSV, includes MPL-covered `option-ext` source, and adds Inter/palette notices. It fails if a crate has no declared licence or no notice material can be found. README/source-header fallback material is retained for crates that put their terms there. This is an assembly tool, not an automatic legal interpretation of every licence expression or an inventory of separately installed native libraries.
+This generates `target/third-party-licenses` from `cargo metadata --locked`, copies available upstream licence/copyright/notice files (including alternative licence texts), records versions in a CSV, includes MPL-covered `option-ext` source, and adds Inter/palette notices and the installed Rust toolchain’s standard-library copyright/licence bundle. It fails if a crate has no declared licence or no notice material can be found. README/source-header fallback material is retained for crates that put their terms there. This is an assembly tool, not an automatic legal interpretation of every licence expression or an inventory of separately installed native libraries.
 
 Ship the generated directory, root `LICENSE` and `THIRD_PARTY_NOTICES.md` with the executable. The Windows, AppImage and CI release packaging paths do this. If distributing additional runtimes yourself, audit their exact-build licences and corresponding source obligations separately; do not call such a package an official Ondrane runtime bundle without doing that work.
 

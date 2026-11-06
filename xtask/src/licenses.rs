@@ -106,6 +106,32 @@ pub fn generate(root: &Path) {
         &root.join("THIRD_PARTY_NOTICES.md"),
         &destination.join("README.md"),
     );
+    // Cargo metadata does not inventory the statically linked standard library.
+    let rustc = std::env::var("RUSTC").unwrap_or_else(|_| "rustc".into());
+    let sysroot = Command::new(&rustc)
+        .args(["--print", "sysroot"])
+        .output()
+        .expect("rustc sysroot");
+    assert!(
+        sysroot.status.success(),
+        "could not locate Rust toolchain notices"
+    );
+    let rust_docs =
+        Path::new(std::str::from_utf8(&sysroot.stdout).unwrap().trim()).join("share/doc/rust");
+    super::copy(
+        &rust_docs.join("COPYRIGHT-library.html"),
+        &destination.join("rust/COPYRIGHT-library.html"),
+    );
+    super::copy_dir_all(
+        &rust_docs.join("licenses"),
+        &destination.join("rust/licenses"),
+    );
+    let version = Command::new(rustc)
+        .arg("--version")
+        .output()
+        .expect("rustc version");
+    assert!(version.status.success());
+    fs::write(destination.join("rust/TOOLCHAIN.txt"), version.stdout).unwrap();
     eprintln!(
         "Collected notices for {count} resolved crates, Inter and colour palettes in {}",
         destination.display()

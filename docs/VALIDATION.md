@@ -18,7 +18,7 @@ The inherited Linux integration was also previously exercised with COSMIC’s re
 
 ## Automated CI
 
-The public workflow builds and tests Linux, Windows and macOS. Linux runs isolated FileChooser/ScreenCast protocol tests, synthetic capture transport, and headless Wayland/X11 desktop scenarios. Its software renderer does not test physical GPU acceleration or a user’s actual screen-sharing permission dialog. Passing CI does not establish macOS/Windows playback or device parity; native runtime/peripheral tests remain separate.
+The public workflow builds and tests Linux, Windows and macOS. Linux runs isolated FileChooser/ScreenCast protocol tests, synthetic capture transport, and headless Wayland/X11 desktop scenarios. The headless runner uses a PulseAudio null sink so missing physical sound hardware does not create native audio-error dialogs during input tests. Its software renderer does not test physical GPU acceleration or a user’s actual screen-sharing permission dialog. Passing CI does not establish macOS/Windows playback or device parity; native runtime/peripheral tests remain separate.
 
 ## Remaining limits
 
