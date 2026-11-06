@@ -29,10 +29,18 @@ The Flatpak includes its playback engine; **no host VLC installation is needed**
 - Audio playback/recording through PulseAudio/PipeWire compatibility; network access for streams.
 - FileChooser and ScreenCast use desktop portals. No blanket home-directory, host-filesystem or session-bus access.
 - Status notifier access is limited to `org.kde.StatusNotifierWatcher`.
-- Direct webcam/optical-disc access is not granted. Those native-device features are outside this package's default permissions.
+- Direct webcam/optical-disc access is not granted. Those native-device features are outside this package's default permissions. Chromecast and live555 integrations are not included in this preview build.
 - Settings/history are separate from a native install, under `~/.var/app/io.github.lib_locale.ondrane`. No host-library lookup is required. Single-instance forwarding stays separate from a native installation.
 
 The GitHub Flatpak is a local bundle, not an automatic-update repository. Install later release bundles to update it. The runtime continues receiving updates through Flathub.
+
+Native Wayland drag-and-drop remains limited by winit 0.30. If you need the XWayland workaround, enable the X11 socket explicitly for that launch:
+
+```sh
+flatpak run --nosocket=wayland --socket=x11 io.github.lib_locale.ondrane
+```
+
+This requires an available XWayland server. The ordinary launch keeps Wayland and the narrower fallback-X11 permission. Both rendering paths passed the same software-rendered playback scenario on COSMIC.
 
 ## Store status and AI assistance
 

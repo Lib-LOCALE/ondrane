@@ -24,7 +24,7 @@ The public workflow builds and tests Linux, Windows and macOS. Linux runs isolat
 
 The x86_64 GitHub Flatpak uses Freedesktop Platform 25.08 and a source-built libVLC 3.0.23 / FFmpeg 4.4.7 playback engine. All 46 ordinary tests also passed in the SDK's release build. The release integration-test executable was then exercised against the **Platform runtime**, with a read-only app directory, generated media, isolated settings, no GPU device access, and software-rendered Slint on the COSMIC Wayland desktop:
 
-- `desktop_playback`: all nine playback/navigation/restart/Stop steps passed.
+- `desktop_playback`: all nine playback/navigation/restart/Stop steps passed under both native Wayland and XWayland.
 - `desktop_empty_player_clicks`: Open Files, Network Stream and mini-player pointer dispatch passed.
 - `desktop_branding`: welcome/About/Appearance rendering passed.
 - `capture_pipe_transport`: synthetic GStreamer-to-libVLC transport and recording decode passed.
