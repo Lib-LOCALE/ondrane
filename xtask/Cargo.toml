@@ -1,0 +1,17 @@
+[package]
+name = "xtask"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Developer tasks for Ondrane: Figma asset extraction, install, packaging (cargo xtask <task>)"
+
+[dependencies]
+zip = { version = "2", default-features = false, features = ["deflate"] }
+flate2 = "1"
+ruzstd = "0.8"
+resvg = { version = "0.45", default-features = false }
+ico = "0.4"
+icns = "0.3"
+tiny-skia = { version = "0.11", default-features = false, features = ["std", "png-format"] }
+serde_json.workspace = true

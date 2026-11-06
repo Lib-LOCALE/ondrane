@@ -1,0 +1,31 @@
+[workspace]
+members = [
+    "ondrane",
+    "xtask",
+]
+default-members = ["ondrane"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Ondrane Contributors"]
+license = "MIT"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+regex = "1.10"
+url = "2.5"
+directories = "5.0"
+libloading = "0.8"
+slint = { version = "1.18", features = ["unstable-winit-030"] }
+slint-build = "1.18"
+thiserror = "2.0"
+anyhow = "1.0"
+crossbeam-channel = "0.5"
+tempfile = "3.10"
+sha1 = "0.10"
+sys-locale = "0.3"
+md-5 = "0.10"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png"] }

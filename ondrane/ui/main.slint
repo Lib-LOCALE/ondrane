@@ -1,0 +1,244 @@
+// Ondrane main window — layout of the "VLC Redesign (Community)" Figma file.
+import "assets/fonts/Inter-Regular.otf";
+import "assets/fonts/Inter-Medium.otf";
+import "assets/fonts/Inter-SemiBold.otf";
+
+import { Theme, Swatches } from "theme.slint";
+import { AppState, MediaItem, Crumb, MenuEntry, SettingRow, ShortcutRow, SubtitlePair, ToolItem } from "state.slint";
+import { Icons, IconData } from "icons.slint";
+import { TitleBar, NavRail, SidePanel, VideoCanvas, ControlBar, SeekPreview } from "player.slint";
+import { LibrarySidebar, LibraryContent, MiniPlayer, QueuePanel } from "library.slint";
+import { SettingsModal, QuickPanel, EqState } from "settings.slint";
+import { NetworkDialog, NewPlaylistDialog, ShortcutsDialog, SubtitlesDialog, CustomizeDialog, OnboardingDialog, AboutDialog } from "dialogs.slint";
+import { MenuLayer } from "menus.slint";
+import { DiscDialog, CaptureDialog, ConvertDialog, StreamDialog, VlcDialogBox, DropOverlay } from "extras.slint";
+import { Forms, VlcDialog, ConvertRow } from "state.slint";
+
+export { Forms, VlcDialog, ConvertRow, AppState, Theme, Swatches, Icons, EqState, MediaItem, Crumb, MenuEntry, SettingRow, ShortcutRow, SubtitlePair, ToolItem, IconData }
+
+export global Chrome {
+    in-out property <bool> controls-visible: true;
+}
+
+component Scrim inherits Rectangle {
+    callback dismiss();
+    background: Theme.scrim;
+    TouchArea {
+        clicked => {
+            root.dismiss();
+        }
+    }
+}
+
+export component MainWindow inherits Window {
+    title: AppState.window-title;
+    icon: @image-url("../../packaging/ondrane.svg");
+    preferred-width: 1440px;
+    preferred-height: 860px;
+    min-width: 760px;
+    min-height: 480px;
+    no-frame: !AppState.native-decorations;
+    background: Theme.bg-a3;
+    default-font-family: "Inter";
+    default-font-size: 14px;
+
+    property <bool> chrome: !AppState.hide-ui && !AppState.fullscreen;
+    property <bool> show-controls: AppState.view == 0 && !AppState.hide-ui && (!AppState.fullscreen || Chrome.controls-visible);
+
+    public function refocus() {
+        keys.focus();
+    }
+
+    forward-focus: keys;
+    keys := FocusScope {
+        key-pressed(e) => {
+            // Everything that is not typed into a text field is routed to the
+            // Rust shortcut table (user-editable in Keyboard Shortcuts).
+            AppState.act-text("key", (e.modifiers.control ? "Ctrl+" : "") + (e.modifiers.shift ? "Shift+" : "") + (e.modifiers.alt ? "Alt+" : "") + e.text);
+            accept
+        }
+    }
+
+    VerticalLayout {
+        if root.chrome: TitleBar {
+            library: AppState.view == 1;
+        }
+        HorizontalLayout {
+            if AppState.view == 1: LibrarySidebar { }
+            if AppState.view == 1: LibraryContent { }
+            if AppState.view == 0 && root.chrome: NavRail { }
+            if AppState.view == 0 && root.chrome && AppState.side-panel: SidePanel { }
+            if AppState.view == 0: Rectangle {
+                // Figma "Frame 312": the picture sits in a 10px frame with rounded corners
+                background: Theme.bg-a3;
+                VideoCanvas {
+                    x: root.chrome && !AppState.side-panel ? 10px : 0px;
+                    width: parent.width - self.x - (root.chrome ? 10px : 0px);
+                    height: parent.height;
+                    border-radius: root.chrome ? 9px : 0px;
+                }
+            }
+        }
+        if AppState.view == 0 && !AppState.fullscreen && !AppState.hide-ui: ControlBar { }
+    }
+
+    // Fullscreen: controls float over the picture while the pointer moves
+    if AppState.view == 0 && AppState.fullscreen && Chrome.controls-visible && !AppState.hide-ui: ControlBar {
+        y: root.height - self.height;
+        width: root.width;
+    }
+
+    if AppState.preview-visible && root.show-controls: SeekPreview {
+        x: clamp(AppState.preview-x - self.width / 2, 8px, root.width - self.width - 8px);
+        y: root.height - 54px - self.height - 8px;
+    }
+
+    if AppState.view == 1 && AppState.has-media: MiniPlayer {
+        x: root.width - self.width - 6px;
+        y: root.height - self.height - 6px;
+    }
+
+    if AppState.queue-open: QueuePanel {
+        x: root.width - self.width - 6px;
+        height: min(480px, root.height - 120px);
+        y: AppState.view == 1 && AppState.has-media ? root.height - 339px - 12px - self.height : root.height - 54px - 6px - self.height;
+    }
+
+    if AppState.quick-open && AppState.view == 0: Rectangle {
+        TouchArea {
+            clicked => {
+                AppState.quick-open = false;
+            }
+        }
+        QuickPanel {
+            x: root.width - self.width - 10px;
+            y: root.chrome ? 50px : 10px;
+            height: root.height - self.y - 54px - 10px;
+        }
+    }
+
+    if AppState.settings-open: Scrim {
+        dismiss => {
+            AppState.settings-open = false;
+        }
+        SettingsModal {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(1048px, root.width - 20px);
+            height: min(865px, root.height - 20px);
+        }
+    }
+
+    if AppState.dialog != 0: Scrim {
+        dismiss => {
+            if (AppState.dialog == 8) {
+                AppState.act("vlc-dialog:0");
+            } else if (AppState.dialog != 6) {
+                AppState.dialog = 0;
+            }
+        }
+        if AppState.dialog == 1: NetworkDialog {
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            width: min(1048px, root.width - 20px);
+        }
+        if AppState.dialog == 2: NewPlaylistDialog {
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            width: min(713px, root.width - 20px);
+        }
+        if AppState.dialog == 3: ShortcutsDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(1048px, root.width - 20px);
+        }
+        if AppState.dialog == 4: SubtitlesDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(1048px, root.width - 20px);
+        }
+        if AppState.dialog == 5: CustomizeDialog {
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            width: min(1048px, root.width - 20px);
+        }
+        if AppState.dialog == 6: OnboardingDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(1090px, root.width - 20px);
+            height: min(759px, root.height - 20px);
+        }
+        if AppState.dialog == 7: AboutDialog {
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            width: min(560px, root.width - 20px);
+        }
+        if AppState.dialog == 8: VlcDialogBox {
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            width: min(560px, root.width - 20px);
+        }
+        if AppState.dialog == 9: DiscDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(760px, root.width - 20px);
+        }
+        if AppState.dialog == 10: CaptureDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(760px, root.width - 20px);
+        }
+        if AppState.dialog == 11: ConvertDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(900px, root.width - 20px);
+        }
+        if AppState.dialog == 12: StreamDialog {
+            x: (parent.width - self.width) / 2;
+            y: max(0px, (parent.height - self.height) / 2);
+            width: min(760px, root.width - 20px);
+        }
+    }
+
+    if AppState.snap-visible: Rectangle {
+        x: 16px;
+        y: root.height - self.height - 70px;
+        width: 240px;
+        height: 240px * max(0.3, AppState.snap-image.height / max(1, AppState.snap-image.width));
+        border-radius: 8px;
+        border-width: 2px;
+        border-color: Theme.accent;
+        clip: true;
+        drop-shadow-blur: 20px;
+        drop-shadow-color: #000000a0;
+        Image {
+            width: 100%;
+            height: 100%;
+            source: AppState.snap-image;
+            image-fit: cover;
+        }
+    }
+
+    if AppState.drop-hover: DropOverlay {
+        width: root.width;
+        height: root.height;
+    }
+
+    // Frameless window: 6px resize handles on edges and corners
+    if !AppState.fullscreen && !AppState.maximized && !AppState.native-decorations: Rectangle {
+        property <length> g: 6px;
+        TouchArea { x: 0; y: 0; width: g; height: parent.height; mouse-cursor: ew-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "w"); } } }
+        TouchArea { x: parent.width - g; y: 0; width: g; height: parent.height; mouse-cursor: ew-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "e"); } } }
+        TouchArea { x: 0; y: 0; width: parent.width; height: g / 2; mouse-cursor: ns-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "n"); } } }
+        TouchArea { x: 0; y: parent.height - g; width: parent.width; height: g; mouse-cursor: ns-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "s"); } } }
+        TouchArea { x: 0; y: 0; width: 2 * g; height: 2 * g; mouse-cursor: nwse-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "nw"); } } }
+        TouchArea { x: parent.width - 2 * g; y: 0; width: 2 * g; height: 2 * g; mouse-cursor: nesw-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "ne"); } } }
+        TouchArea { x: 0; y: parent.height - 2 * g; width: 2 * g; height: 2 * g; mouse-cursor: nesw-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "sw"); } } }
+        TouchArea { x: parent.width - 2 * g; y: parent.height - 2 * g; width: 2 * g; height: 2 * g; mouse-cursor: nwse-resize; pointer-event(e) => { if (e.kind == PointerEventKind.down) { AppState.act-text("resize", "se"); } } }
+    }
+
+    if AppState.menu-open: MenuLayer {
+        width: root.width;
+        height: root.height;
+    }
+}

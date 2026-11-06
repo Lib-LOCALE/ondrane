@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <title>Ondrane — Orbit Pulse</title>
+  <desc>Original orbit and play mark. A short pulse every three seconds; reduced-motion preferences disable animation.</desc>
+  <style>
+    #Play_glyph { transform-origin: 268px 256px; animation: play-pulse 3s ease-in-out infinite; }
+    #Orbit_mint { transform-origin: 256px 256px; animation: orbit-pulse 3s ease-in-out infinite; }
+    #Signal_periwinkle { animation: signal-pulse 3s ease-in-out infinite; }
+    @keyframes play-pulse { 0%,24.444%,100% { transform:scale(1) } 10% { transform:scale(1.1) } }
+    @keyframes orbit-pulse { 0%,24.444%,100% { transform:rotate(0deg) } 10% { transform:rotate(-7deg) } }
+    @keyframes signal-pulse { 0%,24.444%,100% { opacity:1 } 10% { opacity:.5 } }
+    @media (prefers-reduced-motion: reduce) { #Play_glyph, #Orbit_mint, #Signal_periwinkle { animation:none } }
+  </style>
+  <g id="Layer_1" data-name="Layer 1">
+    <path id="Midnight_tile" data-name="Midnight tile" d="M132 16 L380 16 C444.065 16 496 67.935 496 132 L496 380 C496 444.065 444.065 496 380 496 L132 496 C67.935 496 16 444.065 16 380 L16 132 C16 67.935 67.935 16 132 16 Z" fill="#101827"/>
+    <path id="Orbit_mint" data-name="Orbit mint" d="M330 150 C300 130 264 125 230 134 C168 149 128 201 128 256 C128 323 180 378 248 380 C280 381 308 371 330 355" fill="none" stroke="#78e3cb" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="Signal_periwinkle" data-name="Signal periwinkle" d="M370 183 C393 220 395 270 376 309" fill="none" stroke="#a6b5ff" stroke-width="32" stroke-linecap="round" stroke-miterlimit="10"/>
+    <path id="Play_glyph" data-name="Play glyph" d="M224 207 C224 199.667 227.333 198 234 202 L306 247 C315.333 253 315.333 259 306 265 L234 310 C227.333 314 224 312.333 224 305 Z" fill="#f3f7ff"/>
+  </g>
+</svg>

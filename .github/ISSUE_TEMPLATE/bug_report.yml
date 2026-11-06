@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible problem in Ondrane
+title: "[Bug]: "
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Ondrane and VLC versions
+      placeholder: "Ondrane 0.1.0, VLC 3.0.x"
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: OS, desktop and display server
+      placeholder: "Ubuntu 24.04, GNOME, Wayland"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps, expected result and actual result
+      description: Include a small public or generated media sample when useful.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant diagnostic output
+      description: Use ondrane --diag; remove private file paths, URLs and credentials.
+      render: text

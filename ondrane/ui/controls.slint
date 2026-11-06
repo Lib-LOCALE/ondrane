@@ -1,0 +1,483 @@
+// Base widgets reproducing the Figma component set
+// (Icon, Icon Wrapper, Toggle, Dropdown, Values, sliders, Button, inputs).
+import { Theme } from "theme.slint";
+import { IconData, Icons } from "icons.slint";
+
+// Figma "Icon": neutral layer + accent layer (two-tone / active variants).
+export component Icon inherits Rectangle {
+    in property <IconData> icon;
+    in property <color> tint: Theme.fg-a2;
+    in property <color> accent: Theme.accent;
+    width: 24px;
+    height: 24px;
+    Image {
+        width: 100%;
+        height: 100%;
+        source: root.icon.base;
+        colorize: root.tint;
+        image-fit: contain;
+    }
+    Image {
+        width: 100%;
+        height: 100%;
+        source: root.icon.accent;
+        colorize: root.accent;
+        image-fit: contain;
+    }
+}
+
+// Figma "Icon Wrapper": 30x32 hit area, 4px radius hover background.
+export component IconButton inherits Rectangle {
+    in property <IconData> icon;
+    in property <bool> active: false;
+    in property <bool> enabled: true;
+    in property <length> icon-size: 24px;
+    in property <color> tint: root.active ? Theme.accent : (root.enabled ? Theme.fg-a2 : Theme.fg-a4);
+    in property <string> tip;
+    out property <bool> hovered: ta.has-hover;
+    callback clicked();
+    callback right-clicked(length, length);
+    width: 30px;
+    height: 32px;
+    border-radius: 4px;
+    background: ta.pressed && root.enabled ? Theme.bg-a1 : (ta.has-hover && root.enabled ? Theme.bg-a2 : transparent);
+    Icon {
+        width: root.icon-size;
+        height: root.icon-size;
+        icon: root.icon;
+        tint: root.tint;
+    }
+    ta := TouchArea {
+        mouse-cursor: root.enabled ? pointer : default;
+        clicked => {
+            if (root.enabled) {
+                root.clicked();
+            }
+        }
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                root.right-clicked(self.mouse-x, self.mouse-y);
+            }
+        }
+    }
+}
+
+export component Label inherits Text {
+    color: Theme.fg-a2;
+    font-size: 14px;
+    font-family: Theme.font;
+    vertical-alignment: center;
+}
+
+export component HDivider inherits Rectangle {
+    height: 1px;
+    background: Theme.divider-dim;
+}
+
+// Figma "Toggle": 68x32 well, 26px knob, ON/OFF caption.
+export component Toggle inherits Rectangle {
+    in-out property <bool> on;
+    callback toggled(bool);
+    width: 68px;
+    height: 32px;
+    border-radius: 6px;
+    background: Theme.well;
+    Rectangle {
+        x: root.on ? 36px : 3px;
+        y: 3px;
+        width: 29px;
+        height: 26px;
+        border-radius: 3px;
+        background: root.on ? Theme.accent : Theme.knob-off;
+        animate x { duration: 120ms; easing: ease-out; }
+    }
+    Text {
+        x: root.on ? 6px : 36px;
+        width: 26px;
+        height: parent.height;
+        text: root.on ? @tr("ON") : @tr("OFF");
+        font-size: 12px;
+        font-family: Theme.font;
+        color: root.on ? Theme.accent : Theme.fg-a3;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.on = !root.on;
+            root.toggled(root.on);
+        }
+    }
+}
+
+// Figma "Button": secondary (#222) or primary (accent).
+export component Button inherits Rectangle {
+    in property <string> text;
+    in property <bool> primary: false;
+    in property <bool> solid: false;
+    in property <bool> enabled: true;
+    callback clicked();
+    min-width: 70px;
+    height: 32px;
+    border-radius: 6px;
+    background: !root.enabled ? Theme.bg-a2 : root.solid ? (ta.has-hover ? Theme.accent-bright : Theme.accent) : root.primary ? (ta.has-hover ? Theme.accent-bg.brighter(0.25) : Theme.accent-bg) : (ta.has-hover ? Theme.divider-bright : Theme.bg-a1);
+    HorizontalLayout {
+        padding-left: 18px;
+        padding-right: 18px;
+        Text {
+            text: root.text;
+            font-family: Theme.font;
+            font-size: 14px;
+            font-weight: 600;
+            vertical-alignment: center;
+            horizontal-alignment: center;
+            color: !root.enabled ? Theme.fg-a4 : root.solid ? Theme.on-accent : root.primary ? Theme.accent : Theme.fg-a2;
+        }
+    }
+    ta := TouchArea {
+        mouse-cursor: root.enabled ? pointer : default;
+        clicked => {
+            if (root.enabled) {
+                root.clicked();
+            }
+        }
+    }
+}
+
+// Figma "Values": segmented choice inside a 320x36 well.
+export component Segmented inherits Rectangle {
+    in property <[string]> options;
+    in-out property <int> index;
+    callback selected(int);
+    height: 36px;
+    border-radius: 6px;
+    background: Theme.well;
+    HorizontalLayout {
+        padding: 2px;
+        spacing: 2px;
+        for opt[i] in root.options: Rectangle {
+            border-radius: 4px;
+            background: i == root.index ? Theme.accent-bg : (sta.has-hover ? Theme.bg-a2 : Theme.bg-a4);
+            Text {
+                text: opt;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: i == root.index ? Theme.accent : Theme.fg-a3;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+            sta := TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    root.index = i;
+                    root.selected(i);
+                }
+            }
+        }
+    }
+}
+
+// Figma "Dropdown": 320x36 well, inner 316x32 option, chevron.
+export component Dropdown inherits Rectangle {
+    in property <[string]> options;
+    in-out property <int> index;
+    callback selected(int);
+    height: 36px;
+    border-radius: 6px;
+    background: Theme.well;
+    Rectangle {
+        x: 2px;
+        y: 2px;
+        width: parent.width - 4px;
+        height: parent.height - 4px;
+        border-radius: 4px;
+        background: dta.has-hover ? Theme.bg-a2 : Theme.bg-a4;
+        HorizontalLayout {
+            padding-left: 14px;
+            padding-right: 10px;
+            Text {
+                text: root.index >= 0 && root.index < root.options.length ? root.options[root.index] : "";
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+            Icon {
+                icon: Icons.chevron-down;
+                width: 20px;
+                height: 20px;
+                y: (parent.height - self.height) / 2;
+            }
+        }
+    }
+    dta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            popup.show();
+        }
+    }
+    popup := PopupWindow {
+        x: 0;
+        y: root.height + 4px;
+        width: root.width;
+        Rectangle {
+            background: Theme.bg-a3;
+            border-radius: 6px;
+            border-width: 1px;
+            border-color: Theme.divider-dim;
+            drop-shadow-blur: 16px;
+            drop-shadow-color: #00000080;
+            VerticalLayout {
+                padding: 4px;
+                for opt[i] in root.options: Rectangle {
+                    height: 36px;
+                    border-radius: 4px;
+                    background: ota.has-hover ? Theme.bg-a2 : transparent;
+                    HorizontalLayout {
+                        padding-left: 14px;
+                        padding-right: 10px;
+                        Text {
+                            text: opt;
+                            font-family: Theme.font;
+                            font-size: 14px;
+                            color: i == root.index ? Theme.fg-1 : Theme.fg-a2;
+                            vertical-alignment: center;
+                            overflow: elide;
+                        }
+                        if i == root.index: Icon {
+                            icon: Icons.check-active;
+                            width: 20px;
+                            height: 20px;
+                            y: (parent.height - self.height) / 2;
+                        }
+                    }
+                    ota := TouchArea {
+                        clicked => {
+                            root.index = i;
+                            root.selected(i);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Figma slider (quick-settings / settings): black track, accent-bg fill, 8px accent thumb.
+export component SliderBar inherits Rectangle {
+    in-out property <float> value;   // 0..1
+    in property <length> track-height: 16px;
+    in property <[string]> ticks;
+    in property <int> notches: 0;
+    callback moved(float);
+    callback released(float);
+    height: root.ticks.length > 0 ? root.track-height + 22px : root.track-height + 6px;
+    track := Rectangle {
+        y: 3px;
+        height: root.track-height;
+        border-radius: 6px;
+        background: Theme.well;
+        Rectangle {
+            x: 2px;
+            y: 2px;
+            width: max(0px, root.value * (parent.width - 12px) + 4px);
+            height: parent.height - 4px;
+            border-radius: 4px;
+            background: Theme.accent-bg;
+        }
+        for n in root.notches: Rectangle {
+            x: (n + 1) * parent.width / (root.notches + 1);
+            y: (parent.height - 6px) / 2;
+            width: 1px;
+            height: 6px;
+            background: Theme.divider-bright;
+        }
+        Rectangle {
+            x: 2px + root.value * (parent.width - 12px);
+            y: -3px;
+            width: 8px;
+            height: parent.height + 6px;
+            border-radius: 4px;
+            background: sta.has-hover || sta.pressed ? Theme.accent-bright : Theme.accent;
+        }
+        sta := TouchArea {
+            mouse-cursor: pointer;
+            pointer-event(e) => {
+                if (e.kind == PointerEventKind.down) {
+                    root.value = clamp((self.mouse-x - 6px) / (self.width - 12px), 0, 1);
+                    root.moved(root.value);
+                } else if (e.kind == PointerEventKind.up) {
+                    root.released(root.value);
+                }
+            }
+            moved => {
+                if (self.pressed) {
+                    root.value = clamp((self.mouse-x - 6px) / (self.width - 12px), 0, 1);
+                    root.moved(root.value);
+                }
+            }
+        }
+    }
+    if root.ticks.length > 0: HorizontalLayout {
+        y: root.track-height + 8px;
+        height: 14px;
+        for t[i] in root.ticks: Text {
+            text: t;
+            font-size: 12px;
+            font-family: Theme.font;
+            color: Theme.fg-a3;
+            horizontal-alignment: i == 0 ? left : (i == root.ticks.length - 1 ? right : center);
+        }
+    }
+}
+
+// Vertical equalizer band (Settings - audio / quick panel)
+export component VSlider inherits Rectangle {
+    in-out property <float> value;   // 0..1
+    callback moved(float);
+    width: 24px;
+    Rectangle {
+        x: (parent.width - 20px) / 2;
+        width: 20px;
+        border-radius: 6px;
+        background: Theme.well;
+        Rectangle {
+            x: 2px;
+            width: parent.width - 4px;
+            y: parent.height - self.height - 2px;
+            height: max(0px, root.value * (parent.height - 12px) + 4px);
+            border-radius: 4px;
+            background: Theme.accent-bg;
+        }
+        Rectangle {
+            x: -2px;
+            width: parent.width + 4px;
+            height: 8px;
+            border-radius: 4px;
+            y: parent.height - 10px - root.value * (parent.height - 12px);
+            background: vta.has-hover || vta.pressed ? Theme.accent-bright : Theme.accent;
+        }
+        vta := TouchArea {
+            mouse-cursor: pointer;
+            pointer-event(e) => {
+                if (e.kind == PointerEventKind.down) {
+                    root.value = clamp(1 - (self.mouse-y - 6px) / (self.height - 12px), 0, 1);
+                    root.moved(root.value);
+                }
+            }
+            moved => {
+                if (self.pressed) {
+                    root.value = clamp(1 - (self.mouse-y - 6px) / (self.height - 12px), 0, 1);
+                    root.moved(root.value);
+                }
+            }
+        }
+    }
+}
+
+// Text input styled like the Figma inputs (black well, 6px radius).
+export component Field inherits Rectangle {
+    in-out property <string> text;
+    in property <string> placeholder;
+    in property <bool> multiline: false;
+    in property <length> font-size: 14px;
+    in property <bool> has-icon: false;
+    in property <IconData> icon;
+    in property <bool> password: false;
+    callback edited(string);
+    callback accepted(string);
+    // focus left the field (settings commit their text fields then too)
+    callback committed(string);
+    height: 36px;
+    border-radius: 6px;
+    background: Theme.well;
+    border-width: 1px;
+    border-color: input.has-focus ? Theme.divider-bright : Theme.divider-dim;
+    forward-focus: input;
+    if root.has-icon: Icon {
+        x: 10px;
+        y: (parent.height - self.height) / 2;
+        width: 20px;
+        height: 20px;
+        icon: root.icon;
+        tint: Theme.fg-a3;
+    }
+    Text {
+        x: input.x;
+        y: input.y;
+        width: input.width;
+        height: root.multiline ? self.preferred-height : input.height;
+        visible: root.text == "";
+        text: root.placeholder;
+        font-family: Theme.font;
+        font-size: root.font-size;
+        color: Theme.fg-a4;
+        vertical-alignment: root.multiline ? top : center;
+    }
+    input := TextInput {
+        x: root.has-icon ? 38px : 12px;
+        y: root.multiline ? 10px : 0px;
+        width: parent.width - self.x - 12px;
+        height: root.multiline ? parent.height - 20px : parent.height;
+        text <=> root.text;
+        font-family: Theme.font;
+        font-size: root.font-size;
+        color: Theme.fg-1;
+        selection-background-color: Theme.accent-bg;
+        selection-foreground-color: Theme.fg-1;
+        vertical-alignment: root.multiline ? top : center;
+        single-line: !root.multiline;
+        wrap: root.multiline ? word-wrap : no-wrap;
+        input-type: root.password ? InputType.password : InputType.text;
+        changed has-focus => {
+            if (!self.has-focus) {
+                root.committed(self.text);
+            }
+        }
+        edited => {
+            root.edited(self.text);
+        }
+        accepted => {
+            root.accepted(self.text);
+        }
+    }
+}
+
+// Media thumbnail (Figma "thumbnail"): rounded placeholder, poster, progress bar.
+export component Thumb inherits Rectangle {
+    in property <image> poster;
+    in property <bool> has-poster;
+    in property <float> progress;
+    in property <int> kind;
+    in property <length> radius: 12px;
+    border-radius: root.radius;
+    background: Theme.thumb-bg;
+    clip: true;
+    if root.has-poster: Image {
+        width: 100%;
+        height: 100%;
+        source: root.poster;
+        image-fit: cover;
+    }
+    if !root.has-poster: Icon {
+        x: (parent.width - self.width) / 2;
+        y: (parent.height - self.height) / 2;
+        width: min(48px, parent.height * 0.4);
+        height: self.width;
+        icon: root.kind == 1 ? Icons.music : root.kind == 2 ? Icons.folder : root.kind == 3 ? Icons.playlist : root.kind == 4 ? Icons.streaming : root.kind == 5 ? Icons.add : Icons.videos;
+        tint: Theme.fg-a4;
+    }
+    // subtle 20% black overlay from the Figma fill stack
+    Rectangle {
+        background: #00000033;
+    }
+    if root.progress > 0: Rectangle {
+        x: 0;
+        y: parent.height - 4px;
+        height: 4px;
+        width: parent.width * root.progress;
+        background: Theme.accent;
+    }
+}

@@ -1,0 +1,510 @@
+// Dialogs that complete the Figma main menu ("Open Disc", "Open Capture
+// Device", "Convert"), the stream-out and cast tools, the libVLC dialogs
+// (logins, certificate questions, errors) and the drag & drop overlay. They
+// reuse the Figma dialog frame, rows, dropdowns and toggles.
+import { Theme } from "theme.slint";
+import { AppState, Forms, VlcDialog, ConvertRow } from "state.slint";
+import { Icon, Button, Field, Dropdown, Toggle, Segmented, SliderBar } from "controls.slint";
+import { Icons } from "icons.slint";
+import { DialogFrame } from "dialogs.slint";
+
+component FormRow inherits HorizontalLayout {
+    in property <string> label;
+    in property <string> hint;
+    height: root.hint == "" ? 44px : 56px;
+    spacing: 18px;
+    VerticalLayout {
+        alignment: center;
+        spacing: 4px;
+        Text {
+            text: root.label;
+            font-family: Theme.font;
+            font-size: 14px;
+            color: Theme.fg-a2;
+        }
+        if root.hint != "": Text {
+            text: root.hint;
+            font-family: Theme.font;
+            font-size: 12px;
+            color: Theme.fg-a3;
+            overflow: elide;
+        }
+    }
+    Rectangle {
+        width: 340px;
+        @children
+    }
+}
+
+component Section inherits Text {
+    font-family: Theme.font;
+    font-size: 16px;
+    color: Theme.fg-2;
+    height: 34px;
+    vertical-alignment: bottom;
+}
+
+component Divider inherits Rectangle {
+    height: 1px;
+    background: Theme.divider-dim;
+}
+
+component NumberField inherits Field {
+    in-out property <int> number;
+    text: root.number == 0 ? "" : root.number;
+    edited(t) => {
+        root.number = t.to-float();
+    }
+}
+
+export component DiscDialog inherits DialogFrame {
+    title: @tr("Open Disc");
+    width: 760px;
+    primary-text: @tr("Play");
+    primary => {
+        AppState.act("disc-play");
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 10px;
+        spacing: 6px;
+        Section { text: @tr("Disc"); }
+        Segmented {
+            options: [@tr("DVD"), @tr("Blu-ray"), @tr("Audio CD"), @tr("VCD")];
+            index <=> Forms.disc-type;
+        }
+        FormRow {
+            label: @tr("Disc device");
+            hint: Forms.disc-devices.length == 0 ? @tr("No optical drive found: type a device, folder or ISO image") : "";
+            Field {
+                y: (parent.height - self.height) / 2;
+                height: 32px;
+                placeholder: @tr("e.g. /dev/sr0, D: or a VIDEO_TS folder");
+                text <=> Forms.disc-device;
+            }
+        }
+        if Forms.disc-devices.length > 1: FormRow {
+            label: @tr("Detected drives");
+            Dropdown {
+                y: (parent.height - self.height) / 2;
+                options: Forms.disc-devices;
+                selected(i) => {
+                    Forms.disc-device = Forms.disc-devices[i];
+                }
+            }
+        }
+        Divider { }
+        Section { text: @tr("Starting Position"); }
+        if Forms.disc-type == 0: FormRow {
+            label: @tr("No disc menus");
+            Toggle {
+                // children of FormRow live in its 340px value column
+                x: 340px - self.width;
+                y: (parent.height - self.height) / 2;
+                on <=> Forms.disc-no-menus;
+            }
+        }
+        FormRow {
+            label: Forms.disc-type == 2 ? @tr("Track") : @tr("Title");
+            hint: @tr("0 = from the beginning");
+            NumberField {
+                y: (parent.height - self.height) / 2;
+                height: 32px;
+                placeholder: "0";
+                number <=> Forms.disc-title;
+            }
+        }
+        if Forms.disc-type == 0 || Forms.disc-type == 3: FormRow {
+            label: @tr("Chapter");
+            NumberField {
+                y: (parent.height - self.height) / 2;
+                height: 32px;
+                placeholder: "0";
+                number <=> Forms.disc-chapter;
+            }
+        }
+    }
+}
+
+export component CaptureDialog inherits DialogFrame {
+    title: @tr("Open Capture Device");
+    width: 760px;
+    primary-text: @tr("Play");
+    primary => {
+        AppState.act("capture-play");
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 10px;
+        spacing: 6px;
+        Section { text: @tr("Capture Mode"); }
+        Segmented {
+            options: [@tr("Camera"), @tr("Desktop")];
+            index <=> Forms.capture-mode;
+        }
+        if Forms.capture-mode == 0: FormRow {
+            label: @tr("Video device");
+            Dropdown {
+                y: (parent.height - self.height) / 2;
+                options: Forms.capture-devices;
+                index <=> Forms.capture-device;
+            }
+        }
+        if Forms.capture-mode == 1: FormRow {
+            label: @tr("Frame rate");
+            hint: Forms.capture-fps.round() + " " + @tr("frames per second");
+            SliderBar {
+                y: (parent.height - self.height) / 2;
+                value: (Forms.capture-fps - 1) / 59;
+                moved(v) => {
+                    Forms.capture-fps = (1 + v * 59).round();
+                }
+            }
+        }
+        FormRow {
+            label: @tr("Record sound too");
+            hint: @tr("Default audio input of the system");
+            Toggle {
+                x: 340px - self.width;
+                y: (parent.height - self.height) / 2;
+                on <=> Forms.capture-audio;
+            }
+        }
+    }
+}
+
+export component ConvertDialog inherits DialogFrame {
+    title: @tr("Convert");
+    width: 900px;
+    primary-text: @tr("Start");
+    primary-enabled: Forms.convert-files.length > 0;
+    primary => {
+        AppState.act("convert-start");
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 10px;
+        spacing: 8px;
+        HorizontalLayout {
+            Section { text: @tr("Source Files"); }
+            Button {
+                y: 6px;
+                text: @tr("Add Files");
+                clicked => {
+                    AppState.act("convert-add");
+                }
+            }
+        }
+        Rectangle {
+            height: 110px;
+            border-radius: 6px;
+            background: Theme.well;
+            if Forms.convert-files.length == 0: Text {
+                text: @tr("Add the files to convert");
+                font-family: Theme.font;
+                font-size: 13px;
+                color: Theme.fg-a3;
+                horizontal-alignment: center;
+                vertical-alignment: center;
+            }
+            Flickable {
+                content-height: files.preferred-height;
+                files := VerticalLayout {
+                    padding: 8px;
+                    alignment: start;
+                    for f in Forms.convert-files: Text {
+                        height: 22px;
+                        text: f;
+                        font-family: Theme.font;
+                        font-size: 13px;
+                        color: Theme.fg-a2;
+                        overflow: elide;
+                    }
+                }
+            }
+        }
+        FormRow {
+            label: @tr("Profile");
+            Dropdown {
+                y: (parent.height - self.height) / 2;
+                options: Forms.convert-profiles;
+                index <=> Forms.convert-profile;
+            }
+        }
+        FormRow {
+            label: @tr("Destination folder");
+            HorizontalLayout {
+                spacing: 8px;
+                Field {
+                    y: (parent.height - self.height) / 2;
+                    height: 32px;
+                    text <=> Forms.convert-dest;
+                }
+                Button {
+                    y: (parent.height - self.height) / 2;
+                    text: @tr("Browse");
+                    clicked => {
+                        AppState.act("convert-dest");
+                    }
+                }
+            }
+        }
+        if Forms.convert-jobs.length > 0: Divider { }
+        if Forms.convert-jobs.length > 0: HorizontalLayout {
+            Section { text: @tr("Conversions"); }
+            Button {
+                y: 6px;
+                text: @tr("Clear Finished");
+                clicked => {
+                    AppState.act("convert-clear");
+                }
+            }
+        }
+        for j in Forms.convert-jobs: HorizontalLayout {
+            height: 40px;
+            spacing: 14px;
+            VerticalLayout {
+                alignment: center;
+                Text {
+                    text: j.name;
+                    font-family: Theme.font;
+                    font-size: 13px;
+                    color: Theme.fg-a1;
+                    overflow: elide;
+                }
+                Text {
+                    text: j.dest;
+                    font-family: Theme.font;
+                    font-size: 11px;
+                    color: Theme.fg-a3;
+                    overflow: elide;
+                }
+            }
+            Rectangle {
+                width: 220px;
+                Rectangle {
+                    y: (parent.height - 6px) / 2;
+                    height: 6px;
+                    border-radius: 3px;
+                    background: Theme.well;
+                    Rectangle {
+                        x: 0;
+                        width: parent.width * clamp(j.progress, 0, 1);
+                        border-radius: 3px;
+                        background: Theme.accent;
+                    }
+                }
+            }
+            Text {
+                width: 70px;
+                text: j.status;
+                font-family: Theme.font;
+                font-size: 13px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+                horizontal-alignment: right;
+            }
+        }
+    }
+}
+
+export component StreamDialog inherits DialogFrame {
+    title: @tr("Stream Out");
+    width: 760px;
+    primary-text: Forms.stream-url == "" ? @tr("Start Streaming") : @tr("Stop Streaming");
+    primary => {
+        AppState.act("stream-toggle");
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 10px;
+        spacing: 6px;
+        FormRow {
+            label: @tr("Source");
+            Text {
+                text: Forms.stream-source;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-1;
+                vertical-alignment: center;
+                overflow: elide;
+            }
+        }
+        FormRow {
+            label: @tr("HTTP port");
+            hint: @tr("Open it in VLC or a browser on another device");
+            NumberField {
+                y: (parent.height - self.height) / 2;
+                height: 32px;
+                number <=> Forms.stream-port;
+            }
+        }
+        Text {
+            text: @tr("Audio, video, subtitles, local playback and the encoding preset follow Settings › Recording, Casting & Streaming Out.");
+            font-family: Theme.font;
+            font-size: 12px;
+            color: Theme.fg-a3;
+            wrap: word-wrap;
+        }
+        if Forms.stream-url != "": Rectangle {
+            height: 52px;
+            border-radius: 6px;
+            background: Theme.accent-bg-dark;
+            HorizontalLayout {
+                padding-left: 14px;
+                spacing: 10px;
+                Icon {
+                    width: 24px;
+                    height: 24px;
+                    y: (parent.height - self.height) / 2;
+                    icon: Icons.streaming-active;
+                }
+                Text {
+                    text: @tr("Streaming on") + " " + Forms.stream-url;
+                    font-family: Theme.font;
+                    font-size: 14px;
+                    color: Theme.accent;
+                    vertical-alignment: center;
+                }
+            }
+        }
+    }
+}
+
+// libVLC's own dialogs: network logins, certificate questions, errors, progress.
+export component VlcDialogBox inherits DialogFrame {
+    title: VlcDialog.title == "" ? "Ondrane" : VlcDialog.title;
+    width: 560px;
+    footer: false;
+    cancel => {
+        AppState.act("vlc-dialog:0");
+    }
+    VerticalLayout {
+        padding: 22px;
+        spacing: 16px;
+        HorizontalLayout {
+            spacing: 14px;
+            if VlcDialog.kind == 0 || VlcDialog.critical: Icon {
+                width: 32px;
+                height: 32px;
+                icon: Icons.info;
+                tint: Theme.accent;
+            }
+            Text {
+                text: VlcDialog.text;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-1;
+                wrap: word-wrap;
+            }
+        }
+        if VlcDialog.kind == 1: VerticalLayout {
+            spacing: 10px;
+            Field {
+                height: 32px;
+                placeholder: @tr("User name");
+                text <=> VlcDialog.username;
+            }
+            Field {
+                height: 32px;
+                placeholder: @tr("Password");
+                text <=> VlcDialog.password;
+            }
+            if VlcDialog.ask-store: HorizontalLayout {
+                height: 36px;
+                Text {
+                    text: @tr("Remember the password");
+                    font-family: Theme.font;
+                    font-size: 14px;
+                    color: Theme.fg-a2;
+                    vertical-alignment: center;
+                }
+                Toggle {
+                    y: 2px;
+                    on <=> VlcDialog.store;
+                }
+            }
+        }
+        if VlcDialog.kind == 3: Rectangle {
+            height: 8px;
+            border-radius: 4px;
+            background: Theme.well;
+            Rectangle {
+                x: 0;
+                width: parent.width * clamp(VlcDialog.progress, 0, 1);
+                border-radius: 4px;
+                background: Theme.accent;
+            }
+        }
+        HorizontalLayout {
+            spacing: 10px;
+            alignment: end;
+            if VlcDialog.cancel != "": Button {
+                text: VlcDialog.cancel;
+                clicked => {
+                    AppState.act("vlc-dialog:0");
+                }
+            }
+            if VlcDialog.action2 != "": Button {
+                text: VlcDialog.action2;
+                clicked => {
+                    AppState.act("vlc-dialog:2");
+                }
+            }
+            if VlcDialog.action1 != "": Button {
+                text: VlcDialog.action1;
+                primary: true;
+                clicked => {
+                    AppState.act("vlc-dialog:1");
+                }
+            }
+        }
+    }
+}
+
+// Shown while files are dragged over the window.
+export component DropOverlay inherits Rectangle {
+    background: Theme.scrim;
+    Rectangle {
+        x: 24px;
+        y: 24px;
+        width: parent.width - 48px;
+        height: parent.height - 48px;
+        border-radius: 14px;
+        border-width: 2px;
+        border-color: Theme.accent;
+        background: Theme.accent-bg-dark.transparentize(0.3);
+        VerticalLayout {
+            alignment: center;
+            spacing: 14px;
+            HorizontalLayout {
+                alignment: center;
+                Icon {
+                    width: 64px;
+                    height: 64px;
+                    icon: Icons.add;
+                    tint: Theme.accent;
+                }
+            }
+            Text {
+                text: AppState.has-media ? @tr("Drop to play — the queue is replaced") : @tr("Drop files or folders to play them");
+                font-family: Theme.font;
+                font-size: 20px;
+                color: Theme.fg-1;
+                horizontal-alignment: center;
+            }
+        }
+    }
+}

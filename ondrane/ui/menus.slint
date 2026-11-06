@@ -1,0 +1,145 @@
+// Figma "right-click menu", "menu", "file/folder/playlist context menu",
+// "Sorting Options" and "View Options" — one generic floating menu.
+import { Theme } from "theme.slint";
+import { AppState, MenuEntry } from "state.slint";
+import { Icon } from "controls.slint";
+import { Icons } from "icons.slint";
+
+component MenuRow inherits Rectangle {
+    in property <MenuEntry> entry;
+    in property <bool> highlighted;
+    callback picked();
+    callback hovered-submenu(length);
+    height: 48px;
+    border-radius: 6px;
+    background: (ta.has-hover || root.highlighted) && root.entry.enabled ? Theme.bg-a1 : transparent;
+    if root.entry.has-icon: Icon {
+        x: 16px;
+        y: 12px;
+        icon: root.entry.icon;
+        tint: !root.entry.enabled ? Theme.fg-a4 : root.entry.accent-icon ? Theme.accent : Theme.fg-a2;
+    }
+    Text {
+        x: root.entry.has-icon ? 48px : 16px;
+        width: parent.width - self.x - (root.entry.shortcut != "" ? 120px : 44px);
+        height: parent.height;
+        text: root.entry.label;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: root.entry.enabled ? Theme.fg-a2 : Theme.fg-a4;
+        vertical-alignment: center;
+        overflow: elide;
+    }
+    if root.entry.shortcut != "" && !root.entry.submenu: Text {
+        x: parent.width - self.width - 14px;
+        height: parent.height;
+        text: root.entry.shortcut;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a3;
+        vertical-alignment: center;
+    }
+    if root.entry.submenu: Icon {
+        x: parent.width - 38px;
+        y: 12px;
+        icon: Icons.chevron-right;
+    }
+    if root.entry.checked && !root.entry.submenu: Icon {
+        x: parent.width - 38px;
+        y: 12px;
+        icon: Icons.check-active;
+        tint: Theme.fg-a2;
+        accent: Theme.fg-a2;
+    }
+    ta := TouchArea {
+        mouse-cursor: root.entry.enabled ? pointer : default;
+        clicked => {
+            if (root.entry.enabled && !root.entry.submenu) {
+                root.picked();
+            }
+        }
+        changed has-hover => {
+            if (self.has-hover && root.entry.submenu && root.entry.enabled) {
+                root.hovered-submenu(root.y);
+            }
+        }
+    }
+}
+
+component MenuPanel inherits Rectangle {
+    in property <[MenuEntry]> entries;
+    in property <string> open-submenu-id;
+    callback picked(string);
+    callback submenu(string, length);
+    background: Theme.dark ? #191919f2 : #E2E2E2f2;
+    border-radius: 10px;
+    drop-shadow-blur: 24px;
+    drop-shadow-color: #00000090;
+    drop-shadow-offset-y: 6px;
+    height: layout.preferred-height;
+    // swallow clicks so they do not close the menu
+    TouchArea { }
+    layout := VerticalLayout {
+        padding: 4px;
+        for e[i] in root.entries: VerticalLayout {
+            if e.separator: Rectangle {
+                height: 1px;
+                background: Theme.divider-dim;
+            }
+            MenuRow {
+                entry: e;
+                highlighted: e.submenu && e.id == root.open-submenu-id;
+                picked => {
+                    root.picked(e.id);
+                }
+                hovered-submenu(yy) => {
+                    root.submenu(e.id, self.absolute-position.y);
+                }
+            }
+        }
+    }
+}
+
+// Full-window overlay: click outside closes, Escape handled by the window.
+export component MenuLayer inherits Rectangle {
+    property <string> sub-id;
+    TouchArea {
+        clicked => {
+            AppState.menu-open = false;
+            AppState.submenu-open = false;
+        }
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                AppState.menu-open = false;
+                AppState.submenu-open = false;
+            }
+        }
+    }
+    main := MenuPanel {
+        width: AppState.menu-width;
+        x: max(8px, min(AppState.menu-x, root.width - self.width - 8px));
+        y: max(8px, min(AppState.menu-y, root.height - self.height - 8px));
+        entries: AppState.menu-entries;
+        open-submenu-id: AppState.submenu-open ? root.sub-id : "";
+        picked(id) => {
+            AppState.menu-open = false;
+            AppState.submenu-open = false;
+            AppState.menu-pick(id);
+        }
+        submenu(id, ay) => {
+            root.sub-id = id;
+            AppState.submenu-request(id, self.x + self.width + 4px, ay - root.absolute-position.y - 4px);
+        }
+    }
+    if AppState.submenu-open: MenuPanel {
+        width: 260px;
+        x: max(8px, AppState.submenu-x + self.width > root.width ? main.x - self.width - 4px : AppState.submenu-x);
+        y: max(8px, min(AppState.submenu-y, root.height - self.height - 8px));
+        entries: AppState.submenu-entries;
+        picked(id) => {
+            AppState.menu-open = false;
+            AppState.submenu-open = false;
+            AppState.menu-pick(id);
+        }
+    }
+}

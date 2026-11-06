@@ -1,0 +1,742 @@
+// Figma "Settings - *" frames (1048 x 865 modal, App / Media / System
+// categories) and the quick-settings drawer ("Subtitles", "Audio - Equalizer",
+// "Video - Essential", ... 400px panels).
+import { Theme } from "theme.slint";
+import { AppState, SettingRow } from "state.slint";
+import { Icon, IconButton, Toggle, Dropdown, Segmented, SliderBar, VSlider, Field, Button } from "controls.slint";
+import { Icons, IconData } from "icons.slint";
+import { Swatches } from "theme.slint";
+
+export global EqState {
+    in-out property <[float]> bands: [0.8, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+    in-out property <[string]> labels: [@tr("Preamp"), "60 Hz", "170 Hz", "310 Hz", "600 Hz", "1 KHz", "3 KHz", "6 KHz", "12 KHz", "14 KHz", "16 KHz"];
+    in-out property <[string]> values: ["12.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB", "0.0 dB"];
+    in-out property <bool> expanded: true;
+}
+
+component InfoDot inherits Rectangle {
+    in property <string> tip;
+    width: 20px;
+    height: 20px;
+    Icon {
+        width: 20px;
+        height: 20px;
+        icon: Icons.info;
+        tint: Theme.fg-a3;
+    }
+    ita := TouchArea { }
+    if ita.has-hover: Rectangle {
+        x: 26px;
+        y: -8px;
+        width: min(320px, tipt.preferred-width + 20px);
+        height: tipt.preferred-height + 14px;
+        border-radius: 6px;
+        background: Theme.bg-a1;
+        drop-shadow-blur: 10px;
+        drop-shadow-color: #00000080;
+        tipt := Text {
+            x: 10px;
+            width: parent.width - 20px;
+            text: root.tip;
+            wrap: word-wrap;
+            font-family: Theme.font;
+            font-size: 13px;
+            color: Theme.fg-2;
+        }
+    }
+}
+
+component RowLabel inherits HorizontalLayout {
+    in property <string> text;
+    in property <string> info;
+    spacing: 8px;
+    alignment: start;
+    Text {
+        text: root.text;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a2;
+        vertical-alignment: center;
+        overflow: elide;
+    }
+    if root.info != "": InfoDot {
+        y: (parent.height - 20px) / 2;
+        tip: root.info;
+    }
+}
+
+export component EqualizerCard inherits Rectangle {
+    in property <bool> compact: false;
+    border-radius: 6px;
+    background: Theme.bg-a4;
+    height: root.compact ? 470px : 634px;
+    VerticalLayout {
+        padding: 16px;
+        spacing: 16px;
+        HorizontalLayout {
+            height: 30px;
+            alignment: center;
+            spacing: 10px;
+            Text {
+                text: @tr("Close Equalizer");
+                font-family: Theme.font;
+                font-size: 16px;
+                color: cta.has-hover ? Theme.fg-1 : Theme.fg-a2;
+                vertical-alignment: center;
+            }
+            Icon {
+                y: 3px;
+                icon: Icons.chevron-down;
+            }
+            cta := TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    AppState.act("close-equalizer");
+                }
+            }
+        }
+        HorizontalLayout {
+            spacing: root.compact ? 6px : 16px;
+            for b[i] in EqState.bands: VerticalLayout {
+                spacing: 10px;
+                HorizontalLayout {
+                    alignment: center;
+                    VSlider {
+                        value: b;
+                        moved(v) => {
+                            AppState.setting-float("eq." + i, v);
+                        }
+                    }
+                }
+                Text {
+                    height: 20px;
+                    text: EqState.labels[i];
+                    font-family: Theme.font;
+                    font-size: root.compact ? 10px : 16px;
+                    color: Theme.fg-a3;
+                    horizontal-alignment: center;
+                }
+                Rectangle {
+                    height: root.compact ? 24px : 40px;
+                    border-radius: 6px;
+                    background: Theme.well;
+                    Text {
+                        width: 100%;
+                        height: 100%;
+                        horizontal-alignment: center;
+                        vertical-alignment: center;
+                        text: EqState.values[i];
+                        font-family: Theme.font;
+                        font-size: root.compact ? 9px : 14px;
+                        color: Theme.fg-a2;
+                    }
+                }
+            }
+        }
+    }
+}
+
+export component SettingRowView inherits Rectangle {
+    in property <SettingRow> data;
+    in property <bool> compact: false;
+    property <length> control-w: root.compact ? 205px : 320px;
+    height: data.kind == 0 ? (root.compact ? 56px : 39px) : data.kind == 9 ? (root.compact ? 486px : 650px) : data.kind == 4 ? (root.compact ? (data.ticks.length > 0 ? 96px : 80px) : (data.ticks.length > 0 ? 60px : 46px)) : data.kind == 10 ? 46px : (root.compact ? 64px : 46px);
+
+    // 0 section header
+    if data.kind == 0: Text {
+        x: 0;
+        y: root.compact ? 18px : 10px;
+        text: data.label;
+        font-family: Theme.font;
+        font-size: root.compact ? 20px : 16px;
+        font-weight: 500;
+        color: Theme.fg-2;
+    }
+    // label for all value rows
+    if data.kind != 0 && data.kind != 9 && data.kind != 10 && !(root.compact && data.kind == 4): RowLabel {
+        x: 0;
+        y: 0;
+        width: root.width - (data.kind == 1 ? 88px : data.kind == 6 ? 220px : (data.kind == 8 && !root.compact) ? root.control-w + 174px : (data.kind == 8 && root.compact) ? 120px : root.control-w + 20px);
+        height: root.compact ? 64px : 46px;
+        text: data.label;
+        info: data.info;
+    }
+    // 1 toggle
+    if data.kind == 1: Toggle {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        on: data.on;
+        toggled(v) => {
+            AppState.setting-bool(data.key, v);
+        }
+    }
+    // 2 dropdown
+    if data.kind == 2: Dropdown {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        width: root.control-w;
+        options: data.options;
+        index: data.index;
+        selected(i) => {
+            AppState.setting-int(data.key, i);
+        }
+    }
+    // 3 segmented
+    if data.kind == 3: Segmented {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        width: root.control-w;
+        options: data.options;
+        index: data.index;
+        selected(i) => {
+            AppState.setting-int(data.key, i);
+        }
+    }
+    // 4 slider (settings: right aligned with ticks; quick panel: full width, value at right)
+    if data.kind == 4 && !root.compact: SliderBar {
+        x: root.width - self.width;
+        y: 12px;
+        width: root.control-w;
+        track-height: 22px;
+        value: (data.value - data.minimum) / max(0.0001, data.maximum - data.minimum);
+        ticks: data.ticks;
+        released(v) => {
+            AppState.setting-float(data.key, data.minimum + v * (data.maximum - data.minimum));
+        }
+    }
+    if data.kind == 4 && root.compact: Rectangle {
+        Text {
+            x: 0;
+            y: 10px;
+            text: data.label;
+            font-family: Theme.font;
+            font-size: 16px;
+            color: Theme.fg-a3;
+        }
+        Text {
+            x: parent.width - self.width;
+            y: 10px;
+            text: data.text;
+            font-family: Theme.font;
+            font-size: 16px;
+            color: Theme.fg-a3;
+        }
+        SliderBar {
+            y: 42px;
+            width: parent.width;
+            track-height: 22px;
+            value: (data.value - data.minimum) / max(0.0001, data.maximum - data.minimum);
+            ticks: data.ticks;
+            moved(v) => {
+                AppState.setting-float(data.key, data.minimum + v * (data.maximum - data.minimum));
+            }
+        }
+    }
+    // 5 text field / 11 colour field / 12 password
+    if data.kind == 5 || data.kind == 11 || data.kind == 12: Field {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        width: root.control-w;
+        height: root.compact ? 48px : 36px;
+        font-size: root.compact ? 18px : 14px;
+        text: data.text;
+        placeholder: data.button;
+        password: data.kind == 12;
+        accepted(t) => {
+            AppState.setting-text(data.key, t);
+        }
+        committed(t) => {
+            if (t != data.text) {
+                AppState.setting-text(data.key, t);
+            }
+        }
+        if data.kind == 11: Rectangle {
+            x: parent.width - 34px;
+            y: (parent.height - 22px) / 2;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            border-width: 1px;
+            border-color: Theme.divider-bright;
+            background: data.color;
+        }
+    }
+    // 6 action button
+    if data.kind == 6: Button {
+        width: self.preferred-width;
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        text: data.button;
+        clicked => {
+            AppState.setting-text(data.key, "");
+        }
+    }
+    // 7 accent swatches
+    if data.kind == 7: Rectangle {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        width: root.control-w;
+        height: 36px;
+        border-radius: 6px;
+        background: Theme.well;
+        HorizontalLayout {
+            padding: 2px;
+            spacing: 4px;
+            for c[i] in Swatches.colors: Rectangle {
+                border-radius: 4px;
+                background: i == data.index ? Theme.accent-bg : (sw.has-hover ? Theme.bg-a2 : transparent);
+                Rectangle {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 1px;
+                    background: c;
+                }
+                sw := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.setting-int(data.key, i);
+                    }
+                }
+            }
+        }
+    }
+    // 8 path + Browse
+    if data.kind == 8 && !root.compact: HorizontalLayout {
+        x: root.width - self.width;
+        y: (parent.height - 44px) / 2;
+        width: root.control-w + 154px;
+        height: 44px;
+        spacing: 14px;
+        Field {
+            height: 44px;
+            text: data.text;
+            accepted(t) => {
+                AppState.setting-text(data.key, t);
+            }
+        }
+        Button {
+            width: 130px;
+            height: 44px;
+            text: data.button;
+            clicked => {
+                AppState.setting-text(data.key + ".browse", "");
+            }
+        }
+    }
+    if data.kind == 8 && root.compact: Button {
+        x: root.width - self.width;
+        y: (parent.height - self.height) / 2;
+        width: 100px;
+        text: data.button;
+        clicked => {
+            AppState.setting-text(data.key + ".browse", "");
+        }
+    }
+    // 9 equalizer card
+    if data.kind == 9: EqualizerCard {
+        y: 8px;
+        width: parent.width;
+        compact: root.compact;
+    }
+    // 10 plain informational text
+    if data.kind == 10: Text {
+        width: parent.width;
+        height: parent.height;
+        text: data.label;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a3;
+        vertical-alignment: center;
+        wrap: word-wrap;
+    }
+}
+
+component CategoryItem inherits Rectangle {
+    in property <IconData> icon;
+    in property <IconData> active-icon;
+    in property <string> label;
+    in property <bool> selected;
+    callback clicked();
+    height: 40px;
+    border-radius: 2px;
+    background: root.selected ? Theme.bg-a1 : (ta.has-hover ? Theme.bg-a2 : transparent);
+    Icon {
+        x: 10px;
+        icon: root.selected ? root.active-icon : root.icon;
+    }
+    Text {
+        x: 44px;
+        text: root.label;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: root.selected ? Theme.fg-1 : Theme.fg-a2;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+component GroupLabel inherits Rectangle {
+    in property <string> text;
+    height: 33px;
+    Text {
+        x: 10px;
+        text: root.text;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a3;
+    }
+}
+
+export component SettingsModal inherits Rectangle {
+    width: 1048px;
+    height: 865px;
+    border-radius: 14px;
+    background: Theme.bg-b1;
+    clip: true;
+    drop-shadow-blur: 40px;
+    drop-shadow-color: #000000a0;
+    TouchArea { }
+    // header
+    Rectangle {
+        height: 50px;
+        y: 0;
+        background: Theme.dark ? #000000 : Theme.bg-a3;
+        Rectangle {
+            x: 8px;
+            y: 8px;
+            width: 200px;
+            height: 34px;
+            border-radius: 6px;
+            background: Theme.bg-a5;
+            Field {
+                width: 100%;
+                height: 100%;
+                background: transparent;
+                border-width: 0;
+                has-icon: true;
+                icon: Icons.search;
+                placeholder: @tr("Search");
+                text: AppState.settings-search;
+                edited(t) => {
+                    AppState.act-text("settings-search", t);
+                }
+            }
+        }
+        Text {
+            x: 240px;
+            height: parent.height;
+            text: AppState.settings-title;
+            font-family: Theme.font;
+            font-size: 16px;
+            color: Theme.fg-a1;
+            vertical-alignment: center;
+        }
+        IconButton {
+            x: parent.width - 46px;
+            y: 9px;
+            icon: Icons.close;
+            clicked => {
+                AppState.settings-open = false;
+            }
+        }
+    }
+    // categories
+    Rectangle {
+        x: 8px;
+        y: 58px;
+        width: 200px;
+        height: parent.height - 66px;
+        border-radius: 6px;
+        background: Theme.bg-a4;
+        Flickable {
+            content-height: cats.preferred-height;
+            cats := VerticalLayout {
+                padding: 6px;
+                spacing: 8px;
+                alignment: start;
+                GroupLabel { text: @tr("App"); }
+                CategoryItem {
+                    icon: Icons.preferences;
+                    active-icon: Icons.preferences-active;
+                    label: @tr("General");
+                    selected: AppState.settings-page == 0;
+                    clicked => { AppState.act-int("settings-page", 0); }
+                }
+                CategoryItem {
+                    icon: Icons.interface;
+                    active-icon: Icons.interface-active;
+                    label: @tr("Interface");
+                    selected: AppState.settings-page == 1;
+                    clicked => { AppState.act-int("settings-page", 1); }
+                }
+                CategoryItem {
+                    icon: Icons.privacy;
+                    active-icon: Icons.privacy-active;
+                    label: @tr("Privacy");
+                    selected: AppState.settings-page == 2;
+                    clicked => { AppState.act-int("settings-page", 2); }
+                }
+                CategoryItem {
+                    icon: Icons.hotkeys;
+                    active-icon: Icons.hotkeys-active;
+                    label: @tr("Controls");
+                    selected: AppState.settings-page == 3;
+                    clicked => { AppState.act-int("settings-page", 3); }
+                }
+                GroupLabel { text: @tr("Media"); }
+                CategoryItem {
+                    icon: Icons.playback;
+                    active-icon: Icons.playback-active;
+                    label: @tr("Playback");
+                    selected: AppState.settings-page == 4;
+                    clicked => { AppState.act-int("settings-page", 4); }
+                }
+                CategoryItem {
+                    icon: Icons.video;
+                    active-icon: Icons.video-active;
+                    label: @tr("Video");
+                    selected: AppState.settings-page == 5;
+                    clicked => { AppState.act-int("settings-page", 5); }
+                }
+                CategoryItem {
+                    icon: Icons.audio;
+                    active-icon: Icons.audio-active;
+                    label: @tr("Audio");
+                    selected: AppState.settings-page == 6;
+                    clicked => { AppState.act-int("settings-page", 6); }
+                }
+                CategoryItem {
+                    icon: Icons.subtitles;
+                    active-icon: Icons.subtitles-active;
+                    label: @tr("Subtitles");
+                    selected: AppState.settings-page == 7;
+                    clicked => { AppState.act-int("settings-page", 7); }
+                }
+                CategoryItem {
+                    icon: Icons.folder;
+                    active-icon: Icons.folder-active;
+                    label: @tr("Library");
+                    selected: AppState.settings-page == 8;
+                    clicked => { AppState.act-int("settings-page", 8); }
+                }
+                GroupLabel { text: @tr("System"); }
+                CategoryItem {
+                    icon: Icons.streaming;
+                    active-icon: Icons.streaming-active;
+                    label: @tr("Network");
+                    selected: AppState.settings-page == 9;
+                    clicked => { AppState.act-int("settings-page", 9); }
+                }
+                CategoryItem {
+                    icon: Icons.preferences;
+                    active-icon: Icons.preferences-active;
+                    label: @tr("Performance");
+                    selected: AppState.settings-page == 10;
+                    clicked => { AppState.act-int("settings-page", 10); }
+                }
+                CategoryItem {
+                    icon: Icons.record;
+                    active-icon: Icons.record-active;
+                    label: @tr("Recording");
+                    selected: AppState.settings-page == 11;
+                    clicked => { AppState.act-int("settings-page", 11); }
+                }
+                CategoryItem {
+                    icon: Icons.plugins;
+                    active-icon: Icons.plugins-active;
+                    label: @tr("Extensions");
+                    selected: AppState.settings-page == 12;
+                    clicked => { AppState.act-int("settings-page", 12); }
+                }
+            }
+        }
+    }
+    // page content
+    page-flick := Flickable {
+        // back to the top when another page is opened
+        property <int> page: AppState.settings-page;
+        changed page => {
+            self.content-y = 0;
+        }
+        x: 240px;
+        y: 50px;
+        width: parent.width - 264px;
+        height: parent.height - 50px;
+        content-height: rows.preferred-height + 40px;
+        rows := VerticalLayout {
+            padding-top: 20px;
+            spacing: 0px;
+            alignment: start;
+            for r in AppState.settings-rows: SettingRowView {
+                data: r;
+            }
+            Rectangle {
+                height: 30px;
+            }
+            Rectangle {
+                height: 48px;
+                border-radius: 4px;
+                background: ata.has-hover ? Theme.bg-a2 : Theme.bg-a5;
+                HorizontalLayout {
+                    alignment: center;
+                    spacing: 10px;
+                    Text {
+                        text: AppState.settings-advanced ? @tr("Basic Options") : @tr("Advanced Options");
+                        font-family: Theme.font;
+                        font-size: 16px;
+                        color: Theme.fg-a2;
+                        vertical-alignment: center;
+                    }
+                    Icon {
+                        y: 12px;
+                        icon: AppState.settings-advanced ? Icons.chevron-down : Icons.chevron-right;
+                    }
+                }
+                ata := TouchArea {
+                    clicked => {
+                        AppState.act("settings-advanced");
+                    }
+                }
+            }
+        }
+    }
+}
+
+component QuickTab inherits Rectangle {
+    in property <IconData> icon;
+    in property <IconData> active-icon;
+    in property <string> label;
+    in property <bool> selected;
+    callback clicked();
+    // tabs take their natural width (labels are longer in French)
+    horizontal-stretch: 0;
+    HorizontalLayout {
+        alignment: center;
+        spacing: 6px;
+        padding-left: 4px;
+        padding-right: 4px;
+        Icon {
+            y: (parent.height - 24px) / 2;
+            icon: root.selected ? root.active-icon : root.icon;
+        }
+        Text {
+            text: root.label;
+            font-family: Theme.font;
+            font-size: 16px;
+            color: root.selected ? Theme.fg-1 : Theme.fg-a2;
+            vertical-alignment: center;
+        }
+    }
+    if root.selected: Rectangle {
+        y: parent.height - 2px;
+        height: 2px;
+        background: Theme.accent;
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+// Figma "Subtitles" (and Playback/Video/Audio) drawer: 400px, tabbed.
+export component QuickPanel inherits Rectangle {
+    width: 420px;
+    border-radius: 14px;
+    background: Theme.bg-b1;
+    clip: true;
+    drop-shadow-blur: 30px;
+    drop-shadow-color: #00000090;
+    TouchArea { }
+    VerticalLayout {
+        Rectangle {
+            height: 72px;
+            background: Theme.dark ? #0A0A0A : Theme.bg-a3;
+            HorizontalLayout {
+                padding-left: 8px;
+                padding-right: 8px;
+                alignment: space-between;
+                QuickTab {
+                    icon: Icons.playback;
+                    active-icon: Icons.playback-active;
+                    label: @tr("Playback");
+                    selected: AppState.quick-tab == 0;
+                    clicked => { AppState.act-int("quick-tab", 0); }
+                }
+                QuickTab {
+                    icon: Icons.video;
+                    active-icon: Icons.video-active;
+                    label: @tr("Video");
+                    selected: AppState.quick-tab == 1;
+                    clicked => { AppState.act-int("quick-tab", 1); }
+                }
+                QuickTab {
+                    icon: Icons.audio;
+                    active-icon: Icons.audio-active;
+                    label: @tr("Audio");
+                    selected: AppState.quick-tab == 2;
+                    clicked => { AppState.act-int("quick-tab", 2); }
+                }
+                QuickTab {
+                    icon: Icons.subtitles;
+                    active-icon: Icons.subtitles-active;
+                    label: @tr("Subtitles");
+                    selected: AppState.quick-tab == 3;
+                    clicked => { AppState.act-int("quick-tab", 3); }
+                }
+            }
+        }
+        Flickable {
+            content-height: qrows.preferred-height + 20px;
+            qrows := VerticalLayout {
+                padding-left: 36px;
+                padding-right: 36px;
+                padding-top: 4px;
+                alignment: start;
+                for r[i] in AppState.quick-rows: VerticalLayout {
+                    if r.kind == 0 && i > 0: Rectangle {
+                        height: 1px;
+                        background: Theme.divider-dim;
+                    }
+                    SettingRowView {
+                        data: r;
+                        compact: true;
+                    }
+                }
+            }
+        }
+        Rectangle {
+            height: 1px;
+            background: Theme.divider-dim;
+        }
+        Rectangle {
+            height: 64px;
+            HorizontalLayout {
+                alignment: center;
+                spacing: 12px;
+                Icon {
+                    y: 20px;
+                    icon: Icons.settings;
+                }
+                Text {
+                    text: @tr("Open Advanced Settings");
+                    font-family: Theme.font;
+                    font-size: 18px;
+                    color: oas.has-hover ? Theme.fg-1 : Theme.fg-a2;
+                    vertical-alignment: center;
+                }
+            }
+            oas := TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    AppState.act("open-advanced-settings");
+                }
+            }
+        }
+    }
+}

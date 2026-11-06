@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Ondrane
+GenericName=Media Player
+Comment=Videos, music and streams — your media, your rhythm
+Exec=ondrane %U
+Icon=ondrane
+Terminal=false
+Categories=AudioVideo;Player;Video;Audio;
+MimeType=video/mp4;video/x-matroska;video/webm;video/x-msvideo;video/quicktime;video/mpeg;audio/mpeg;audio/flac;audio/ogg;audio/wav;audio/x-m4a;
+StartupWMClass=ondrane
+Keywords=ondrane;video;audio;player;media;stream;

@@ -1,0 +1,2508 @@
+# French translation of Ondrane (Slint @tr() strings and Rust tr() strings).
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+
+msgid "ON"
+msgstr "ON"
+
+msgid "OFF"
+msgstr "OFF"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Open Network Stream"
+msgstr "Ouvrir un flux réseau"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "Network URL"
+msgstr "URL réseau"
+
+msgid "You can enter multiple links to load."
+msgstr "Vous pouvez saisir plusieurs liens à charger."
+
+msgid "e.g., https://www.example.com/stream.avi"
+msgstr "ex. : https://www.example.com/stream.avi"
+
+msgid "Playlist Name (optional)"
+msgstr "Nom de la playlist (facultatif)"
+
+msgid "The playlist will be saved and displayed with this title."
+msgstr "La playlist sera enregistrée et affichée sous ce titre."
+
+msgid "e.g., Favorite TV Channels"
+msgstr "ex. : Chaînes TV préférées"
+
+msgid "New Playlist"
+msgstr "Nouvelle playlist"
+
+msgid "Playlist Details"
+msgstr "Détails de la playlist"
+
+msgid "The playlist will be saved and displayed with this title and thumbnail."
+msgstr "La playlist sera enregistrée et affichée avec ce titre et cette vignette."
+
+msgid "e.g., Favorite Videos"
+msgstr "ex. : Vidéos préférées"
+
+msgid "Select Files"
+msgstr "Sélectionner des fichiers"
+
+msgid "These files will be added to the playlist."
+msgstr "Ces fichiers seront ajoutés à la playlist."
+
+msgid "Click here to select files."
+msgstr "Cliquez ici pour sélectionner des fichiers."
+
+msgid "Keyboard Shortcuts"
+msgstr "Raccourcis clavier"
+
+msgid "Search Keyboard Shortcuts..."
+msgstr "Rechercher un raccourci…"
+
+msgid "All Fields"
+msgstr "Tous les champs"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Hotkey"
+msgstr "Raccourci"
+
+msgid "Global Hotkey"
+msgstr "Raccourci global"
+
+msgid "Press a key…"
+msgstr "Appuyez sur une touche…"
+
+msgid "Add Subtitles"
+msgstr "Ajouter des sous-titres"
+
+msgid "To This Folder"
+msgstr "À ce dossier"
+
+msgid "To This File"
+msgstr "À ce fichier"
+
+msgid "From Computer"
+msgstr "Depuis l'ordinateur"
+
+msgid "Auto-match"
+msgstr "Association auto"
+
+msgid "No subtitle file"
+msgstr "Aucun fichier de sous-titres"
+
+msgid "Customize Player"
+msgstr "Personnaliser le lecteur"
+
+msgid "Click items to add them to the control bar or remove them from it."
+msgstr "Cliquez sur les éléments pour les ajouter à la barre de contrôle ou les en retirer."
+
+msgid "Welcome to Ondrane!"
+msgstr "Bienvenue dans Ondrane !"
+
+msgid "Ondrane is an independent media player for your videos, music and streams, powered by libVLC."
+msgstr "Ondrane est un lecteur indépendant pour vos vidéos, musiques et flux, utilisant libVLC."
+
+msgid "Choose a Media Folder to get started with"
+msgstr "Choisissez un dossier multimédia pour commencer"
+
+msgid "Browse"
+msgstr "Parcourir"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "Select your preferred theme and color."
+msgstr "Choisissez votre thème et votre couleur préférés."
+
+msgid "Light"
+msgstr "Clair"
+
+msgid "Dark"
+msgstr "Sombre"
+
+msgid "System"
+msgstr "Système"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "About Ondrane"
+msgstr "À propos d’Ondrane"
+
+msgid "A Rust + Slint media player built on libVLC, following the community \"VLC Redesign\" Figma concept by Juxtopposed."
+msgstr "Un lecteur multimédia Rust + Slint construit sur libVLC, d'après le concept Figma communautaire « VLC Redesign » de Juxtopposed."
+
+msgid "Made with Slint (slint.dev) · Playback by libVLC (videolan.org)"
+msgstr "Réalisé avec Slint (slint.dev) · Lecture par libVLC (videolan.org)"
+
+msgid "Playback engine: libVLC"
+msgstr "Moteur de lecture : libVLC"
+
+msgid "libVLC not found — playback disabled"
+msgstr "libVLC introuvable — lecture désactivée"
+
+msgid "Open Disc"
+msgstr "Ouvrir un disque"
+
+msgid "Play"
+msgstr "Lire"
+
+msgid "Disc"
+msgstr "Disque"
+
+msgid "DVD"
+msgstr "DVD"
+
+msgid "Blu-ray"
+msgstr "Blu-ray"
+
+msgid "Audio CD"
+msgstr "CD audio"
+
+msgid "VCD"
+msgstr "VCD"
+
+msgid "Disc device"
+msgstr "Lecteur de disque"
+
+msgid "No optical drive found: type a device, folder or ISO image"
+msgstr "Aucun lecteur optique détecté : saisissez un périphérique, un dossier ou une image ISO"
+
+msgid "e.g. /dev/sr0, D: or a VIDEO_TS folder"
+msgstr "ex. : /dev/sr0, D: ou un dossier VIDEO_TS"
+
+msgid "Detected drives"
+msgstr "Lecteurs détectés"
+
+msgid "Starting Position"
+msgstr "Position de départ"
+
+msgid "No disc menus"
+msgstr "Sans les menus du disque"
+
+msgid "Track"
+msgstr "Piste"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "0 = from the beginning"
+msgstr "0 = depuis le début"
+
+msgid "Chapter"
+msgstr "Chapitre"
+
+msgid "Open Capture Device"
+msgstr "Ouvrir un périphérique de capture"
+
+msgid "Capture Mode"
+msgstr "Mode de capture"
+
+msgid "Camera"
+msgstr "Caméra"
+
+msgid "Desktop"
+msgstr "Bureau"
+
+msgid "Video device"
+msgstr "Périphérique vidéo"
+
+msgid "Frame rate"
+msgstr "Images par seconde"
+
+msgid "frames per second"
+msgstr "images par seconde"
+
+msgid "Record sound too"
+msgstr "Capturer aussi le son"
+
+msgid "Default audio input of the system"
+msgstr "Entrée audio par défaut du système"
+
+msgid "Convert"
+msgstr "Convertir"
+
+msgid "Start"
+msgstr "Démarrer"
+
+msgid "Source Files"
+msgstr "Fichiers source"
+
+msgid "Add Files"
+msgstr "Ajouter des fichiers"
+
+msgid "Add the files to convert"
+msgstr "Ajoutez les fichiers à convertir"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Destination folder"
+msgstr "Dossier de destination"
+
+msgid "Conversions"
+msgstr "Conversions"
+
+msgid "Clear Finished"
+msgstr "Effacer les terminées"
+
+msgid "Stream Out"
+msgstr "Diffuser"
+
+msgid "Start Streaming"
+msgstr "Démarrer la diffusion"
+
+msgid "Stop Streaming"
+msgstr "Arrêter la diffusion"
+
+msgid "Source"
+msgstr "Source"
+
+msgid "HTTP port"
+msgstr "Port HTTP"
+
+msgid "Open it in VLC or a browser on another device"
+msgstr "Ouvrez-la dans VLC ou un navigateur sur un autre appareil"
+
+msgid "Audio, video, subtitles, local playback and the encoding preset follow Settings › Recording, Casting & Streaming Out."
+msgstr "Audio, vidéo, sous-titres, lecture locale et préréglage d'encodage suivent Réglages › Enregistrement, cast et diffusion."
+
+msgid "Streaming on"
+msgstr "Diffusion sur"
+
+msgid "User name"
+msgstr "Nom d'utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Remember the password"
+msgstr "Mémoriser le mot de passe"
+
+msgid "Drop to play — the queue is replaced"
+msgstr "Déposez pour lire — la file d'attente est remplacée"
+
+msgid "Drop files or folders to play them"
+msgstr "Déposez des fichiers ou des dossiers pour les lire"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Videos"
+msgstr "Vidéos"
+
+msgid "Music"
+msgstr "Musique"
+
+msgid "Network"
+msgstr "Réseau"
+
+msgid "Playlists"
+msgstr "Playlists"
+
+msgid "Recent"
+msgstr "Récents"
+
+msgid "Add item"
+msgstr "Ajouter"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Nothing played yet. Open a file or browse Videos and Music to get started."
+msgstr "Rien n'a encore été lu. Ouvrez un fichier ou parcourez Vidéos et Musique pour commencer."
+
+msgid "Continue Watching"
+msgstr "Reprendre la lecture"
+
+msgid "Listen Again"
+msgstr "Écouter à nouveau"
+
+msgid "Frequently Visited Folders"
+msgstr "Dossiers fréquents"
+
+msgid "Queue"
+msgstr "File d'attente"
+
+msgid "Open a file, a folder or a network stream to start playing"
+msgstr "Ouvrez un fichier, un dossier ou un flux réseau pour commencer la lecture"
+
+msgid "libVLC was not found — install VLC to enable playback"
+msgstr "libVLC est introuvable — installez VLC pour activer la lecture"
+
+msgid "Open File(s)"
+msgstr "Ouvrir des fichiers"
+
+msgid "Network Stream"
+msgstr "Flux réseau"
+
+msgid "Preamp"
+msgstr "Préampli"
+
+msgid "Close Equalizer"
+msgstr "Fermer l'égaliseur"
+
+msgid "App"
+msgstr "Application"
+
+msgid "General"
+msgstr "Général"
+
+msgid "Interface"
+msgstr "Interface"
+
+msgid "Privacy"
+msgstr "Confidentialité"
+
+msgid "Controls"
+msgstr "Contrôles"
+
+msgid "Media"
+msgstr "Médias"
+
+msgid "Playback"
+msgstr "Lecture"
+
+msgid "Video"
+msgstr "Vidéo"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Subtitles"
+msgstr "Sous-titres"
+
+msgid "Library"
+msgstr "Bibliothèque"
+
+msgid "Performance"
+msgstr "Performances"
+
+msgid "Recording"
+msgstr "Enregistrement"
+
+msgid "Extensions"
+msgstr "Extensions"
+
+msgid "Basic Options"
+msgstr "Options de base"
+
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+msgid "Open Advanced Settings"
+msgstr "Ouvrir les réglages avancés"
+
+msgid "Cannot open"
+msgstr "Impossible d'ouvrir"
+
+msgid "Subtitles: {}"
+msgstr "Sous-titres : {}"
+
+msgid "Ondrane"
+msgstr "Lecteur multimédia VLC"
+
+msgid "Speed {}"
+msgstr "Vitesse {}"
+
+msgid "Snapshot saved to {}"
+msgstr "Capture enregistrée dans {}"
+
+msgid "Snapshot failed"
+msgstr "Échec de la capture"
+
+msgid "No audio track"
+msgstr "Aucune piste audio"
+
+msgid "Audio: {}"
+msgstr "Audio : {}"
+
+msgid "No subtitles"
+msgstr "Aucun sous-titre"
+
+msgid "Playback error: this media cannot be played"
+msgstr "Erreur de lecture : ce média ne peut pas être lu"
+
+msgid "Create playlist"
+msgstr "Créer une playlist"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Open network stream"
+msgstr "Ouvrir un flux réseau"
+
+msgid "Nothing played recently."
+msgstr "Rien n'a été lu récemment."
+
+msgid "1 item"
+msgstr "1 élément"
+
+msgid "{} items"
+msgstr "{} éléments"
+
+msgid "Choose subtitle files…"
+msgstr "Choisir des fichiers de sous-titres…"
+
+msgid "Search Results"
+msgstr "Résultats de la recherche"
+
+msgid "Subtitle delay {} ms"
+msgstr "Décalage des sous-titres {} ms"
+
+msgid "Aspect ratio: {}"
+msgstr "Format d'image : {}"
+
+msgid "Crop: {}"
+msgstr "Recadrage : {}"
+
+msgid "Equalizer: {}"
+msgstr "Égaliseur : {}"
+
+msgid "Profile: {}"
+msgstr "Profil : {}"
+
+msgid "Add-on installed"
+msgstr "Extension installée"
+
+msgid "Add-ons"
+msgstr "Extensions"
+
+msgid "Saved as playlist \"{}\""
+msgstr "Enregistrée comme playlist « {} »"
+
+msgid "Added to {}"
+msgstr "Ajouté à {}"
+
+msgid "Exported to {}"
+msgstr "Exportée vers {}"
+
+msgid "Export failed"
+msgstr "Échec de l'export"
+
+msgid "1 subtitle file attached"
+msgstr "1 fichier de sous-titres associé"
+
+msgid "{} subtitle files attached"
+msgstr "{} fichiers de sous-titres associés"
+
+msgid "Volume {}%"
+msgstr "Volume {} %"
+
+msgid "Playlist \"{}\" created"
+msgstr "Playlist « {} » créée"
+
+msgid "Automatic"
+msgstr "Automatique"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Flat"
+msgstr "Plat"
+
+msgid "Classical"
+msgstr "Classique"
+
+msgid "Club"
+msgstr "Club"
+
+msgid "Dance"
+msgstr "Dance"
+
+msgid "Full bass"
+msgstr "Basses maximales"
+
+msgid "Full bass & treble"
+msgstr "Basses et aigus maximaux"
+
+msgid "Full treble"
+msgstr "Aigus maximaux"
+
+msgid "Headphones"
+msgstr "Casque"
+
+msgid "Large hall"
+msgstr "Grande salle"
+
+msgid "Live"
+msgstr "Concert"
+
+msgid "Party"
+msgstr "Fête"
+
+msgid "Pop"
+msgstr "Pop"
+
+msgid "Reggae"
+msgstr "Reggae"
+
+msgid "Rock"
+msgstr "Rock"
+
+msgid "Ska"
+msgstr "Ska"
+
+msgid "Soft"
+msgstr "Doux"
+
+msgid "Soft rock"
+msgstr "Soft rock"
+
+msgid "Use the media library"
+msgstr "Utiliser la médiathèque"
+
+msgid "Resumed where you left off · Home to restart"
+msgstr "Reprise là où vous vous étiez arrêté · Début pour recommencer"
+
+msgid "When opening a folder"
+msgstr "À l'ouverture d'un dossier"
+
+msgid "Added to queue"
+msgstr "Ajouté à la file d'attente"
+
+msgid "End of the queue"
+msgstr "Fin de la file d'attente"
+
+msgid "No videos here. Use + to add files or pick another folder."
+msgstr "Aucune vidéo ici. Utilisez + pour ajouter des fichiers ou choisissez un autre dossier."
+
+msgid "No music here. Use + to add files or pick another folder."
+msgstr "Aucune musique ici. Utilisez + pour ajouter des fichiers ou choisissez un autre dossier."
+
+msgid "Muted"
+msgstr "Son coupé"
+
+msgid "Unmuted"
+msgstr "Son rétabli"
+
+msgid "Repeat off"
+msgstr "Répétition désactivée"
+
+msgid "Repeat all"
+msgstr "Tout répéter"
+
+msgid "Repeat one"
+msgstr "Répéter un élément"
+
+msgid "Shuffle on"
+msgstr "Lecture aléatoire activée"
+
+msgid "Shuffle off"
+msgstr "Lecture aléatoire désactivée"
+
+msgid "Press Ctrl+\\ or Esc to show the interface"
+msgstr "Appuyez sur Ctrl+\\ ou Échap pour afficher l'interface"
+
+msgid "Open Folder"
+msgstr "Ouvrir un dossier"
+
+msgid "Add Folder"
+msgstr "Ajouter un dossier"
+
+msgid "Destination"
+msgstr "Destination"
+
+msgid "Added to favorites"
+msgstr "Ajouté aux favoris"
+
+msgid "Removed from favorites"
+msgstr "Retiré des favoris"
+
+msgid "History cleared"
+msgstr "Historique effacé"
+
+msgid "Export Playlist"
+msgstr "Exporter la playlist"
+
+msgid "Never remember items matching"
+msgstr "Ne jamais mémoriser les éléments correspondant à"
+
+msgid "Choose a Media Folder"
+msgstr "Choisir un dossier multimédia"
+
+msgid "Log file"
+msgstr "Fichier journal"
+
+msgid "Choose a file"
+msgstr "Choisir un fichier"
+
+msgid "Choose a folder"
+msgstr "Choisir un dossier"
+
+msgid "Profile ({})"
+msgstr "Profil ({})"
+
+msgid "Aspect {}"
+msgstr "Format {}"
+
+msgid "Crop {}"
+msgstr "Recadrage {}"
+
+msgid "Sorting Options"
+msgstr "Options de tri"
+
+msgid "View Options"
+msgstr "Options d'affichage"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Stop"
+msgstr "Arrêter"
+
+msgid "Previous Item"
+msgstr "Élément précédent"
+
+msgid "Next Item"
+msgstr "Élément suivant"
+
+msgid "Snapshot"
+msgstr "Capture d'écran"
+
+msgid "Hide UI"
+msgstr "Masquer l'interface"
+
+msgid "Subtitle"
+msgstr "Sous-titres"
+
+msgid "More Settings"
+msgstr "Plus de réglages"
+
+msgid "Playlist"
+msgstr "Playlist"
+
+msgid "Open Media"
+msgstr "Ouvrir un média"
+
+msgid "Quit Ondrane"
+msgstr "Quitter Ondrane"
+
+msgid "Open Recent"
+msgstr "Ouvrir un média récent"
+
+msgid "Settings"
+msgstr "Réglages"
+
+msgid "Add File"
+msgstr "Ajouter un fichier"
+
+msgid "Searching for cast devices…"
+msgstr "Recherche d'appareils de cast…"
+
+msgid "Device discovery is off (Settings › Recording)"
+msgstr "La découverte d'appareils est désactivée (Réglages › Enregistrement)"
+
+msgid "Grid View"
+msgstr "Vue en grille"
+
+msgid "List View"
+msgstr "Vue en liste"
+
+msgid "Play All"
+msgstr "Tout lire"
+
+msgid "Shuffle All"
+msgstr "Tout lire en aléatoire"
+
+msgid "Add All to Queue"
+msgstr "Tout ajouter à la file d'attente"
+
+msgid "Mark All as Watched"
+msgstr "Tout marquer comme vu"
+
+msgid "Add Subtitles to Folder"
+msgstr "Ajouter des sous-titres au dossier"
+
+msgid "Show in File Explorer"
+msgstr "Afficher dans le gestionnaire de fichiers"
+
+msgid "Refresh"
+msgstr "Actualiser"
+
+msgid "Mark as Unwatched"
+msgstr "Marquer comme non vu"
+
+msgid "Mark as Watched"
+msgstr "Marquer comme vu"
+
+msgid "Unfavorite"
+msgstr "Retirer des favoris"
+
+msgid "Favorite"
+msgstr "Favori"
+
+msgid "Add to Queue"
+msgstr "Ajouter à la file d'attente"
+
+msgid "Add to Playlist"
+msgstr "Ajouter à une playlist"
+
+msgid "Add Subtitle Tracks"
+msgstr "Ajouter des pistes de sous-titres"
+
+msgid "Remove from Playlist"
+msgstr "Retirer de la playlist"
+
+msgid "Properties & Metadata"
+msgstr "Propriétés et métadonnées"
+
+msgid "Shuffle"
+msgstr "Aléatoire"
+
+msgid "Delete Playlist"
+msgstr "Supprimer la playlist"
+
+msgid "Jump Backward"
+msgstr "Reculer"
+
+msgid "Jump Forward"
+msgstr "Avancer"
+
+msgid "Repeat Off"
+msgstr "Pas de répétition"
+
+msgid "Repeat All"
+msgstr "Tout répéter"
+
+msgid "Repeat One"
+msgstr "Répéter un élément"
+
+msgid "Stop Recording"
+msgstr "Arrêter l'enregistrement"
+
+msgid "Record"
+msgstr "Enregistrer"
+
+msgid "Stream Out…"
+msgstr "Diffuser…"
+
+msgid "Cast…"
+msgstr "Caster…"
+
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+msgid "Take Snapshot"
+msgstr "Prendre une capture"
+
+msgid "Unmute"
+msgstr "Rétablir le son"
+
+msgid "Mute"
+msgstr "Couper le son"
+
+msgid "Equalizer & Effects"
+msgstr "Égaliseur et effets"
+
+msgid "Load Subtitle File…"
+msgstr "Charger un fichier de sous-titres…"
+
+msgid "Add Subtitles to Folder…"
+msgstr "Ajouter des sous-titres au dossier…"
+
+msgid "Delay −50 ms"
+msgstr "Décalage −50 ms"
+
+msgid "Delay +50 ms"
+msgstr "Décalage +50 ms"
+
+msgid "Show Queue"
+msgstr "Afficher la file d'attente"
+
+msgid "Save Queue as Playlist"
+msgstr "Enregistrer la file comme playlist"
+
+msgid "Clear Queue"
+msgstr "Vider la file d'attente"
+
+msgid "All Playlists"
+msgstr "Toutes les playlists"
+
+msgid "No recent media"
+msgstr "Aucun média récent"
+
+msgid "Clear Recent"
+msgstr "Effacer les récents"
+
+msgid "New"
+msgstr "Nouveau"
+
+msgid "Settings file: {}"
+msgstr "Fichier de réglages : {}"
+
+msgid "Open {} on a phone or computer of the same network."
+msgstr "Ouvrez {} sur un téléphone ou un ordinateur du même réseau."
+
+msgid "System default"
+msgstr "Par défaut du système"
+
+msgid "Videos folder: {}"
+msgstr "Dossier Vidéos : {}"
+
+msgid "Music folder: {}"
+msgstr "Dossier Musique : {}"
+
+msgid "Installed by you"
+msgstr "Installée par vous"
+
+msgid "built into VLC"
+msgstr "intégrée à VLC"
+
+msgid "not found"
+msgstr "introuvable"
+
+msgid "Global Settings"
+msgstr "Réglages généraux"
+
+msgid "Interface Settings"
+msgstr "Réglages de l'interface"
+
+msgid "Privacy Settings"
+msgstr "Réglages de confidentialité"
+
+msgid "Mouse, Keyboard & Remote Controls"
+msgstr "Souris, clavier et télécommandes"
+
+msgid "Playback Preferences"
+msgstr "Préférences de lecture"
+
+msgid "Video Defaults"
+msgstr "Réglages vidéo par défaut"
+
+msgid "Audio Defaults"
+msgstr "Réglages audio par défaut"
+
+msgid "Subtitle Defaults"
+msgstr "Réglages des sous-titres par défaut"
+
+msgid "Playlists, Folders & Files"
+msgstr "Playlists, dossiers et fichiers"
+
+msgid "Network Connections & Security"
+msgstr "Connexions réseau et sécurité"
+
+msgid "Performance Settings"
+msgstr "Réglages de performance"
+
+msgid "Recording, Casting & Streaming Out"
+msgstr "Enregistrement, cast et diffusion"
+
+msgid "Add-ons & Scripts"
+msgstr "Extensions et scripts"
+
+msgid "Hue"
+msgstr "Teinte"
+
+msgid "Brightness"
+msgstr "Luminosité"
+
+msgid "Contrast"
+msgstr "Contraste"
+
+msgid "Saturation"
+msgstr "Saturation"
+
+msgid "Gamma"
+msgstr "Gamma"
+
+msgid "Reset picture"
+msgstr "Réinitialiser l'image"
+
+msgid "Reset"
+msgstr "Réinitialiser"
+
+msgid "Appearance"
+msgstr "Apparence"
+
+msgid "Interface language"
+msgstr "Langue de l'interface"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Accent color"
+msgstr "Couleur d'accent"
+
+msgid "Startup"
+msgstr "Démarrage"
+
+msgid "Show confirmation and error dialogs"
+msgstr "Afficher les confirmations et les erreurs"
+
+msgid "Check for updates automatically"
+msgstr "Rechercher automatiquement les mises à jour"
+
+msgid "Show the welcome screen on next start"
+msgstr "Afficher l'écran d'accueil au prochain démarrage"
+
+msgid "Shows the onboarding (media folder, theme and colour) the next time VLC starts."
+msgstr "Affiche l'assistant (dossier multimédia, thème et couleur) au prochain lancement de VLC."
+
+msgid "Diagnostics"
+msgstr "Diagnostic"
+
+msgid "Developer mode"
+msgstr "Mode développeur"
+
+msgid "Verbose libVLC messages on the console and the advanced options shown by default."
+msgstr "Messages libVLC détaillés dans la console et options avancées affichées par défaut."
+
+msgid "Save a log"
+msgstr "Enregistrer un journal"
+
+msgid "Log details"
+msgstr "Détail du journal"
+
+msgid "Errors only"
+msgstr "Erreurs uniquement"
+
+msgid "Errors and warnings"
+msgstr "Erreurs et avertissements"
+
+msgid "Debug"
+msgstr "Débogage"
+
+msgid "Reset all settings"
+msgstr "Réinitialiser tous les réglages"
+
+msgid "Skin"
+msgstr "Habillage"
+
+msgid "Use a custom skin"
+msgstr "Utiliser un habillage personnalisé"
+
+msgid "A JSON colour file; export the current theme to start one."
+msgstr "Un fichier de couleurs JSON ; exportez le thème actuel pour en créer un."
+
+msgid "Skin file"
+msgstr "Fichier d'habillage"
+
+msgid "Export the current theme as a skin"
+msgstr "Exporter le thème actuel comme habillage"
+
+msgid "Export"
+msgstr "Exporter"
+
+msgid "Window"
+msgstr "Fenêtre"
+
+msgid "Play video inside main window"
+msgstr "Lire la vidéo dans la fenêtre principale"
+
+msgid "Off: libVLC shows the video in its own window."
+msgstr "Désactivé : libVLC affiche la vidéo dans sa propre fenêtre."
+
+msgid "Resize window to fit video"
+msgstr "Adapter la fenêtre à la vidéo"
+
+msgid "Never"
+msgstr "Jamais"
+
+msgid "When the first video starts"
+msgstr "Au démarrage de la première vidéo"
+
+msgid "Always"
+msgstr "Toujours"
+
+msgid "Remember window size and position"
+msgstr "Mémoriser la taille et la position de la fenêtre"
+
+msgid "Keep window above other windows"
+msgstr "Garder la fenêtre au premier plan"
+
+msgid "Show window decorations"
+msgstr "Afficher les décorations de fenêtre"
+
+msgid "Show the file name in the title bar"
+msgstr "Afficher le nom du fichier dans la barre de titre"
+
+msgid "Open fullscreen on"
+msgstr "Ouvrir le plein écran sur"
+
+msgid "Playback Controls"
+msgstr "Contrôles de lecture"
+
+msgid "Start in compact mode"
+msgstr "Démarrer en mode compact"
+
+msgid "Auto-hide the controls"
+msgstr "Masquer automatiquement les contrôles"
+
+msgid "In fullscreen only"
+msgstr "En plein écran uniquement"
+
+msgid "Hide after"
+msgstr "Masquer après"
+
+msgid "Show controls in fullscreen"
+msgstr "Afficher les contrôles en plein écran"
+
+msgid "Notifications and System Tray"
+msgstr "Notifications et zone de notification"
+
+msgid "Show a system tray icon"
+msgstr "Afficher une icône dans la zone de notification"
+
+msgid "Start minimized to the tray"
+msgstr "Démarrer réduit dans la zone de notification"
+
+msgid "Show a popup when the track changes"
+msgstr "Afficher une notification au changement de piste"
+
+msgid "When minimized"
+msgstr "Si la fenêtre est réduite"
+
+msgid "Popup duration"
+msgstr "Durée de la notification"
+
+msgid "Show the playlist as a tree"
+msgstr "Afficher la playlist en arborescence"
+
+msgid "Library view"
+msgstr "Vue de la bibliothèque"
+
+msgid "Grid"
+msgstr "Grille"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Save recently played items"
+msgstr "Mémoriser les éléments lus récemment"
+
+msgid "Remember the playback position"
+msgstr "Mémoriser la position de lecture"
+
+msgid "Clear history when VLC closes"
+msgstr "Effacer l'historique à la fermeture de VLC"
+
+msgid "Clear history now"
+msgstr "Effacer l'historique maintenant"
+
+msgid "Clear"
+msgstr "Effacer"
+
+msgid "Fetch titles and cover art from the internet"
+msgstr "Récupérer titres et pochettes sur Internet"
+
+msgid "Submit played tracks to last.fm"
+msgstr "Envoyer les titres écoutés à last.fm"
+
+msgid "Last.fm username"
+msgstr "Nom d'utilisateur Last.fm"
+
+msgid "Last.fm password"
+msgstr "Mot de passe Last.fm"
+
+msgid "Last.fm submission URL"
+msgstr "URL d'envoi Last.fm"
+
+msgid "Defaults"
+msgstr "Par défaut"
+
+msgid "Edit Keyboard Shortcuts"
+msgstr "Modifier les raccourcis clavier"
+
+msgid "Reset all shortcuts"
+msgstr "Réinitialiser tous les raccourcis"
+
+msgid "Skip Amounts"
+msgstr "Durées des sauts"
+
+msgid "Very short skip"
+msgstr "Saut très court"
+
+msgid "Short skip"
+msgstr "Saut court"
+
+msgid "Medium skip"
+msgstr "Saut moyen"
+
+msgid "Long skip"
+msgstr "Saut long"
+
+msgid "Mouse"
+msgstr "Souris"
+
+msgid "Single click on the video"
+msgstr "Clic simple sur la vidéo"
+
+msgid "Play / Pause"
+msgstr "Lecture / pause"
+
+msgid "Nothing"
+msgstr "Rien"
+
+msgid "Double click on the video"
+msgstr "Double-clic sur la vidéo"
+
+msgid "Toggle fullscreen"
+msgstr "Basculer en plein écran"
+
+msgid "Middle click on the video"
+msgstr "Clic du milieu sur la vidéo"
+
+msgid "Picture in picture"
+msgstr "Image dans l'image"
+
+msgid "Scroll wheel"
+msgstr "Molette"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Seek"
+msgstr "Position"
+
+msgid "Horizontal scroll"
+msgstr "Défilement horizontal"
+
+msgid "Reverse scroll direction"
+msgstr "Inverser le sens de défilement"
+
+msgid "Remotes"
+msgstr "Télécommandes"
+
+msgid "Web remote control"
+msgstr "Télécommande web"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Password (user: vlc)"
+msgstr "Mot de passe (utilisateur : vlc)"
+
+msgid "Continue where you left off"
+msgstr "Reprendre là où vous vous étiez arrêté"
+
+msgid "Ask"
+msgstr "Demander"
+
+msgid "Start playing as soon as a file opens"
+msgstr "Lancer la lecture dès l'ouverture d'un fichier"
+
+msgid "Default playback speed"
+msgstr "Vitesse de lecture par défaut"
+
+msgid "Pause when another app uses audio"
+msgstr "Mettre en pause quand une autre appli utilise le son"
+
+msgid "Tracks"
+msgstr "Pistes"
+
+msgid "Preferred video quality"
+msgstr "Qualité vidéo préférée"
+
+msgid "Preferred menu language"
+msgstr "Langue des menus préférée"
+
+msgid "Default audio track"
+msgstr "Piste audio par défaut"
+
+msgid "Default subtitle track"
+msgstr "Piste de sous-titres par défaut"
+
+msgid "Order"
+msgstr "Ordre"
+
+msgid "Repeat"
+msgstr "Répétition"
+
+msgid "Off"
+msgstr "Désactivé"
+
+msgid "All"
+msgstr "Tout"
+
+msgid "One"
+msgstr "Un seul"
+
+msgid "Stop after each item"
+msgstr "Arrêter après chaque élément"
+
+msgid "When playback finishes"
+msgstr "À la fin de la lecture"
+
+msgid "Go to the library"
+msgstr "Aller à la bibliothèque"
+
+msgid "Continue with the next file of the folder"
+msgstr "Enchaîner sur le fichier suivant du dossier"
+
+msgid "Seeking"
+msgstr "Navigation"
+
+msgid "Seek precisely"
+msgstr "Positionnement précis"
+
+msgid "Show thumbnail while scrubbing"
+msgstr "Afficher un aperçu pendant la navigation"
+
+msgid "Files & Discs"
+msgstr "Fichiers et disques"
+
+msgid "Default optical drive"
+msgstr "Lecteur optique par défaut"
+
+msgid "Repair damaged AVI files"
+msgstr "Réparer les fichiers AVI endommagés"
+
+msgid "Always fix"
+msgstr "Toujours réparer"
+
+msgid "Never fix"
+msgstr "Ne jamais réparer"
+
+msgid "Fix when necessary"
+msgstr "Réparer si nécessaire"
+
+msgid "Load matching .mkv files from the same folder"
+msgstr "Charger les fichiers .mkv associés du même dossier"
+
+msgid "Output"
+msgstr "Sortie"
+
+msgid "Enable video"
+msgstr "Activer la vidéo"
+
+msgid "Start videos in fullscreen"
+msgstr "Démarrer les vidéos en plein écran"
+
+msgid "Stop the screensaver during playback"
+msgstr "Empêcher l'économiseur d'écran pendant la lecture"
+
+msgid "Play video as desktop wallpaper"
+msgstr "Lire la vidéo en fond d'écran"
+
+msgid "Fullscreen behind every other window, without controls. Esc leaves it."
+msgstr "En plein écran derrière toutes les fenêtres, sans contrôles. Échap pour quitter."
+
+msgid "Picture"
+msgstr "Image"
+
+msgid "Deinterlacing"
+msgstr "Désentrelacement"
+
+msgid "On"
+msgstr "Activé"
+
+msgid "Method"
+msgstr "Méthode"
+
+msgid "Framing"
+msgstr "Cadrage"
+
+msgid "Aspect ratio"
+msgstr "Format d'image"
+
+msgid "Crop"
+msgstr "Recadrage"
+
+msgid "Scale video to the window"
+msgstr "Adapter la vidéo à la fenêtre"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Fit"
+msgstr "Ajuster"
+
+msgid "Fill"
+msgstr "Remplir"
+
+msgid "Position in the window"
+msgstr "Position dans la fenêtre"
+
+msgid "Center"
+msgstr "Centre"
+
+msgid "Top"
+msgstr "Haut"
+
+msgid "Bottom"
+msgstr "Bas"
+
+msgid "Left"
+msgstr "Gauche"
+
+msgid "Right"
+msgstr "Droite"
+
+msgid "Snapshots"
+msgstr "Captures d'écran"
+
+msgid "Save to"
+msgstr "Enregistrer dans"
+
+msgid "File name prefix"
+msgstr "Préfixe du nom de fichier"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Number files sequentially"
+msgstr "Numéroter les fichiers"
+
+msgid "Show a preview after capture"
+msgstr "Afficher un aperçu après la capture"
+
+msgid "Enable audio"
+msgstr "Activer l'audio"
+
+msgid "Output device"
+msgstr "Périphérique de sortie"
+
+msgid "Speaker setup"
+msgstr "Configuration des haut-parleurs"
+
+msgid "Stereo"
+msgstr "Stéréo"
+
+msgid "Reverse stereo"
+msgstr "Stéréo inversée"
+
+msgid "Dolby Surround"
+msgstr "Dolby Surround"
+
+msgid "Maximum volume"
+msgstr "Volume maximal"
+
+msgid "Remember last volume"
+msgstr "Mémoriser le dernier volume"
+
+msgid "Always starts at"
+msgstr "Toujours démarrer à"
+
+msgid "Volume step"
+msgstr "Pas du volume"
+
+msgid "Loudness"
+msgstr "Intensité sonore"
+
+msgid "Normalize loudness"
+msgstr "Normaliser le volume"
+
+msgid "Target level"
+msgstr "Niveau cible"
+
+msgid "Night mode"
+msgstr "Mode nuit"
+
+msgid "Replay gain"
+msgstr "Gain de lecture (ReplayGain)"
+
+msgid "Album"
+msgstr "Album"
+
+msgid "Replay gain preamp"
+msgstr "Préampli ReplayGain"
+
+msgid "Effects"
+msgstr "Effets"
+
+msgid "Equalizer"
+msgstr "Égaliseur"
+
+msgid "Equalizer preset"
+msgstr "Préréglage de l'égaliseur"
+
+msgid "Equalizer bands"
+msgstr "Bandes de l'égaliseur"
+
+msgid "Open Equalizer"
+msgstr "Ouvrir l'égaliseur"
+
+msgid "Two-pass"
+msgstr "Deux passes"
+
+msgid "Spatial audio"
+msgstr "Audio spatial"
+
+msgid "Spatial audio mode"
+msgstr "Mode audio spatial"
+
+msgid "Headphone virtualization"
+msgstr "Virtualisation pour casque"
+
+msgid "Room spatializer"
+msgstr "Spatialisation de pièce"
+
+msgid "Stereo widening"
+msgstr "Élargissement stéréo"
+
+msgid "Compressor"
+msgstr "Compresseur"
+
+msgid "Pitch shift"
+msgstr "Transposition"
+
+msgid "Chorus/flanger"
+msgstr "Chorus / flanger"
+
+msgid "Karaoke"
+msgstr "Karaoké"
+
+msgid "Preferred audio language"
+msgstr "Langue audio préférée"
+
+msgid "Audio delay"
+msgstr "Décalage audio"
+
+msgid "Visualization"
+msgstr "Visualisation"
+
+msgid "Visualizer"
+msgstr "Visualiseur"
+
+msgid "Tracks & Languages"
+msgstr "Pistes et langues"
+
+msgid "Enable subtitles"
+msgstr "Activer les sous-titres"
+
+msgid "Preferred language"
+msgstr "Langue préférée"
+
+msgid "Text encoding"
+msgstr "Encodage du texte"
+
+msgid "Loading Subtitles"
+msgstr "Chargement des sous-titres"
+
+msgid "Load subtitle files automatically"
+msgstr "Charger automatiquement les fichiers de sous-titres"
+
+msgid "File name matching"
+msgstr "Correspondance des noms de fichiers"
+
+msgid "Match subtitle files to a folder"
+msgstr "Associer des sous-titres à un dossier"
+
+msgid "Font"
+msgstr "Police"
+
+msgid "System, sans-serif"
+msgstr "Système, sans empattement"
+
+msgid "Size values"
+msgstr "Unité de taille"
+
+msgid "Relative"
+msgstr "Relative"
+
+msgid "Pixels"
+msgstr "Pixels"
+
+msgid "Font size"
+msgstr "Taille de la police"
+
+msgid "Smaller"
+msgstr "Plus petite"
+
+msgid "Small"
+msgstr "Petite"
+
+msgid "Normal"
+msgstr "Normale"
+
+msgid "Large"
+msgstr "Grande"
+
+msgid "Larger"
+msgstr "Plus grande"
+
+msgid "Bold"
+msgstr "Gras"
+
+msgid "Text color"
+msgstr "Couleur du texte"
+
+msgid "Text opacity"
+msgstr "Opacité du texte"
+
+msgid "Outline thickness"
+msgstr "Épaisseur du contour"
+
+msgid "Thin"
+msgstr "Fin"
+
+msgid "Thick"
+msgstr "Épais"
+
+msgid "Outline color"
+msgstr "Couleur du contour"
+
+msgid "Shadow"
+msgstr "Ombre"
+
+msgid "Shadow color"
+msgstr "Couleur de l'ombre"
+
+msgid "Shadow distance"
+msgstr "Distance de l'ombre"
+
+msgid "Medium"
+msgstr "Moyenne"
+
+msgid "Background"
+msgstr "Arrière-plan"
+
+msgid "Box"
+msgstr "Cadre"
+
+msgid "Background color"
+msgstr "Couleur d'arrière-plan"
+
+msgid "Background opacity"
+msgstr "Opacité de l'arrière-plan"
+
+msgid "Vertical position"
+msgstr "Position verticale"
+
+msgid "Raised"
+msgstr "Surélevée"
+
+msgid "High"
+msgstr "Haute"
+
+msgid "Timing"
+msgstr "Synchronisation"
+
+msgid "Subtitle delay"
+msgstr "Décalage des sous-titres"
+
+msgid "On-Screen Messages"
+msgstr "Messages à l'écran"
+
+msgid "Show feedback for shortcuts"
+msgstr "Afficher un retour pour les raccourcis"
+
+msgid "Show feedback for"
+msgstr "Durée du retour"
+
+msgid "Show filename when a video starts"
+msgstr "Afficher le nom du fichier au début d'une vidéo"
+
+msgid "Show filename for"
+msgstr "Durée d'affichage du nom"
+
+msgid "Opening Files"
+msgstr "Ouverture des fichiers"
+
+msgid "Only allow one Ondrane window"
+msgstr "N'autoriser qu'une seule fenêtre VLC"
+
+msgid "Files opened later go to this window."
+msgstr "Les fichiers ouverts ensuite vont dans cette fenêtre."
+
+msgid "Apply to files opened from the file manager"
+msgstr "Appliquer aux fichiers ouverts depuis le gestionnaire de fichiers"
+
+msgid "Add to the playlist instead of replacing"
+msgstr "Ajouter à la playlist au lieu de la remplacer"
+
+msgid "Include subfolders"
+msgstr "Inclure les sous-dossiers"
+
+msgid "Only this folder"
+msgstr "Ce dossier uniquement"
+
+msgid "Show hidden files"
+msgstr "Afficher les fichiers cachés"
+
+msgid "Metadata & Artwork"
+msgstr "Métadonnées et pochettes"
+
+msgid "Fetch titles and artwork"
+msgstr "Récupérer les titres et pochettes"
+
+msgid "From the file only"
+msgstr "Depuis le fichier uniquement"
+
+msgid "From the file and the internet"
+msgstr "Depuis le fichier et Internet"
+
+msgid "Home sections, posters and video thumbnails of the library."
+msgstr "Sections de l'accueil, affiches et vignettes vidéo de la bibliothèque."
+
+msgid "Thumbnails and seek previews cache"
+msgstr "Cache des vignettes et des aperçus"
+
+msgid "Buffering"
+msgstr "Mise en mémoire tampon"
+
+msgid "Low latency"
+msgstr "Faible latence"
+
+msgid "Local files"
+msgstr "Fichiers locaux"
+
+msgid "Discs"
+msgstr "Disques"
+
+msgid "Network streams"
+msgstr "Flux réseau"
+
+msgid "Live capture"
+msgstr "Capture en direct"
+
+msgid "Proxy"
+msgstr "Proxy"
+
+msgid "HTTP proxy"
+msgstr "Proxy HTTP"
+
+msgid "System proxy"
+msgstr "Proxy du système"
+
+msgid "HTTP proxy password"
+msgstr "Mot de passe du proxy HTTP"
+
+msgid "Security"
+msgstr "Sécurité"
+
+msgid "Verify certificates against the system trust store"
+msgstr "Vérifier les certificats avec le magasin de confiance du système"
+
+msgid "Off: invalid certificates are accepted for 24 hours without asking."
+msgstr "Désactivé : les certificats invalides sont acceptés 24 heures sans confirmation."
+
+msgid "Cipher preference"
+msgstr "Préférence de chiffrement"
+
+msgid "Balanced"
+msgstr "Équilibré"
+
+msgid "Secure"
+msgstr "Sécurisé"
+
+msgid "User agent"
+msgstr "Agent utilisateur"
+
+msgid "Decoding"
+msgstr "Décodage"
+
+msgid "Hardware-accelerated decoding"
+msgstr "Décodage accéléré par le matériel"
+
+msgid "Disabled"
+msgstr "Désactivé"
+
+msgid "Video post-processing"
+msgstr "Post-traitement vidéo"
+
+msgid "Low"
+msgstr "Faible"
+
+msgid "Skip the H.264 loop filter"
+msgstr "Ignorer le filtre de boucle H.264"
+
+msgid "Non-reference"
+msgstr "Non référencées"
+
+msgid "Bidirectional"
+msgstr "Bidirectionnelles"
+
+msgid "Non-key"
+msgstr "Non clés"
+
+msgid "Smooth Playback"
+msgstr "Lecture fluide"
+
+msgid "Drop frames when the system can't keep up"
+msgstr "Ignorer des images quand le système ne suit pas"
+
+msgid "Give VLC real-time priority"
+msgstr "Donner la priorité temps réel à VLC"
+
+msgid "Process priority"
+msgstr "Priorité du processus"
+
+msgid "Rescan plugins"
+msgstr "Réanalyser les modules"
+
+msgid "Rescan"
+msgstr "Réanalyser"
+
+msgid "Developer"
+msgstr "Développeur"
+
+msgid "Encoder"
+msgstr "Encodeur"
+
+msgid "Decoder"
+msgstr "Décodeur"
+
+msgid "Clock synchronisation"
+msgstr "Synchronisation de l'horloge"
+
+msgid "Default"
+msgstr "Par défaut"
+
+msgid "Enabled"
+msgstr "Activée"
+
+msgid "Clock jitter (ms)"
+msgstr "Gigue de l'horloge (ms)"
+
+msgid "Clock reference averaging"
+msgstr "Moyenne de la référence d'horloge"
+
+msgid "Save recordings to"
+msgstr "Enregistrer les enregistrements dans"
+
+msgid "Record without re-encoding when possible"
+msgstr "Enregistrer sans réencoder si possible"
+
+msgid "Record the media that is playing"
+msgstr "Enregistrer le média en cours"
+
+msgid "Start / Stop"
+msgstr "Démarrer / arrêter"
+
+msgid "Casting"
+msgstr "Cast"
+
+msgid "Discover cast devices"
+msgstr "Découvrir les appareils de cast"
+
+msgid "Cast quality"
+msgstr "Qualité du cast"
+
+msgid "Streaming"
+msgstr "Diffusion"
+
+msgid "Play locally while streaming"
+msgstr "Lire localement pendant la diffusion"
+
+msgid "Include audio"
+msgstr "Inclure l'audio"
+
+msgid "Include video"
+msgstr "Inclure la vidéo"
+
+msgid "Include subtitles"
+msgstr "Inclure les sous-titres"
+
+msgid "Encoding preset"
+msgstr "Préréglage d'encodage"
+
+msgid "Tuning"
+msgstr "Optimisation"
+
+msgid "Stream the media that is playing"
+msgstr "Diffuser le média en cours"
+
+msgid "Save snapshots to"
+msgstr "Enregistrer les captures dans"
+
+msgid "Load add-ons on startup"
+msgstr "Charger les extensions au démarrage"
+
+msgid "Lua scripts installed for your user (built-in VLC scripts always load)."
+msgstr "Scripts Lua installés pour votre utilisateur (les scripts intégrés à VLC sont toujours chargés)."
+
+msgid "Install a Lua add-on"
+msgstr "Installer une extension Lua"
+
+msgid "Install"
+msgstr "Installer"
+
+msgid "Add-ons folder"
+msgstr "Dossier des extensions"
+
+msgid "Engine"
+msgstr "Moteur"
+
+msgid "No setting matches your search."
+msgstr "Aucun réglage ne correspond à votre recherche."
+
+msgid "Speed"
+msgstr "Vitesse"
+
+msgid "Playback Speed"
+msgstr "Vitesse de lecture"
+
+msgid "Stop after each"
+msgstr "Arrêter après chaque élément"
+
+msgid "Essential"
+msgstr "Essentiel"
+
+msgid "Aspect Ratio"
+msgstr "Format d'image"
+
+msgid "Colors"
+msgstr "Couleurs"
+
+msgid "Audio Track"
+msgstr "Piste audio"
+
+msgid "Audio Track Delay"
+msgstr "Décalage de la piste audio"
+
+msgid "Preset"
+msgstr "Préréglage"
+
+msgid "Subtitle Track"
+msgstr "Piste de sous-titres"
+
+msgid "Subtitle File"
+msgstr "Fichier de sous-titres"
+
+msgid "Synchronization"
+msgstr "Synchronisation"
+
+msgid "Subtitle Track Delay"
+msgstr "Décalage des sous-titres"
+
+msgid "Loading"
+msgstr "Chargement"
+
+msgid "Load automatically"
+msgstr "Charger automatiquement"
+
+msgid "Default camera"
+msgstr "Caméra par défaut"
+
+msgid "Play something to record it"
+msgstr "Lancez une lecture pour l'enregistrer"
+
+msgid "Recording saved in {}"
+msgstr "Enregistrement sauvegardé dans {}"
+
+msgid "Recording…"
+msgstr "Enregistrement…"
+
+msgid "No camera found"
+msgstr "Aucune caméra détectée"
+
+msgid "Screen capture"
+msgstr "Capture d'écran vidéo"
+
+msgid "Capture device"
+msgstr "Périphérique de capture"
+
+msgid "Add files to convert"
+msgstr "Ajoutez des fichiers à convertir"
+
+msgid "Converted: {}"
+msgstr "Converti : {}"
+
+msgid "Failed"
+msgstr "Échec"
+
+msgid "Done"
+msgstr "Terminé"
+
+msgid "Nothing is playing"
+msgstr "Aucune lecture en cours"
+
+msgid "Streaming stopped"
+msgstr "Diffusion arrêtée"
+
+msgid "Play something to stream it"
+msgstr "Lancez une lecture pour la diffuser"
+
+msgid "Streaming on {}"
+msgstr "Diffusion sur {}"
+
+msgid "This computer"
+msgstr "Cet ordinateur"
+
+msgid "Casting to {}"
+msgstr "Cast vers {}"
+
+msgid "Playing on this computer"
+msgstr "Lecture sur cet ordinateur"
+
+msgid "libVLC could not restart: {}"
+msgstr "libVLC n'a pas pu redémarrer : {}"
+
+msgid "Plugins rescanned"
+msgstr "Modules réanalysés"
+
+msgid "Paused: another application is using the audio"
+msgstr "En pause : une autre application utilise le son"
+
+msgid "Playback error"
+msgstr "Erreur de lecture"
+
+msgid "libVLC could not open or decode \"{}\"."
+msgstr "libVLC n'a pas pu ouvrir ou décoder « {} »."
+
+msgid "Log In"
+msgstr "Se connecter"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Current screen"
+msgstr "Écran actuel"
+
+msgid "Screen"
+msgstr "Écran"
+
+msgid "Show / Hide VLC"
+msgstr "Afficher / masquer VLC"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "The system tray is not available on this desktop"
+msgstr "La zone de notification n'est pas disponible sur ce bureau"
+
+msgid "Web remote: http://{}:{}/"
+msgstr "Télécommande web : http://{}:{}/"
+
+msgid "Port {} is not available ({})"
+msgstr "Le port {} n'est pas disponible ({})"
+
+msgid "Ondrane {} is available"
+msgstr "Ondrane {} est disponible"
+
+msgid "Skin saved to {}"
+msgstr "Habillage enregistré dans {}"
+
+msgid "Basic"
+msgstr "Base"
+
+msgid "Exit fullscreen / close dialog"
+msgstr "Quitter le plein écran / fermer la boîte de dialogue"
+
+msgid "Show playback position and time"
+msgstr "Afficher la position et l'heure de lecture"
+
+msgid "Show interface controls in fullscreen"
+msgstr "Afficher les contrôles en plein écran"
+
+msgid "Hide / show the interface"
+msgstr "Masquer / afficher l'interface"
+
+msgid "Show / hide the side panel"
+msgstr "Afficher / masquer le panneau latéral"
+
+msgid "Switch between player and library"
+msgstr "Basculer entre le lecteur et la bibliothèque"
+
+msgid "Play / pause"
+msgstr "Lecture / pause"
+
+msgid "Stop playback"
+msgstr "Arrêter la lecture"
+
+msgid "Next track"
+msgstr "Piste suivante"
+
+msgid "Previous track"
+msgstr "Piste précédente"
+
+msgid "Short skip backward"
+msgstr "Saut court en arrière"
+
+msgid "Short skip forward"
+msgstr "Saut court en avant"
+
+msgid "Very short skip backward"
+msgstr "Saut très court en arrière"
+
+msgid "Very short skip forward"
+msgstr "Saut très court en avant"
+
+msgid "Medium skip backward"
+msgstr "Saut moyen en arrière"
+
+msgid "Medium skip forward"
+msgstr "Saut moyen en avant"
+
+msgid "Long skip backward"
+msgstr "Saut long en arrière"
+
+msgid "Long skip forward"
+msgstr "Saut long en avant"
+
+msgid "Restart from the beginning"
+msgstr "Recommencer depuis le début"
+
+msgid "Faster"
+msgstr "Plus rapide"
+
+msgid "Slower"
+msgstr "Plus lent"
+
+msgid "Normal speed"
+msgstr "Vitesse normale"
+
+msgid "Cycle repeat mode"
+msgstr "Changer le mode de répétition"
+
+msgid "Toggle shuffle"
+msgstr "Activer / désactiver l'aléatoire"
+
+msgid "Volume up"
+msgstr "Augmenter le volume"
+
+msgid "Volume down"
+msgstr "Baisser le volume"
+
+msgid "Cycle audio track"
+msgstr "Changer de piste audio"
+
+msgid "Cycle subtitle track"
+msgstr "Changer de piste de sous-titres"
+
+msgid "Subtitle delay -50 ms"
+msgstr "Décalage des sous-titres -50 ms"
+
+msgid "Subtitle delay +50 ms"
+msgstr "Décalage des sous-titres +50 ms"
+
+msgid "Cycle aspect ratio"
+msgstr "Changer de format d'image"
+
+msgid "Cycle zoom / crop"
+msgstr "Changer de zoom / recadrage"
+
+msgid "Take a snapshot"
+msgstr "Prendre une capture d'écran"
+
+msgid "Open file(s)"
+msgstr "Ouvrir des fichiers"
+
+msgid "Open folder"
+msgstr "Ouvrir un dossier"
+
+msgid "Keyboard shortcuts"
+msgstr "Raccourcis clavier"
+
+msgid "System language"
+msgstr "Langue du système"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "French"
+msgstr "Français"
+
+msgid "German"
+msgstr "Allemand"
+
+msgid "Spanish"
+msgstr "Espagnol"
+
+msgid "Italian"
+msgstr "Italien"
+
+msgid "Portuguese"
+msgstr "Portugais"
+
+msgid "Japanese"
+msgstr "Japonais"
+
+msgid "Original"
+msgstr "Originale"
+
+msgid "Western (Windows-1252)"
+msgstr "Occidental (Windows-1252)"
+
+msgid "Western (ISO-8859-15)"
+msgstr "Occidental (ISO-8859-15)"
+
+msgid "Central European (Windows-1250)"
+msgstr "Europe centrale (Windows-1250)"
+
+msgid "Cyrillic (Windows-1251)"
+msgstr "Cyrillique (Windows-1251)"
+
+msgid "Arabic (Windows-1256)"
+msgstr "Arabe (Windows-1256)"
+
+msgid "Chinese (GB18030)"
+msgstr "Chinois (GB18030)"
+
+msgid "Japanese (Shift-JIS)"
+msgstr "Japonais (Shift-JIS)"
+
+msgid "Exact file name"
+msgstr "Nom de fichier exact"
+
+msgid "Title with extra characters"
+msgstr "Titre avec caractères supplémentaires"
+
+msgid "Title anywhere in the name"
+msgstr "Titre n'importe où dans le nom"
+
+msgid "Any subtitle file of the folder"
+msgstr "Tout fichier de sous-titres du dossier"
+
+msgid "Blend"
+msgstr "Mélange"
+
+msgid "Bob"
+msgstr "Bob"
+
+msgid "Discard"
+msgstr "Rejet"
+
+msgid "Linear"
+msgstr "Linéaire"
+
+msgid "Mean"
+msgstr "Moyenne"
+
+msgid "Yadif"
+msgstr "Yadif"
+
+msgid "Yadif (2x)"
+msgstr "Yadif (2x)"
+
+msgid "Phosphor"
+msgstr "Phosphore"
+
+msgid "Film NTSC (IVTC)"
+msgstr "Film NTSC (IVTC)"
+
+msgid "Best available"
+msgstr "La meilleure disponible"
+
+msgid "Spectrum"
+msgstr "Spectre"
+
+msgid "Scope"
+msgstr "Oscilloscope"
+
+msgid "VU meter"
+msgstr "Vumètre"
+
+msgid "Goom"
+msgstr "Goom"
+
+msgid "3D spectrum"
+msgstr "Spectre 3D"
+
+msgid "Film"
+msgstr "Film"
+
+msgid "Animation"
+msgstr "Animation"
+
+msgid "Grain"
+msgstr "Grain"
+
+msgid "Still image"
+msgstr "Image fixe"
+
+msgid "Fast decode"
+msgstr "Décodage rapide"
+
+msgid "Zero latency"
+msgstr "Latence nulle"
+
+msgid "FFmpeg (avcodec)"
+msgstr "FFmpeg (avcodec)"
+
+msgid "dav1d (AV1)"
+msgstr "dav1d (AV1)"
+
+msgid "x264 (H.264)"
+msgstr "x264 (H.264)"
+
+msgid "x265 (HEVC)"
+msgstr "x265 (HEVC)"
+
+msgid "VP8 / VP9 (libvpx)"
+msgstr "VP8 / VP9 (libvpx)"
+
+msgid "Same as video"
+msgstr "Identique à la vidéo"
+
+msgid "1920 px wide"
+msgstr "1920 px de large"
+
+msgid "1280 px wide"
+msgstr "1280 px de large"
+
+msgid "640 px wide"
+msgstr "640 px de large"
+
+msgid "320 px wide"
+msgstr "320 px de large"
+
+msgid "Playlist & website parsers"
+msgstr "Analyseurs de playlists et de sites"
+
+msgid "Artwork fetchers"
+msgstr "Récupération des pochettes"
+
+msgid "Metadata fetchers"
+msgstr "Récupération des métadonnées"
+
+msgid "Metadata readers"
+msgstr "Lecture des métadonnées"
+
+msgid "Service discovery"
+msgstr "Découverte de services"
+
+msgid "Interfaces"
+msgstr "Interfaces"
+
+msgid "Forward 10s"
+msgstr "Avancer de 10 s"
+
+msgid "Backward 10s"
+msgstr "Reculer de 10 s"
+
+msgid "Forward 15s"
+msgstr "Avancer de 15 s"
+
+msgid "Backward 15s"
+msgstr "Reculer de 15 s"
+
+msgid "Picture in Picture"
+msgstr "Image dans l'image"
+
+msgid "Right Sidebar"
+msgstr "Panneau latéral droit"
+
+msgid "Ondrane Settings"
+msgstr "Réglages de VLC"
+
+msgid "Go Home"
+msgstr "Accueil"
+
+msgid "Properties"
+msgstr "Propriétés"
+
+msgid "Replay"
+msgstr "Rejouer"
+
+msgid "Stream"
+msgstr "Diffuser"
+
+msgid "Cast"
+msgstr "Caster"
+
+msgid "Movies"
+msgstr "Films"
+
+msgid "Shows"
+msgstr "Séries"
+
+msgid "Work"
+msgstr "Travail"
+
+msgid "Custom"
+msgstr "Personnalisé"
+
+msgid "Unwatched First"
+msgstr "Non vus d'abord"
+
+msgid "Watched First"
+msgstr "Vus d'abord"
+
+msgid "Newest First"
+msgstr "Plus récents d'abord"
+
+msgid "Oldest First"
+msgstr "Plus anciens d'abord"
+
+msgid "Title A-Z"
+msgstr "Titre A-Z"
+
+msgid "Title Z-A"
+msgstr "Titre Z-A"
+
+msgid "1:1 (original size)"
+msgstr "1:1 (taille d'origine)"
+
+msgid "Color Filters"
+msgstr "Filtres de couleur"
+
+msgid "Color Extraction"
+msgstr "Extraction de couleur"
+
+msgid "Extracted color"
+msgstr "Couleur extraite"
+
+msgid "Color Threshold"
+msgstr "Seuil de couleur"
+
+msgid "Kept color"
+msgstr "Couleur conservée"
+
+msgid "Similarity"
+msgstr "Similarité"
+
+msgid "Negate Colors"
+msgstr "Inverser les couleurs"
+
+msgid "Posterize"
+msgstr "Postériser"
+
+msgid "Gradient"
+msgstr "Gradient"
+
+msgid "Edge"
+msgstr "Contours"
+
+msgid "Hough"
+msgstr "Hough"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "Cartoon"
+msgstr "Dessin animé"
+
+msgid "Sepia Intensity"
+msgstr "Intensité sépia"
+
+msgid "Crop (pixels)"
+msgstr "Recadrage (pixels)"
+
+msgid "RMS / Peak"
+msgstr "RMS / crête"
+
+msgid "Attack"
+msgstr "Attaque"
+
+msgid "Release"
+msgstr "Relâchement"
+
+msgid "Threshold"
+msgstr "Seuil"
+
+msgid "Ratio"
+msgstr "Ratio"
+
+msgid "Knee Radius"
+msgstr "Rayon du coude"
+
+msgid "Makeup Gain"
+msgstr "Gain de compensation"
+
+msgid "Spatializer"
+msgstr "Spatialiseur"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "Width"
+msgstr "Largeur"
+
+msgid "Wet"
+msgstr "Effet"
+
+msgid "Dry"
+msgstr "Direct"
+
+msgid "Damp"
+msgstr "Amortissement"
+
+msgid "Stereo Widener"
+msgstr "Élargisseur stéréo"
+
+msgid "Delay Time"
+msgstr "Délai"
+
+msgid "Feedback Gain"
+msgstr "Gain de réinjection"
+
+msgid "Crossfeed"
+msgstr "Diaphonie"
+
+msgid "Dry Mix"
+msgstr "Mélange direct"
+
+msgid "Spectrometer"
+msgstr "Spectromètre"
+
+msgid "Default Preset"
+msgstr "Préréglage par défaut"
+
+msgid "New Preset"
+msgstr "Nouveau préréglage"
+
+msgid "Custom Preset"
+msgstr "Préréglage personnalisé"
+
+msgid "Preset saved: {}"
+msgstr "Préréglage enregistré : {}"
+
+msgid "Anime"
+msgstr "Anime"
+
+msgid "Loud and then Quiet Movies"
+msgstr "Films alternant fort et doux"
+
+msgid "Use XWayland on Wayland desktops"
+msgstr "Utiliser XWayland sur les bureaux Wayland"
+
+msgid "Needed to drop files on the window under Wayland. Applies on next start."
+msgstr "Nécessaire pour déposer des fichiers sur la fenêtre sous Wayland. Pris en compte au prochain démarrage."
+
+msgid "Chromecast address (if not discovered)"
+msgstr "Adresse du Chromecast (s'il n'est pas détecté)"
+
+msgid "Chromecast at {}"
+msgstr "Chromecast à {}"
+
+msgid "Now playing"
+msgstr "Lecture en cours"
+
+msgid "Cast failed"
+msgstr "Échec du cast"
+
+msgid "Could not reach {}. Playback continues on this computer."
+msgstr "Impossible de joindre {}. La lecture continue sur cet ordinateur."
+
+msgid "Playback not available"
+msgstr "Lecture impossible"
+
+msgid "libVLC was not found on your system. Please install VLC media player or place libvlc.dll in the application folder."
+msgstr "libVLC est introuvable sur votre système. Veuillez installer le lecteur VLC ou placer libvlc.dll dans le dossier de l'application."
+
+
+msgid "Starting the playback engine…"
+msgstr "Démarrage du moteur de lecture…"
+
+msgid "Desktop capture on Wayland requires the ScreenCast portal and PipeWire; libVLC 3 screen capture only supports X11. Use a PipeWire screen recorder instead."
+msgstr "La capture du bureau Wayland nécessite le portail ScreenCast et PipeWire ; libVLC 3 ne capture que X11. Utilisez un enregistreur d’écran compatible PipeWire."
+
+msgid "On Linux, hardware decoding is available when video plays in a separate window."
+msgstr "Sous Linux, le décodage matériel est disponible lorsque la vidéo est lue dans une fenêtre séparée."
+
+msgid "Color scheme"
+msgstr "Palette de couleurs"
+
+msgid "Catppuccin flavor"
+msgstr "Variante Catppuccin"
+
+msgid "Changes apply immediately. Your choice is saved automatically."
+msgstr "Les changements sont immédiats. Votre choix est enregistré automatiquement."
+
+msgid "Choose a screen or window in the desktop sharing dialog."
+msgstr "Choisissez un écran ou une fenêtre dans le sélecteur de partage du bureau."
+
+msgid "Screen sharing cancelled"
+msgstr "Partage d’écran annulé"
+
+msgid "Screen sharing ended"
+msgstr "Le partage d’écran est terminé"

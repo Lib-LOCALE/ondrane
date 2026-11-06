@@ -1,0 +1,795 @@
+// Library screens of the Figma file ("Player" frames with the expanded
+import { ListView } from "std-widgets.slint";
+// sidebar: Home, folder grid/list, Miniplayer, Queue).
+import { Theme } from "theme.slint";
+import { AppState, MediaItem } from "state.slint";
+import { Icon, IconButton, Thumb, Field } from "controls.slint";
+import { Icons, IconData } from "icons.slint";
+import { Breadcrumbs, MediaRow } from "player.slint";
+
+component SideItem inherits Rectangle {
+    in property <IconData> icon;
+    in property <IconData> active-icon;
+    in property <string> label;
+    in property <bool> active;
+    callback clicked();
+    height: 32px;
+    border-radius: 4px;
+    background: ta.has-hover ? Theme.bg-a2 : transparent;
+    HorizontalLayout {
+        spacing: 8px;
+        Rectangle {
+            width: 30px;
+            Icon {
+                icon: root.active ? root.active-icon : root.icon;
+            }
+        }
+        Text {
+            text: root.label;
+            font-family: Theme.font;
+            font-size: 14px;
+            color: root.active ? Theme.fg-2 : Theme.fg-a2;
+            vertical-alignment: center;
+        }
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+export component LibrarySidebar inherits Rectangle {
+    width: 217px;
+    background: Theme.bg-b1;
+    Rectangle {
+        x: 8px;
+        y: 8px;
+        width: parent.width - 16px;
+        height: parent.height - 16px;
+        border-radius: 6px;
+        background: Theme.bg-a4;
+        VerticalLayout {
+            padding: 12px;
+            padding-left: 16px;
+            spacing: 14px;
+            alignment: start;
+            SideItem {
+                icon: Icons.home;
+                active-icon: Icons.home-active;
+                label: @tr("Home");
+                active: AppState.nav == 0;
+                clicked => {
+                    AppState.act-int("nav", 0);
+                }
+            }
+            SideItem {
+                icon: Icons.videos;
+                active-icon: Icons.videos-active;
+                label: @tr("Videos");
+                active: AppState.nav == 1;
+                clicked => {
+                    AppState.act-int("nav", 1);
+                }
+            }
+            SideItem {
+                icon: Icons.songs;
+                active-icon: Icons.songs-active;
+                label: @tr("Music");
+                active: AppState.nav == 2;
+                clicked => {
+                    AppState.act-int("nav", 2);
+                }
+            }
+            SideItem {
+                icon: Icons.streaming;
+                active-icon: Icons.streaming-active;
+                label: @tr("Network");
+                active: AppState.nav == 3;
+                clicked => {
+                    AppState.act-int("nav", 3);
+                }
+            }
+            SideItem {
+                icon: Icons.playlist;
+                active-icon: Icons.playlist-active;
+                label: @tr("Playlists");
+                active: AppState.nav == 4;
+                clicked => {
+                    AppState.act-int("nav", 4);
+                }
+            }
+            SideItem {
+                icon: Icons.recent;
+                active-icon: Icons.recent-2t;
+                label: @tr("Recent");
+                active: AppState.nav == 5;
+                clicked => {
+                    AppState.act-int("nav", 5);
+                }
+            }
+            SideItem {
+                icon: Icons.add;
+                active-icon: Icons.add;
+                label: @tr("Add item");
+                clicked => {
+                    AppState.menu-request("add", self.absolute-position.x + 40px, self.absolute-position.y + 32px);
+                }
+            }
+        }
+    }
+}
+
+component LibraryHeader inherits Rectangle {
+    height: 34px;
+    HorizontalLayout {
+        spacing: 20px;
+        HorizontalLayout {
+            y: 5px;
+            height: 24px;
+            spacing: 12px;
+            Icon {
+                icon: Icons.arrow-left;
+                tint: AppState.can-back ? Theme.fg-a2 : Theme.fg-a4;
+                TouchArea {
+                    enabled: AppState.can-back;
+                    mouse-cursor: AppState.can-back ? pointer : default;
+                    clicked => {
+                        AppState.act("back");
+                    }
+                }
+            }
+            Icon {
+                icon: Icons.arrow-right;
+                tint: AppState.can-forward ? Theme.fg-a2 : Theme.fg-a4;
+                TouchArea {
+                    enabled: AppState.can-forward;
+                    mouse-cursor: AppState.can-forward ? pointer : default;
+                    clicked => {
+                        AppState.act("forward");
+                    }
+                }
+            }
+        }
+        Rectangle {
+            clip: true;
+            Breadcrumbs {
+                height: parent.height;
+            }
+        }
+        HorizontalLayout {
+            spacing: 20px;
+            alignment: end;
+            Text {
+                text: AppState.count-text;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a3;
+                vertical-alignment: center;
+            }
+            Icon {
+                y: 5px;
+                icon: AppState.sort-index != 0 ? Icons.sort-active : Icons.sort;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.menu-request("sort", self.absolute-position.x, self.absolute-position.y + 30px);
+                    }
+                }
+            }
+            Icon {
+                y: 5px;
+                icon: AppState.grid ? Icons.grid : Icons.list;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.menu-request("view", self.absolute-position.x, self.absolute-position.y + 30px);
+                    }
+                }
+            }
+            Rectangle {
+                min-width: 140px;
+                preferred-width: 325px;
+                max-width: 325px;
+                border-radius: 6px;
+                background: Theme.bg-a5;
+                Field {
+                    width: 100%;
+                    height: 100%;
+                    background: transparent;
+                    border-width: 0;
+                    has-icon: true;
+                    icon: Icons.search;
+                    placeholder: @tr("Search");
+                    text: AppState.search;
+                    edited(t) => {
+                        AppState.act-text("search", t);
+                    }
+                }
+            }
+            Icon {
+                y: 5px;
+                icon: Icons.more;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.menu-request("browse-more", self.absolute-position.x - 240px, self.absolute-position.y + 30px);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Figma thumbnail card (316 x 177.75 + 16px title)
+component MediaCard inherits Rectangle {
+    in property <MediaItem> item;
+    in property <int> index;
+    in property <length> card-width;
+    in property <float> ratio: 0.5625;
+    callback activate();
+    width: root.card-width;
+    height: root.card-width * root.ratio + (root.item.subtitle != "" ? 58px : 39px);
+    Thumb {
+        y: 0;
+        width: parent.width;
+        height: parent.width * root.ratio;
+        poster: root.item.poster;
+        has-poster: root.item.has-poster;
+        progress: root.item.progress;
+        kind: root.item.kind;
+        border-width: root.item.selected ? 2px : 0px;
+        border-color: Theme.accent;
+        if cta.has-hover && (root.item.kind == 0 || root.item.kind == 1): Rectangle {
+            background: #00000066;
+            Rectangle {
+                width: 54px;
+                height: 28px;
+                border-radius: 6px;
+                background: Theme.accent;
+                Icon {
+                    icon: Icons.play;
+                    tint: Theme.on-accent;
+                }
+            }
+        }
+    }
+    Text {
+        y: parent.width * root.ratio + 20px;
+        width: parent.width;
+        text: root.item.title;
+        font-family: Theme.font;
+        font-size: 16px;
+        color: root.item.current ? Theme.accent : root.item.watched ? Theme.fg-a3 : Theme.fg-a1;
+        overflow: elide;
+    }
+    if root.item.subtitle != "": Text {
+        y: parent.width * root.ratio + 40px;
+        width: parent.width;
+        text: root.item.subtitle;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a3;
+        overflow: elide;
+    }
+    cta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            AppState.item-select(root.index);
+        }
+        double-clicked => {
+            root.activate();
+        }
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                AppState.item-menu(root.index, self.absolute-position.x + self.mouse-x, self.absolute-position.y + self.mouse-y);
+            }
+        }
+    }
+}
+
+component FolderView inherits Rectangle {
+    property <length> gap: 20px;
+    property <int> cols: max(1, floor((self.width + root.gap) / (300px + root.gap)));
+    property <length> card-w: (self.width - (root.cols - 1) * root.gap) / root.cols;
+    property <length> card-h: root.card-w * 0.5625 + 39px + root.gap + 18px;
+    property <int> list-cols: max(1, floor((self.width + 10px) / (380px + 10px)));
+    property <length> list-w: (self.width - (root.list-cols - 1) * 10px) / root.list-cols;
+    if AppState.items.length == 0: Text {
+        y: 40px;
+        height: 30px;
+        width: parent.width;
+        text: AppState.empty-text;
+        font-family: Theme.font;
+        font-size: 15px;
+        color: Theme.fg-a3;
+        horizontal-alignment: center;
+    }
+    Flickable {
+        content-height: AppState.grid ? ceil(AppState.items.length / root.cols) * root.card-h + 40px : ceil(AppState.items.length / root.list-cols) * 42px + 40px;
+        if AppState.grid: Rectangle {
+            for it[i] in AppState.items: MediaCard {
+                x: mod(i, root.cols) * (root.card-w + root.gap);
+                y: 20px + floor(i / root.cols) * root.card-h;
+                card-width: root.card-w;
+                item: it;
+                index: i;
+                activate => {
+                    AppState.item-activate(i);
+                }
+            }
+        }
+        if !AppState.grid: Rectangle {
+            for it[i] in AppState.items: MediaRow {
+                x: mod(i, root.list-cols) * (root.list-w + 10px);
+                y: 30px + floor(i / root.list-cols) * 42px;
+                width: root.list-w;
+                item: it;
+                index: i;
+                activate => {
+                    AppState.item-activate(i);
+                }
+            }
+        }
+    }
+}
+
+component SectionTitle inherits HorizontalLayout {
+    in property <string> text;
+    callback clicked();
+    spacing: 8px;
+    alignment: start;
+    height: 30px;
+    Text {
+        text: root.text;
+        font-family: Theme.font;
+        font-size: 18px;
+        color: Theme.fg-a1;
+        vertical-alignment: center;
+    }
+    Icon {
+        y: 4px;
+        width: 20px;
+        height: 20px;
+        icon: Icons.chevron-right;
+        TouchArea {
+            clicked => {
+                root.clicked();
+            }
+        }
+    }
+}
+
+// Figma "Player" home frame: Continue Watching / Listen Again / Frequently Visited Folders
+component HomeView inherits Rectangle {
+    Flickable {
+        content-height: col.preferred-height + 40px;
+        col := VerticalLayout {
+            padding-top: 20px;
+            spacing: 18px;
+            alignment: start;
+            if AppState.continue-items.length == 0 && AppState.listen-items.length == 0 && AppState.folder-items.length == 0: Text {
+                text: @tr("Nothing played yet. Open a file or browse Videos and Music to get started.");
+                font-family: Theme.font;
+                font-size: 15px;
+                color: Theme.fg-a3;
+            }
+            if AppState.continue-items.length > 0: SectionTitle {
+                text: @tr("Continue Watching");
+                clicked => {
+                    AppState.act-int("nav", 5);
+                }
+            }
+            if AppState.continue-items.length > 0: Rectangle {
+                height: 230px * 0.5625 + 50px;
+                clip: true;
+                for it[i] in AppState.continue-items: MediaCard {
+                    x: i * (230px + 16px);
+                    card-width: 230px;
+                    item: it;
+                    index: i;
+                    activate => {
+                        AppState.home-activate("continue", i);
+                    }
+                }
+            }
+            if AppState.listen-items.length > 0: SectionTitle {
+                text: @tr("Listen Again");
+                clicked => {
+                    AppState.act-int("nav", 2);
+                }
+            }
+            if AppState.listen-items.length > 0: Rectangle {
+                height: 147px + 70px;
+                clip: true;
+                for it[i] in AppState.listen-items: MediaCard {
+                    x: i * (147px + 16px);
+                    card-width: 147px;
+                    ratio: 1;
+                    item: it;
+                    index: i;
+                    activate => {
+                        AppState.home-activate("listen", i);
+                    }
+                }
+            }
+            if AppState.folder-items.length > 0: SectionTitle {
+                text: @tr("Frequently Visited Folders");
+                clicked => {
+                    AppState.act-int("nav", 1);
+                }
+            }
+            if AppState.folder-items.length > 0: Rectangle {
+                height: 147px + 50px;
+                clip: true;
+                for it[i] in AppState.folder-items: MediaCard {
+                    x: i * (147px + 16px);
+                    card-width: 147px;
+                    ratio: 1;
+                    item: it;
+                    index: i;
+                    activate => {
+                        AppState.home-activate("folders", i);
+                    }
+                }
+            }
+        }
+    }
+}
+
+export component LibraryContent inherits Rectangle {
+    background: Theme.bg-b1;
+    VerticalLayout {
+        padding: 20px;
+        padding-bottom: 0px;
+        spacing: 17px;
+        LibraryHeader { }
+        Rectangle {
+            height: 1px;
+            background: Theme.divider-dim;
+        }
+        if AppState.nav == 0: HomeView { }
+        if AppState.nav != 0: FolderView { }
+    }
+}
+
+// Figma "Miniplayer" (391 x 339, radius 14)
+export component MiniPlayer inherits Rectangle {
+    width: 391px;
+    height: 339px;
+    border-radius: 14px;
+    background: Theme.bg-a3;
+    drop-shadow-blur: 24px;
+    drop-shadow-color: #00000080;
+    Rectangle {
+        x: 8px;
+        y: 8px;
+        width: 375px;
+        height: 211px;
+        border-radius: 6px;
+        border-width: 2px;
+        border-color: #000000;
+        background: #303030;
+        clip: true;
+        if AppState.has-frame && !AppState.audio-mode: Image {
+            width: 100%;
+            height: 100%;
+            source: AppState.frame;
+            image-fit: contain;
+        }
+        if AppState.audio-mode && AppState.has-art: Image {
+            width: 100%;
+            height: 100%;
+            source: AppState.art;
+            image-fit: cover;
+        }
+        mta := TouchArea {
+            double-clicked => {
+                AppState.act("open-player");
+            }
+            if mta.has-hover: Rectangle {
+                background: #00000099;
+                Icon {
+                    x: 14px;
+                    y: 14px;
+                    icon: Icons.close;
+                    TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppState.act("stop");
+                        }
+                    }
+                }
+                Icon {
+                    x: parent.width - 38px;
+                    y: 14px;
+                    icon: Icons.open;
+                    TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppState.act("open-player");
+                        }
+                    }
+                }
+                HorizontalLayout {
+                    alignment: center;
+                    spacing: 50px;
+                    Icon {
+                        y: (parent.height - self.height) / 2;
+                        width: 40px;
+                        height: 40px;
+                        icon: Icons.previous;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("prev");
+                            }
+                        }
+                    }
+                    Icon {
+                        y: (parent.height - self.height) / 2;
+                        width: 40px;
+                        height: 40px;
+                        icon: AppState.ended ? Icons.replay : AppState.playing ? Icons.pause : Icons.play;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("play-pause");
+                            }
+                        }
+                    }
+                    Icon {
+                        y: (parent.height - self.height) / 2;
+                        width: 40px;
+                        height: 40px;
+                        icon: Icons.next;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("next");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // progress
+    Rectangle {
+        x: 8px;
+        y: 223px;
+        width: 375px;
+        height: 16px;
+        border-radius: 6px;
+        background: Theme.well;
+        Rectangle {
+            x: 2px;
+            y: 2px;
+            width: max(0px, AppState.position * (parent.width - 12px) + 8px);
+            height: 12px;
+            border-radius: 4px;
+            background: Theme.accent-bg;
+        }
+        Rectangle {
+            x: 2px + AppState.position * (parent.width - 12px);
+            y: 2px;
+            width: 8px;
+            height: 12px;
+            border-radius: 4px;
+            background: Theme.accent;
+            visible: pba.has-hover || mta.has-hover;
+        }
+        pba := TouchArea {
+            mouse-cursor: pointer;
+            clicked => {
+                AppState.act-float("seek", clamp((self.mouse-x - 6px) / (self.width - 12px), 0, 1));
+            }
+        }
+    }
+    Text {
+        x: 16px;
+        y: 262px;
+        width: 359px;
+        text: AppState.media-name;
+        font-family: Theme.font;
+        font-size: 16px;
+        color: Theme.fg-a1;
+        overflow: elide;
+    }
+    HorizontalLayout {
+        x: 16px;
+        y: 295px;
+        width: 359px;
+        height: 32px;
+        spacing: 20px;
+        HorizontalLayout {
+            spacing: 8px;
+            Icon {
+                y: 4px;
+                icon: Icons.folder;
+            }
+            Text {
+                text: AppState.media-folder;
+                font-family: Theme.font;
+                font-size: 16px;
+                color: Theme.fg-a1;
+                vertical-alignment: center;
+                overflow: elide;
+                max-width: 120px;
+            }
+        }
+        if AppState.media-playlist != "": HorizontalLayout {
+            spacing: 8px;
+            Icon {
+                y: 4px;
+                icon: Icons.artist;
+            }
+            Text {
+                text: AppState.media-playlist;
+                font-family: Theme.font;
+                font-size: 16px;
+                color: Theme.fg-a1;
+                vertical-alignment: center;
+                overflow: elide;
+                max-width: 120px;
+            }
+        }
+        Rectangle { }
+        IconButton {
+            icon: Icons.lists;
+            active: AppState.queue-open;
+            clicked => {
+                AppState.act("toggle-queue");
+            }
+        }
+    }
+}
+
+// Figma Miniplayer "Queue" card
+export component QueuePanel inherits Rectangle {
+    width: 391px;
+    border-radius: 14px;
+    background: Theme.bg-a3;
+    drop-shadow-blur: 24px;
+    drop-shadow-color: #00000080;
+    clip: true;
+    VerticalLayout {
+        Rectangle {
+            height: 80px;
+            background: Theme.dark ? #000000 : Theme.bg-a2;
+            Text {
+                x: 24px;
+                height: parent.height;
+                vertical-alignment: center;
+                text: @tr("Queue");
+                font-family: Theme.font;
+                font-size: 16px;
+                color: Theme.fg-a1;
+            }
+            IconButton {
+                x: parent.width - 40px;
+                y: (parent.height - self.height) / 2;
+                icon: Icons.close;
+                clicked => {
+                    AppState.queue-open = false;
+                }
+            }
+        }
+        Rectangle {
+            background: Theme.dark ? #111111 : Theme.bg-b1;
+            VerticalLayout {
+                padding: 20px;
+                padding-left: 40px;
+                padding-right: 40px;
+                spacing: 18px;
+                HorizontalLayout {
+                    height: 24px;
+                    spacing: 20px;
+                    Text {
+                        text: AppState.queue-summary;
+                        font-family: Theme.font;
+                        font-size: 14px;
+                        color: Theme.fg-a3;
+                        vertical-alignment: center;
+                    }
+                    Icon {
+                        icon: AppState.shuffle ? Icons.shuffle-right-2t : Icons.shuffle-right;
+                        tint: Theme.fg-a2;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("shuffle");
+                            }
+                        }
+                    }
+                    Icon {
+                        icon: Icons.remove;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("clear-queue");
+                            }
+                        }
+                    }
+                    Icon {
+                        icon: Icons.add;
+                        TouchArea {
+                            mouse-cursor: pointer;
+                            clicked => {
+                                AppState.act("enqueue-files");
+                            }
+                        }
+                    }
+                }
+                ListView {
+                    min-height: 140px;
+                    for q[i] in AppState.queue: Rectangle {
+                        // "Show the playlist as a tree": a folder header above each group
+                        property <bool> group: q.subtitle != "" && (i == 0 || AppState.queue[i - 1].subtitle != q.subtitle);
+                        height: self.group ? 76px : 44px;
+                        if self.group: HorizontalLayout {
+                            y: 0;
+                            height: 32px;
+                            spacing: 8px;
+                            Icon {
+                                y: 6px;
+                                width: 20px;
+                                height: 20px;
+                                icon: Icons.folder;
+                            }
+                            Text {
+                                text: q.subtitle;
+                                font-family: Theme.font;
+                                font-size: 13px;
+                                color: Theme.fg-a3;
+                                vertical-alignment: center;
+                                overflow: elide;
+                            }
+                        }
+                        Rectangle {
+                        y: parent.group ? 32px : 0px;
+                        height: 44px;
+                        border-radius: 4px;
+                        background: qta.has-hover ? Theme.bg-a2 : transparent;
+                        HorizontalLayout {
+                            padding-left: q.subtitle != "" ? 20px : 0px;
+                            spacing: 14px;
+                            Icon {
+                                y: 10px;
+                                icon: q.current ? Icons.playback-active : Icons.move;
+                            }
+                            Text {
+                                text: q.title;
+                                font-family: Theme.font;
+                                font-size: 14px;
+                                color: q.current ? Theme.accent : Theme.fg-a1;
+                                vertical-alignment: center;
+                                overflow: elide;
+                            }
+                            Text {
+                                text: q.duration;
+                                font-family: Theme.font;
+                                font-size: 14px;
+                                color: Theme.fg-a3;
+                                vertical-alignment: center;
+                            }
+                        }
+                        qta := TouchArea {
+                            mouse-cursor: pointer;
+                            double-clicked => {
+                                AppState.queue-activate(i);
+                            }
+                            pointer-event(e) => {
+                                if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                                    AppState.act-int("queue-remove", i);
+                                }
+                            }
+                        }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,5 @@
+Gruvbox — morhetz
+
+Palette source: https://github.com/morhetz/gruvbox/blob/master/colors/gruvbox.vim
+The upstream README declares MIT/X11: https://github.com/morhetz/gruvbox#license
+Only colour values are adapted in Ondrane; no Vim code is copied.

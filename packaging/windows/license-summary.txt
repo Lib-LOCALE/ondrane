@@ -1,0 +1,24 @@
+Ondrane
+----------------
+
+Application source code: MIT, Copyright (c) 2026 Nirmal Joseph Ukken
+and Copyright (c) 2026 Ondrane Contributors. Full text: LICENSE.
+
+Interface design: VLC Redesign by Juxtopposed, CC BY 4.0, adapted for
+Rust/Slint, Linux integration, colour schemes and accessibility.
+https://www.figma.com/community/file/1691465999134370980/vlc-redesign
+https://creativecommons.org/licenses/by/4.0/
+
+Slint: Royalty-free Desktop, Mobile, and Web Applications License 2.0.
+Attribution is provided by AboutSlint in the application and the public
+README. Fonts, themes and Rust dependencies retain their own licences.
+
+The licenses folder includes upstream notices and the MPL-covered
+option-ext source. See THIRD_PARTY_NOTICES.md for attribution and terms.
+
+VLC 3 must be installed separately. This package does not include VLC,
+its native playback libraries, plugins or codecs.
+
+Ondrane is independent and is not affiliated with or endorsed by VideoLAN
+or Juxtopposed. Original Ondrane branding is MIT-licensed; the wordmark
+outlines derive from Inter under its font licence.

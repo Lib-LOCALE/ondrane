@@ -1,0 +1,77 @@
+// Design tokens extracted from "VLC Redesign (Community).fig" (Dark/* and
+// Light/* colour styles). The accent colour is user-selectable (Settings >
+// General > Accent color / onboarding) and every accent shade derives from it
+// the same way the Figma Dark/Accent/* and Dark/BG/Accent* styles derive from
+// the Ondrane mint #78E3CB.
+
+export global Theme {
+    in-out property <bool> dark: true;
+    in-out property <color> accent: #78E3CB;
+    in-out property <color> on-accent: #000000;
+
+    // Skin overrides (Settings › Interface › Use a custom skin); transparent = Figma token
+    in-out property <color> o-bg-canvas: transparent;
+    in-out property <color> o-bg-b1: transparent;
+    in-out property <color> o-bg-b2: transparent;
+    in-out property <color> o-bg-a1: transparent;
+    in-out property <color> o-bg-a2: transparent;
+    in-out property <color> o-bg-a3: transparent;
+    in-out property <color> o-bg-a4: transparent;
+    in-out property <color> o-bg-a5: transparent;
+    in-out property <color> o-titlebar: transparent;
+    in-out property <color> o-well: transparent;
+    in-out property <color> o-thumb-bg: transparent;
+    in-out property <color> o-fg-1: transparent;
+    in-out property <color> o-fg-2: transparent;
+    in-out property <color> o-fg-a1: transparent;
+    in-out property <color> o-fg-a2: transparent;
+    in-out property <color> o-fg-a3: transparent;
+    in-out property <color> o-fg-a4: transparent;
+    in-out property <color> o-knob-off: transparent;
+    in-out property <color> o-divider-dim: transparent;
+    in-out property <color> o-divider-bright: transparent;
+
+    // Accent family (Dark/Accent/Main, Bright, DIm, BG/Accent Bright, BG/Accent Dark)
+    out property <color> accent-bright: accent.brighter(0.2);
+    out property <color> accent-dim: accent.mix(#000000, 0.81);
+    out property <color> accent-bg: dark ? accent.mix(#000000, 0.26) : accent.mix(#ffffff, 0.35);
+    out property <color> accent-bg-dark: dark ? accent.mix(#0e0e0e, 0.07) : accent.mix(#ffffff, 0.2);
+
+    // Backgrounds
+    out property <color> bg-canvas: o-bg-canvas != transparent ? o-bg-canvas : dark ? #000000 : #1a1a1a;        // video canvas
+    out property <color> bg-b1: o-bg-b1 != transparent ? o-bg-b1 : dark ? #0E0E0E : #E7E7E7;            // panels, library content
+    out property <color> bg-b2: o-bg-b2 != transparent ? o-bg-b2 : dark ? #090909 : #DEDEDE;
+    out property <color> bg-a1: o-bg-a1 != transparent ? o-bg-a1 : dark ? #222222 : #EDEDED;
+    out property <color> bg-a2: o-bg-a2 != transparent ? o-bg-a2 : dark ? #1F1F1F : #DDDDDD;            // hover
+    out property <color> bg-a3: o-bg-a3 != transparent ? o-bg-a3 : dark ? #1B1B1B : #D5D5D5;            // cards, menus, miniplayer
+    out property <color> bg-a4: o-bg-a4 != transparent ? o-bg-a4 : dark ? #191919 : #D9D9D9;            // rail, sidebars, controls
+    out property <color> bg-a5: o-bg-a5 != transparent ? o-bg-a5 : dark ? #151515 : #E2E2E2;            // search fields
+    out property <color> titlebar: o-titlebar != transparent ? o-titlebar : dark ? #161616 : #D2D2D2;
+    out property <color> well: o-well != transparent ? o-well : dark ? #000000 : #C9C9C9;             // seek track, toggles, inputs
+    out property <color> thumb-bg: o-thumb-bg != transparent ? o-thumb-bg : dark ? #171717 : #CFCFCF;         // media thumbnail placeholder
+    out property <color> scrim: dark ? #000000aa : #00000066;
+
+    // Foregrounds
+    out property <color> fg-1: o-fg-1 != transparent ? o-fg-1 : dark ? #EAEAEA : #161616;
+    out property <color> fg-2: o-fg-2 != transparent ? o-fg-2 : dark ? #C6C6C6 : #2E2E2E;
+    out property <color> fg-a1: o-fg-a1 != transparent ? o-fg-a1 : dark ? #969696 : #3C3C3C;            // item titles
+    out property <color> fg-a2: o-fg-a2 != transparent ? o-fg-a2 : dark ? #8F8F8F : #2E2E2E;            // labels, icons
+    out property <color> fg-a3: o-fg-a3 != transparent ? o-fg-a3 : dark ? #6B6B6B : #6B6B6B;            // secondary
+    out property <color> fg-a4: o-fg-a4 != transparent ? o-fg-a4 : dark ? #3B3B3B : #9B9B9B;            // disabled, separators glyphs
+    out property <color> knob-off: o-knob-off != transparent ? o-knob-off : dark ? #4A4A4A : #9A9A9A;
+
+    // Dividers
+    out property <color> divider-dim: o-divider-dim != transparent ? o-divider-dim : dark ? #222222 : #ACACAC;
+    out property <color> divider-bright: o-divider-bright != transparent ? o-divider-bright : dark ? #373737 : #9B9B9B;
+
+    // Volume wedge gradient (Figma "volume" component)
+    out property <brush> volume-gradient: @linear-gradient(90deg, #94D318 0%, #B1A918 58%, #78E3CB 79%, #FF3636 100%);
+
+    // Typography (Inter, as used throughout the design)
+    out property <string> font: "Inter";
+}
+
+// Accent swatches of Settings > General > Accent color
+export global Swatches {
+    out property <[color]> colors: [#78E3CB, #E15032, #C49E23, #19A234, #18AAD3, #185DD3, #8E42FF, #F052B3, #AFAFAF];
+}

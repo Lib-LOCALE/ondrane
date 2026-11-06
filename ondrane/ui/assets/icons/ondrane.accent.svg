@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <title>ondrane</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path id="Orbit_mint" data-name="Orbit mint" d="M330 150 C300 130 264 125 230 134 C168 149 128 201 128 256 C128 323 180 378 248 380 C280 381 308 371 330 355" fill="none" stroke="#ffffff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="Signal_periwinkle" data-name="Signal periwinkle" d="M370 183 C393 220 395 270 376 309" fill="none" stroke="#ffffff" stroke-width="32" stroke-linecap="round" stroke-miterlimit="10"/>
+    <path id="Play_glyph" data-name="Play glyph" d="M224 207 C224 199.667 227.333 198 234 202 L306 247 C315.333 253 315.333 259 306 265 L234 310 C227.333 314 224 312.333 224 305 Z" fill="#ffffff"/>
+  </g>
+</svg>

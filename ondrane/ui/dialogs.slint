@@ -1,0 +1,840 @@
+// Figma dialogs: "Open network stream", "new playlist", "Keyboard Shortcuts",
+import { ListView, AboutSlint } from "std-widgets.slint";
+// "Add Subtitles to Playlist/Folder", "Player - customize", "Onboarding".
+import { Theme, Swatches } from "theme.slint";
+import { AppState, ShortcutRow, SubtitlePair, ToolItem } from "state.slint";
+import { Icon, IconButton, Button, Field, Dropdown } from "controls.slint";
+import { Icons } from "icons.slint";
+
+export component DialogFrame inherits Rectangle {
+    in property <string> title;
+    in property <string> primary-text: @tr("Save");
+    in property <bool> footer: true;
+    in property <bool> primary-enabled: true;
+    callback primary();
+    callback cancel();
+    width: 1048px;
+    height: frame-layout.preferred-height;
+    border-radius: 14px;
+    background: Theme.bg-b1;
+    clip: true;
+    drop-shadow-blur: 40px;
+    drop-shadow-color: #000000a0;
+    TouchArea { }
+    frame-layout := VerticalLayout {
+        Rectangle {
+            height: 50px;
+            background: Theme.dark ? #000000 : Theme.bg-a3;
+            Text {
+                x: 18px;
+                height: parent.height;
+                text: root.title;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+            }
+            IconButton {
+                x: parent.width - 44px;
+                y: 9px;
+                icon: Icons.close;
+                clicked => {
+                    root.cancel();
+                }
+            }
+        }
+        @children
+        if root.footer: HorizontalLayout {
+            padding: 18px;
+            height: 68px;
+            Button {
+                text: @tr("Cancel");
+                clicked => {
+                    root.cancel();
+                }
+            }
+            Rectangle { }
+            Button {
+                text: root.primary-text;
+                primary: true;
+                enabled: root.primary-enabled;
+                clicked => {
+                    root.primary();
+                }
+            }
+        }
+    }
+}
+
+component Heading inherits VerticalLayout {
+    in property <string> title;
+    in property <string> hint;
+    spacing: 8px;
+    Text {
+        text: root.title;
+        font-family: Theme.font;
+        font-size: 16px;
+        color: Theme.fg-2;
+    }
+    if root.hint != "": Text {
+        text: root.hint;
+        font-family: Theme.font;
+        font-size: 13px;
+        color: Theme.fg-a3;
+    }
+}
+
+export component NetworkDialog inherits DialogFrame {
+    title: @tr("Open Network Stream");
+    in-out property <string> urls;
+    in-out property <string> name;
+    primary-text: @tr("Open");
+    primary-enabled: root.urls != "";
+    primary => {
+        AppState.act-text("open-network", root.urls + "\n#name=" + root.name);
+        root.urls = "";
+        root.name = "";
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 22px;
+        spacing: 22px;
+        Heading {
+            title: @tr("Network URL");
+            hint: @tr("You can enter multiple links to load.");
+        }
+        Field {
+            height: 140px;
+            multiline: true;
+            placeholder: @tr("e.g., https://www.example.com/stream.avi");
+            text <=> root.urls;
+        }
+        Rectangle {
+            height: 1px;
+            background: Theme.divider-dim;
+        }
+        Heading {
+            title: @tr("Playlist Name (optional)");
+            hint: @tr("The playlist will be saved and displayed with this title.");
+        }
+        Field {
+            height: 28px;
+            placeholder: @tr("e.g., Favorite TV Channels");
+            text <=> root.name;
+        }
+    }
+}
+
+export component NewPlaylistDialog inherits DialogFrame {
+    title: @tr("New Playlist");
+    width: 713px;
+    in-out property <string> name;
+    primary => {
+        AppState.act-text("create-playlist", root.name);
+        root.name = "";
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 18px;
+        padding-top: 22px;
+        spacing: 22px;
+        HorizontalLayout {
+            spacing: 18px;
+            VerticalLayout {
+                spacing: 22px;
+                Heading {
+                    title: @tr("Playlist Details");
+                    hint: @tr("The playlist will be saved and displayed with this title and thumbnail.");
+                }
+                Field {
+                    height: 28px;
+                    placeholder: @tr("e.g., Favorite Videos");
+                    text <=> root.name;
+                }
+            }
+            Rectangle {
+                width: 76px;
+                height: 76px;
+                border-radius: 4px;
+                background: Theme.well;
+                Icon {
+                    icon: Icons.add;
+                    tint: Theme.fg-a4;
+                }
+            }
+        }
+        Rectangle {
+            height: 1px;
+            background: Theme.divider-dim;
+        }
+        Heading {
+            title: @tr("Select Files");
+            hint: @tr("These files will be added to the playlist.");
+        }
+        Rectangle {
+            height: 130px;
+            border-radius: 6px;
+            background: Theme.well;
+            border-width: 2px;
+            border-color: Theme.divider-dim;
+            if AppState.new-playlist-files.length == 0: VerticalLayout {
+                alignment: center;
+                spacing: 14px;
+                Text {
+                    text: @tr("Click here to select files.");
+                    font-family: Theme.font;
+                    font-size: 13px;
+                    color: Theme.fg-a3;
+                    horizontal-alignment: center;
+                }
+                HorizontalLayout {
+                    alignment: center;
+                    Rectangle {
+                        width: 58px;
+                        height: 22px;
+                        border-radius: 4px;
+                        background: Theme.bg-a2;
+                        Icon {
+                            width: 18px;
+                            height: 18px;
+                            icon: Icons.add;
+                        }
+                    }
+                }
+            }
+            if AppState.new-playlist-files.length > 0: Flickable {
+                content-height: fl.preferred-height;
+                fl := VerticalLayout {
+                    padding: 10px;
+                    for f in AppState.new-playlist-files: Text {
+                        height: 22px;
+                        text: f;
+                        font-family: Theme.font;
+                        font-size: 13px;
+                        color: Theme.fg-a1;
+                        overflow: elide;
+                    }
+                }
+            }
+            TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    AppState.act("new-playlist-pick");
+                }
+            }
+        }
+    }
+}
+
+export component ShortcutsDialog inherits DialogFrame {
+    title: @tr("Keyboard Shortcuts");
+    in-out property <string> filter;
+    in-out property <int> editing: -1;
+    primary => {
+        AppState.act("shortcuts-save");
+    }
+    cancel => {
+        root.editing = -1;
+        AppState.act("shortcuts-cancel");
+    }
+    VerticalLayout {
+        padding: 6px;
+        spacing: 10px;
+        HorizontalLayout {
+            spacing: 8px;
+            height: 34px;
+            Rectangle {
+                border-radius: 6px;
+                background: Theme.bg-a5;
+                Field {
+                    width: 100%;
+                    height: 100%;
+                    background: transparent;
+                    border-width: 0;
+                    has-icon: true;
+                    icon: Icons.search;
+                    placeholder: @tr("Search Keyboard Shortcuts...");
+                    text <=> root.filter;
+                }
+            }
+            Dropdown {
+                width: 190px;
+                height: 34px;
+                options: [@tr("All Fields"), @tr("Action"), @tr("Hotkey")];
+                index: 0;
+            }
+        }
+        HorizontalLayout {
+            padding-left: 8px;
+            padding-right: 8px;
+            height: 44px;
+            spacing: 70px;
+            alignment: start;
+            Text {
+                width: 270px;
+                text: @tr("Action");
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+            }
+            Text {
+                width: 190px;
+                text: @tr("Hotkey");
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+                horizontal-alignment: center;
+            }
+            Text {
+                width: 190px;
+                text: @tr("Global Hotkey");
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a2;
+                vertical-alignment: center;
+                horizontal-alignment: center;
+            }
+        }
+        Rectangle {
+            height: 1px;
+            background: Theme.divider-dim;
+        }
+        capture := FocusScope {
+            height: 560px;
+            key-pressed(e) => {
+                if (root.editing >= 0) {
+                    AppState.act-text("shortcut-set:" + root.editing, (e.modifiers.control ? "Ctrl+" : "") + (e.modifiers.shift ? "Shift+" : "") + (e.modifiers.alt ? "Alt+" : "") + e.text);
+                    root.editing = -1;
+                    return accept;
+                }
+                reject
+            }
+            Flickable {
+                content-height: srows.preferred-height;
+                srows := VerticalLayout {
+                alignment: start;
+                for s[i] in AppState.shortcuts: Rectangle {
+                    height: s.is-header ? 48px : 33px;
+                    visible: root.filter == "" || s.is-header;
+                    if s.is-header: Text {
+                        x: 8px;
+                        y: 18px;
+                        text: s.section;
+                        font-family: Theme.font;
+                        font-size: 16px;
+                        color: Theme.fg-2;
+                    }
+                    if !s.is-header: HorizontalLayout {
+                        padding-left: 8px;
+                        padding-right: 8px;
+                        spacing: 70px;
+                        alignment: start;
+                        Text {
+                            width: 270px;
+                            text: s.action;
+                            font-family: Theme.font;
+                            font-size: 13px;
+                            color: Theme.fg-a2;
+                            vertical-alignment: center;
+                        }
+                        Rectangle {
+                            width: 190px;
+                            height: 27px;
+                            y: 3px;
+                            border-radius: 4px;
+                            background: root.editing == i ? Theme.accent-bg : Theme.bg-a5;
+                            Text {
+                                text: root.editing == i ? @tr("Press a key…") : s.key;
+                                font-family: Theme.font;
+                                font-size: 13px;
+                                color: root.editing == i ? Theme.accent : Theme.fg-a1;
+                            }
+                            Icon {
+                                x: parent.width - 30px;
+                                width: 18px;
+                                height: 18px;
+                                icon: Icons.edit;
+                                tint: Theme.fg-a3;
+                            }
+                            TouchArea {
+                                clicked => {
+                                    root.editing = i;
+                                    capture.focus();
+                                }
+                            }
+                        }
+                        Rectangle {
+                            width: 190px;
+                            height: 27px;
+                            y: 3px;
+                            border-radius: 4px;
+                            background: Theme.bg-a5;
+                            Icon {
+                                x: parent.width - 30px;
+                                width: 18px;
+                                height: 18px;
+                                icon: Icons.edit;
+                                tint: Theme.fg-a4;
+                            }
+                        }
+                    }
+                }
+                }
+            }
+        }
+    }
+}
+
+export component SubtitlesDialog inherits DialogFrame {
+    title: @tr("Add Subtitles");
+    in-out property <int> scope: 0;
+    primary => {
+        AppState.act("subtitles-apply");
+    }
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 8px;
+        spacing: 14px;
+        HorizontalLayout {
+            spacing: 8px;
+            height: 34px;
+            Dropdown {
+                width: 176px;
+                height: 34px;
+                options: [@tr("To This Folder"), @tr("To This File")];
+                index <=> root.scope;
+                selected(i) => {
+                    AppState.act-int("subtitles-scope", i);
+                }
+            }
+            Dropdown {
+                width: 176px;
+                height: 34px;
+                options: [@tr("From Computer"), @tr("Auto-match")];
+                index: 0;
+                selected(i) => {
+                    if (i == 1) {
+                        AppState.act("subtitles-auto");
+                    }
+                }
+            }
+            Rectangle {
+                border-radius: 6px;
+                background: Theme.bg-a5;
+                HorizontalLayout {
+                    padding-left: 10px;
+                    spacing: 10px;
+                    Icon {
+                        y: 5px;
+                        icon: Icons.folder;
+                    }
+                    Text {
+                        text: AppState.subtitle-scope-label;
+                        font-family: Theme.font;
+                        font-size: 14px;
+                        color: Theme.fg-a3;
+                        vertical-alignment: center;
+                        overflow: elide;
+                    }
+                }
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.act("subtitles-browse");
+                    }
+                }
+            }
+        }
+        Flickable {
+            height: 520px;
+            content-height: prow.preferred-height;
+            prow := VerticalLayout {
+            alignment: start;
+            for p in AppState.subtitle-pairs: Rectangle {
+                height: 38px;
+                HorizontalLayout {
+                    padding-left: 12px;
+                    spacing: 12px;
+                    Icon {
+                        y: 7px;
+                        icon: Icons.video;
+                    }
+                    Text {
+                        width: 200px;
+                        text: p.media;
+                        font-family: Theme.font;
+                        font-size: 14px;
+                        color: Theme.fg-a1;
+                        vertical-alignment: center;
+                        overflow: elide;
+                    }
+                    Rectangle {
+                        width: 150px;
+                        Rectangle {
+                            y: parent.height / 2;
+                            height: 1px;
+                            border-width: 0;
+                            background: p.matched ? Theme.divider-bright : transparent;
+                        }
+                    }
+                    Icon {
+                        y: 7px;
+                        icon: Icons.subtitle;
+                        tint: p.matched ? Theme.fg-a2 : Theme.fg-a4;
+                    }
+                    Text {
+                        text: p.matched ? p.subtitle : @tr("No subtitle file");
+                        font-family: Theme.font;
+                        font-size: 14px;
+                        color: p.matched ? Theme.fg-a1 : Theme.fg-a4;
+                        vertical-alignment: center;
+                        overflow: elide;
+                    }
+                }
+            }
+            }
+        }
+    }
+}
+
+export component CustomizeDialog inherits DialogFrame {
+    title: @tr("Customize Player");
+    height: 480px;
+    primary => {
+        AppState.act("customize-save");
+    }
+    cancel => {
+        AppState.act("customize-cancel");
+    }
+    VerticalLayout {
+        Rectangle {
+            height: 52px;
+            Text {
+                x: 18px;
+                text: @tr("Click items to add them to the control bar or remove them from it.");
+                font-family: Theme.font;
+                font-size: 13px;
+                color: Theme.fg-a3;
+            }
+        }
+        Rectangle {
+            background: Theme.dark ? #111111 : Theme.bg-a2;
+            property <int> cols: max(3, floor((parent.width - 36px) / 112px));
+            for t[i] in AppState.tool-palette: Rectangle {
+                x: 18px + mod(i, parent.cols) * 112px;
+                y: 16px + floor(i / parent.cols) * 92px;
+                width: 100px;
+                height: 84px;
+                border-radius: 6px;
+                background: tta.has-hover ? Theme.bg-a2 : transparent;
+                Rectangle {
+                    x: (parent.width - 32px) / 2;
+                    y: 8px;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 4px;
+                    border-width: 1px;
+                    border-color: t.active ? Theme.accent : Theme.fg-a4;
+                    background: t.active ? Theme.accent-bg : transparent;
+                    Icon {
+                        width: 20px;
+                        height: 20px;
+                        icon: t.icon;
+                        tint: t.active ? Theme.accent : Theme.fg-a2;
+                    }
+                }
+                Text {
+                    y: 46px;
+                    width: parent.width;
+                    text: t.label;
+                    font-family: Theme.font;
+                    font-size: 13px;
+                    color: Theme.fg-a2;
+                    horizontal-alignment: center;
+                    wrap: word-wrap;
+                }
+                tta := TouchArea {
+                    clicked => {
+                        AppState.act-int("customize-toggle", i);
+                    }
+                }
+            }
+        }
+    }
+}
+
+component ThemeTile inherits VerticalLayout {
+    in property <int> mode;   // 0 light, 1 dark, 2 system
+    in property <bool> selected;
+    in property <string> label;
+    callback clicked();
+    spacing: 18px;
+    Rectangle {
+        width: 72px;
+        height: 72px;
+        border-radius: 12px;
+        border-width: root.selected ? 5px : 0px;
+        border-color: Theme.accent;
+        Rectangle {
+            x: root.selected ? 8px : 0px;
+            y: root.selected ? 8px : 0px;
+            width: parent.width - 2 * self.x;
+            height: self.width;
+            border-radius: 8px;
+            clip: true;
+            background: root.mode == 0 ? #C6C6C6 : #222222;
+            if root.mode == 2: Path {
+                width: 100%;
+                height: 100%;
+                viewbox-width: 10;
+                viewbox-height: 10;
+                fill: #C6C6C6;
+                commands: "M 0 0 L 10 0 L 10 10 Z";
+            }
+        }
+        TouchArea {
+            clicked => {
+                root.clicked();
+            }
+        }
+    }
+    Text {
+        text: root.label;
+        font-family: Theme.font;
+        font-size: 13px;
+        color: Theme.fg-a3;
+        horizontal-alignment: center;
+    }
+}
+
+export component OnboardingDialog inherits Rectangle {
+    width: 1090px;
+    height: 759px;
+    border-radius: 14px;
+    background: Theme.dark ? #111111 : Theme.bg-b1;
+    clip: true;
+    drop-shadow-blur: 40px;
+    drop-shadow-color: #000000a0;
+    in-out property <int> theme-choice: Theme.dark ? 1 : 0;
+    TouchArea { }
+    if AppState.onboarding-step == 0: Rectangle {
+        VerticalLayout {
+            x: 200px;
+            width: parent.width - 400px;
+            padding-top: 90px;
+            spacing: 26px;
+            alignment: start;
+            HorizontalLayout {
+                alignment: center;
+                Icon {
+                    width: 110px;
+                    height: 110px;
+                    icon: Icons.ondrane;
+                }
+            }
+            Text {
+                text: @tr("Welcome to Ondrane!");
+                font-family: Theme.font;
+                font-size: 28px;
+                color: Theme.fg-1;
+                horizontal-alignment: center;
+            }
+            Text {
+                text: @tr("Ondrane is an independent media player for your videos, music and streams, powered by libVLC.");
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a3;
+                wrap: word-wrap;
+            }
+            Rectangle {
+                height: 30px;
+            }
+            Text {
+                text: @tr("Choose a Media Folder to get started with");
+                font-family: Theme.font;
+                font-size: 13px;
+                color: Theme.fg-a2;
+            }
+            HorizontalLayout {
+                spacing: 10px;
+                height: 34px;
+                Field {
+                    height: 34px;
+                    text <=> AppState.onboarding-folder;
+                }
+                Button {
+                    width: 100px;
+                    text: @tr("Browse");
+                    clicked => {
+                        AppState.act("onboarding-browse");
+                    }
+                }
+            }
+        }
+        Button {
+            x: parent.width - 168px;
+            y: parent.height - 76px;
+            width: 90px;
+            text: @tr("Next");
+            primary: true;
+            clicked => {
+                AppState.onboarding-step = 1;
+            }
+        }
+    }
+    if AppState.onboarding-step == 1: Rectangle {
+        Text {
+            y: 150px;
+            width: parent.width;
+            text: @tr("Select your preferred theme and color.");
+            font-family: Theme.font;
+            font-size: 22px;
+            color: Theme.fg-2;
+            horizontal-alignment: center;
+        }
+        HorizontalLayout {
+            y: 250px;
+            height: 130px;
+            alignment: center;
+            spacing: 50px;
+            ThemeTile {
+                mode: 0;
+                label: @tr("Light");
+                selected: root.theme-choice == 0;
+                clicked => {
+                    root.theme-choice = 0;
+                    AppState.setting-int("app.theme", 1);
+                }
+            }
+            ThemeTile {
+                mode: 1;
+                label: @tr("Dark");
+                selected: root.theme-choice == 1;
+                clicked => {
+                    root.theme-choice = 1;
+                    AppState.setting-int("app.theme", 0);
+                }
+            }
+            ThemeTile {
+                mode: 2;
+                label: @tr("System");
+                selected: root.theme-choice == 2;
+                clicked => {
+                    root.theme-choice = 2;
+                    AppState.setting-int("app.theme", 2);
+                }
+            }
+        }
+        Rectangle {
+            y: parent.height - 120px;
+            height: 120px;
+            background: Theme.dark ? #191919 : Theme.bg-a3;
+            HorizontalLayout {
+                padding-left: 30px;
+                spacing: 22px;
+                alignment: start;
+                for c[i] in Swatches.colors: Rectangle {
+                    y: (parent.height - 50px) / 2;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 25px;
+                    background: Theme.accent == c ? c.mix(#000000, 0.35) : transparent;
+                    Rectangle {
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 18px;
+                        background: c;
+                    }
+                    TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppState.setting-int("app.accent", i);
+                        }
+                    }
+                }
+            }
+            HorizontalLayout {
+                x: parent.width - self.width - 40px;
+                y: (parent.height - 32px) / 2;
+                height: 32px;
+                spacing: 8px;
+                Button {
+                    width: 90px;
+                    text: @tr("Back");
+                    solid: true;
+                    clicked => {
+                        AppState.onboarding-step = 0;
+                    }
+                }
+                Button {
+                    width: 90px;
+                    text: @tr("Next");
+                    solid: true;
+                    clicked => {
+                        AppState.act("onboarding-finish");
+                    }
+                }
+            }
+        }
+    }
+}
+
+export component AboutDialog inherits DialogFrame {
+    title: @tr("About Ondrane");
+    width: 560px;
+    footer: false;
+    cancel => {
+        AppState.dialog = 0;
+    }
+    VerticalLayout {
+        padding: 30px;
+        spacing: 16px;
+        HorizontalLayout {
+            alignment: center;
+            Icon {
+                width: 80px;
+                height: 80px;
+                icon: Icons.ondrane;
+            }
+        }
+        Text {
+            text: "Ondrane";
+            font-family: Theme.font;
+            font-size: 22px;
+            color: Theme.fg-1;
+            horizontal-alignment: center;
+        }
+        Text {
+            text: @tr("A Rust + Slint media player built on libVLC, following the community \"VLC Redesign\" Figma concept by Juxtopposed.");
+            font-family: Theme.font;
+            font-size: 14px;
+            color: Theme.fg-a2;
+            horizontal-alignment: center;
+            wrap: word-wrap;
+        }
+        Text {
+            text: @tr("Made with Slint (slint.dev) · Playback by libVLC (videolan.org)");
+            font-family: Theme.font;
+            font-size: 13px;
+            color: Theme.fg-a3;
+            horizontal-alignment: center;
+        }
+        AboutSlint { height: 96px; }
+        Text {
+            text: AppState.engine-ok ? @tr("Playback engine: libVLC") : @tr("libVLC not found — playback disabled");
+            font-family: Theme.font;
+            font-size: 13px;
+            color: Theme.fg-a3;
+            horizontal-alignment: center;
+        }
+    }
+}

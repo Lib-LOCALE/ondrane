@@ -1,0 +1,1022 @@
+// Player screens of the Figma file: "Player", "Player - Music",
+import { ListView } from "std-widgets.slint";
+// "Player - hide UI" (title bar, navigation rail, side panel, canvas, controls).
+import { Theme } from "theme.slint";
+import { AppState, MediaItem, Crumb, ToolItem } from "state.slint";
+import { Icon, IconButton, Thumb, Field } from "controls.slint";
+import { Icons, IconData } from "icons.slint";
+
+// ---------------------------------------------------------------- title bar
+component CaptionButton inherits Rectangle {
+    in property <IconData> icon;
+    in property <bool> danger;
+    callback clicked();
+    width: 36px;
+    height: 24px;
+    border-radius: 4px;
+    background: ta.has-hover ? (root.danger ? #C42B1C : Theme.bg-a1) : transparent;
+    Icon {
+        icon: root.icon;
+        tint: ta.has-hover && root.danger ? #FFFFFF : Theme.fg-a2;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+export component TitleBar inherits Rectangle {
+    in property <bool> library;
+    height: 40px;
+    background: root.library ? Theme.bg-a4 : Theme.titlebar;
+    WindowMoveArea {
+        width: 100%;
+        height: 100%;
+        TouchArea {
+            double-clicked => {
+                AppState.act("maximize");
+            }
+        }
+    }
+    HorizontalLayout {
+        x: 6px;
+        y: 6px;
+        height: 28px;
+        spacing: 7px;
+        alignment: start;
+        Rectangle {
+            width: 38px;
+            Icon {
+                x: 7px;
+                icon: Icons.ondrane;
+            }
+            TouchArea {
+                clicked => {
+                    AppState.menu-request("app", 6px, 40px);
+                }
+            }
+        }
+        HorizontalLayout {
+            spacing: 10px;
+            IconButton {
+                width: 28px;
+                height: 28px;
+                icon: Icons.more;
+                clicked => {
+                    AppState.menu-request("main", self.absolute-position.x, 40px);
+                }
+            }
+            if !root.library: IconButton {
+                width: 28px;
+                height: 28px;
+                icon: AppState.side-panel ? Icons.sidebar-active : Icons.sidebar;
+                clicked => {
+                    AppState.act("toggle-side-panel");
+                }
+            }
+        }
+        if !root.library: Icon {
+            y: 2px;
+            icon: Icons.divider;
+            tint: Theme.divider-bright;
+        }
+        if !root.library: Rectangle {
+            border-radius: 6px;
+            background: fta.has-hover ? Theme.bg-a2 : transparent;
+            HorizontalLayout {
+                padding-right: 6px;
+                spacing: 4px;
+                Icon {
+                    width: 28px;
+                    height: 28px;
+                    icon: Icons.folder;
+                }
+                Text {
+                    text: AppState.folder-label;
+                    font-family: Theme.font;
+                    font-size: 14px;
+                    color: Theme.fg-a2;
+                    vertical-alignment: center;
+                    overflow: elide;
+                    max-width: 260px;
+                }
+            }
+            fta := TouchArea {
+                clicked => {
+                    AppState.act("open-current-folder");
+                }
+            }
+        }
+    }
+    Text {
+        x: (parent.width - self.width) / 2;
+        width: min(self.preferred-width, max(0px, parent.width - 500px));
+        height: parent.height;
+        text: AppState.window-title;
+        font-family: Theme.font;
+        font-size: 14px;
+        color: Theme.fg-a2;
+        vertical-alignment: center;
+        horizontal-alignment: center;
+        overflow: elide;
+    }
+    HorizontalLayout {
+        width: (!AppState.native-decorations ? 4 : 1) * 36px;
+        x: parent.width - self.width - 6px;
+        y: 8px;
+        height: 24px;
+        alignment: end;
+        if !AppState.native-decorations: CaptionButton {
+            icon: Icons.minimize;
+            clicked => {
+                AppState.act("minimize");
+            }
+        }
+        if !AppState.native-decorations: CaptionButton {
+            icon: Icons.maximize;
+            clicked => {
+                AppState.act("maximize");
+            }
+        }
+        CaptionButton {
+            icon: AppState.fullscreen ? Icons.fullscreen-active : Icons.fullscreen;
+            clicked => {
+                AppState.act("fullscreen");
+            }
+        }
+        if !AppState.native-decorations: CaptionButton {
+            icon: Icons.close;
+            danger: true;
+            clicked => {
+                AppState.act("quit");
+            }
+        }
+    }
+}
+
+// ------------------------------------------------------- navigation rail
+export component NavRail inherits Rectangle {
+    width: 50px;
+    background: Theme.bg-a4;
+    VerticalLayout {
+        padding-top: 8px;
+        padding-left: 10px;
+        padding-right: 10px;
+        spacing: 14px;
+        alignment: start;
+        IconButton {
+            icon: AppState.nav == 0 && AppState.side-panel ? Icons.home-active : Icons.home;
+            clicked => {
+                AppState.act-int("nav", 0);
+            }
+        }
+        IconButton {
+            icon: AppState.nav == 1 && AppState.side-panel ? Icons.videos-active : Icons.videos;
+            clicked => {
+                AppState.act-int("nav", 1);
+            }
+        }
+        IconButton {
+            icon: AppState.nav == 2 && AppState.side-panel ? Icons.songs-active : Icons.songs;
+            clicked => {
+                AppState.act-int("nav", 2);
+            }
+        }
+        IconButton {
+            icon: AppState.nav == 3 && AppState.side-panel ? Icons.streaming-active : Icons.streaming;
+            clicked => {
+                AppState.act-int("nav", 3);
+            }
+        }
+        IconButton {
+            icon: AppState.nav == 4 && AppState.side-panel ? Icons.playlist-active : Icons.playlist;
+            clicked => {
+                AppState.act-int("nav", 4);
+            }
+        }
+        IconButton {
+            icon: AppState.nav == 5 && AppState.side-panel ? Icons.recent-2t : Icons.recent;
+            clicked => {
+                AppState.act-int("nav", 5);
+            }
+        }
+        IconButton {
+            icon: Icons.add;
+            clicked => {
+                AppState.menu-request("add", 50px, 330px);
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------- breadcrumbs
+export component Breadcrumbs inherits HorizontalLayout {
+    in property <length> font-size: 16px;
+    in property <bool> bold-last: true;
+    in property <int> max-items: 6;
+    property <int> first: max(0, AppState.crumbs.length - root.max-items);
+    spacing: 6px;
+    alignment: start;
+    if root.first > 0: Text {
+        text: "...";
+        font-family: Theme.font;
+        font-size: root.font-size;
+        color: Theme.fg-a2;
+        vertical-alignment: center;
+    }
+    for c[i] in AppState.crumbs: HorizontalLayout {
+        spacing: 6px;
+        visible: i >= root.first;
+        width: i >= root.first ? self.preferred-width : 0px;
+        if i > 0: Text {
+            text: "▶";
+            font-size: 8px;
+            color: Theme.fg-a4;
+            vertical-alignment: center;
+        }
+        Text {
+            text: c.label;
+            font-family: Theme.font;
+            font-size: root.font-size;
+            font-weight: root.bold-last && i == AppState.crumbs.length - 1 ? 600 : 400;
+            color: cta.has-hover ? Theme.fg-1 : Theme.fg-a2;
+            vertical-alignment: center;
+            min-width: self.preferred-width;
+            cta := TouchArea {
+                mouse-cursor: pointer;
+                clicked => {
+                    AppState.act-int("crumb", c.index);
+                }
+            }
+        }
+    }
+}
+
+// Compact media row used by the side panel and list view (Figma "media" / "playlist").
+export component MediaRow inherits Rectangle {
+    in property <MediaItem> item;
+    in property <int> index;
+    callback activate();
+    height: 32px;
+    border-radius: 4px;
+    background: root.item.selected ? Theme.bg-a2 : rta.has-hover ? Theme.bg-a5 : transparent;
+    HorizontalLayout {
+        spacing: 10px;
+        Rectangle {
+            width: 32px;
+            if root.item.kind == 5: Icon {
+                icon: Icons.add;
+                width: 24px;
+                height: 24px;
+            }
+            if root.item.kind == 3: Icon {
+                icon: Icons.playlist;
+                width: 24px;
+                height: 24px;
+            }
+            if root.item.kind == 2: Icon {
+                icon: Icons.folder;
+                width: 24px;
+                height: 24px;
+            }
+            if root.item.kind == 4: Icon {
+                icon: Icons.streaming;
+                width: 24px;
+                height: 24px;
+            }
+            if root.item.current && (root.item.kind == 0 || root.item.kind == 1): Icon {
+                icon: Icons.playback-active;
+                width: 24px;
+                height: 24px;
+            }
+            if !root.item.current && (root.item.kind == 0 || root.item.kind == 1): Thumb {
+                radius: 2px;
+                width: 32px;
+                height: 32px;
+                poster: root.item.poster;
+                has-poster: root.item.has-poster;
+                kind: root.item.kind;
+                progress: root.item.progress;
+            }
+        }
+        Text {
+            text: root.item.title;
+            font-family: Theme.font;
+            font-size: 14px;
+            color: root.item.current ? Theme.accent : root.item.kind == 5 ? Theme.fg-a3 : root.item.watched ? Theme.fg-a3 : Theme.fg-a1;
+            vertical-alignment: center;
+            overflow: elide;
+        }
+        if root.item.duration != "": Text {
+            text: root.item.duration;
+            font-family: Theme.font;
+            font-size: 14px;
+            color: Theme.fg-a3;
+            vertical-alignment: center;
+        }
+    }
+    rta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            AppState.item-select(root.index);
+        }
+        double-clicked => {
+            root.activate();
+        }
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                AppState.item-menu(root.index, self.absolute-position.x + self.mouse-x, self.absolute-position.y + self.mouse-y);
+            }
+        }
+    }
+}
+
+// ------------------------------------------------------------ side panel
+export component SidePanel inherits Rectangle {
+    width: 377px;
+    background: Theme.bg-b1;
+    property <bool> searching: false;
+    VerticalLayout {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+        spacing: 20px;
+        HorizontalLayout {
+            height: 24px;
+            spacing: 10px;
+            HorizontalLayout {
+                spacing: 12px;
+                Icon {
+                    icon: Icons.arrow-left;
+                    tint: AppState.can-back ? Theme.fg-a2 : Theme.fg-a4;
+                    TouchArea {
+                        enabled: AppState.can-back;
+                        mouse-cursor: AppState.can-back ? pointer : default;
+                        clicked => {
+                            AppState.act("back");
+                        }
+                    }
+                }
+                Icon {
+                    icon: Icons.arrow-right;
+                    tint: AppState.can-forward ? Theme.fg-a2 : Theme.fg-a4;
+                    TouchArea {
+                        enabled: AppState.can-forward;
+                        mouse-cursor: AppState.can-forward ? pointer : default;
+                        clicked => {
+                            AppState.act("forward");
+                        }
+                    }
+                }
+            }
+            Rectangle {
+                clip: true;
+                Breadcrumbs {
+                    height: parent.height;
+                    bold-last: false;
+                    max-items: 2;
+                }
+            }
+            HorizontalLayout {
+                spacing: 12px;
+                Icon {
+                    icon: Icons.more;
+                    TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppState.menu-request("browse-more", self.absolute-position.x, self.absolute-position.y + 28px);
+                        }
+                    }
+                }
+                Icon {
+                    icon: Icons.open;
+                    TouchArea {
+                        mouse-cursor: pointer;
+                        clicked => {
+                            AppState.act("open-library");
+                        }
+                    }
+                }
+            }
+        }
+        HorizontalLayout {
+            height: 24px;
+            spacing: 12px;
+            if !root.searching: Text {
+                text: AppState.count-text;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a3;
+                vertical-alignment: center;
+            }
+            if root.searching: Field {
+                height: 28px;
+                text: AppState.search;
+                placeholder: @tr("Search");
+                edited(t) => {
+                    AppState.act-text("search", t);
+                }
+            }
+            Icon {
+                icon: AppState.sort-index != 0 ? Icons.sort-active : Icons.sort;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.menu-request("sort", self.absolute-position.x, self.absolute-position.y + 28px);
+                    }
+                }
+            }
+            Icon {
+                icon: Icons.list;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.menu-request("view", self.absolute-position.x, self.absolute-position.y + 28px);
+                    }
+                }
+            }
+            Icon {
+                icon: Icons.search;
+                tint: root.searching ? Theme.accent : Theme.fg-a2;
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        root.searching = !root.searching;
+                        if (!root.searching) {
+                            AppState.act-text("search", "");
+                        }
+                    }
+                }
+            }
+        }
+        VerticalLayout {
+            spacing: 0px;
+            Rectangle {
+                height: 1px;
+                background: Theme.divider-dim;
+            }
+            if AppState.items.length == 0: Text {
+                height: 60px;
+                text: AppState.empty-text;
+                font-family: Theme.font;
+                font-size: 14px;
+                color: Theme.fg-a3;
+                vertical-alignment: center;
+                wrap: word-wrap;
+            }
+            ListView {
+                for it[i] in AppState.items: Rectangle {
+                    height: 42px;
+                    MediaRow {
+                        y: i == 0 ? 20px - 10px : 5px;
+                        item: it;
+                        index: i;
+                        activate => {
+                            AppState.item-activate(i);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------- canvas
+export component VideoCanvas inherits Rectangle {
+    background: AppState.audio-mode ? Theme.bg-a3 : Theme.bg-canvas;
+    clip: true;
+    // Keep canvas gestures behind the empty-state buttons.
+    TouchArea {
+        clicked => {
+            AppState.act("canvas-click");
+        }
+        double-clicked => {
+            AppState.act("canvas-double-click");
+        }
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.right) {
+                AppState.menu-request("context", self.absolute-position.x + self.mouse-x, self.absolute-position.y + self.mouse-y);
+            } else if (e.kind == PointerEventKind.down && e.button == PointerEventButton.middle) {
+                AppState.act("canvas-middle-click");
+            } else if (e.kind == PointerEventKind.move) {
+                AppState.act("pointer-moved");
+            }
+        }
+        scroll-event(e) => {
+            // Settings › Controls › Scroll wheel / Horizontal scroll
+            if (e.delta-y != 0) {
+                AppState.act-int("wheel-v", e.delta-y > 0 ? 1 : -1);
+                return accept;
+            } else if (e.delta-x != 0) {
+                AppState.act-int("wheel-h", e.delta-x > 0 ? 1 : -1);
+                return accept;
+            }
+            reject
+        }
+    }
+    // Settings › Video › Framing: scale to the window (fit / fill) or a fixed
+    // zoom (1:4 … 2:1) aligned in the window.
+    if AppState.has-frame && (!AppState.audio-mode || AppState.visualizer): Image {
+        property <float> factor: AppState.video-zoom == 2 ? 0.25 : AppState.video-zoom == 3 ? 0.5 : AppState.video-zoom == 5 ? 2.0 : 1.0;
+        property <bool> fixed: !AppState.video-scale || AppState.video-zoom >= 2;
+        property <int> align: AppState.video-align;
+        width: self.fixed ? self.source.width * 1phx * self.factor : parent.width;
+        height: self.fixed ? self.source.height * 1phx * self.factor : parent.height;
+        x: !self.fixed ? 0px : self.align == 3 ? 0px : self.align == 4 ? parent.width - self.width : (parent.width - self.width) / 2;
+        y: !self.fixed ? 0px : self.align == 1 ? 0px : self.align == 2 ? parent.height - self.height : (parent.height - self.height) / 2;
+        source: AppState.frame;
+        image-fit: AppState.video-zoom == 1 ? cover : contain;
+        horizontal-alignment: self.align == 3 ? left : self.align == 4 ? right : center;
+        vertical-alignment: self.align == 1 ? top : self.align == 2 ? bottom : center;
+    }
+    // recording / streaming / casting badges
+    if AppState.recording || AppState.streaming-url != "" || AppState.cast-name != "": HorizontalLayout {
+        x: 14px;
+        y: 14px;
+        width: parent.width - 28px;
+        height: 30px;
+        spacing: 8px;
+        alignment: end;
+        if AppState.recording: Rectangle {
+            width: rec-row.preferred-width + 20px;
+            border-radius: 15px;
+            background: #000000b0;
+            rec-row := HorizontalLayout {
+                x: 10px;
+                spacing: 6px;
+                Rectangle {
+                    y: 10px;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 5px;
+                    background: #FF3636;
+                }
+                Text {
+                    text: "REC";
+                    font-family: Theme.font;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #FFFFFF;
+                    vertical-alignment: center;
+                }
+            }
+        }
+        if AppState.streaming-url != "" || AppState.cast-name != "": Rectangle {
+            width: st-row.preferred-width + 20px;
+            border-radius: 15px;
+            background: #000000b0;
+            st-row := HorizontalLayout {
+                x: 10px;
+                spacing: 6px;
+                Icon {
+                    y: 5px;
+                    width: 20px;
+                    height: 20px;
+                    icon: AppState.cast-name != "" ? Icons.tv-active : Icons.streaming-active;
+                }
+                Text {
+                    text: AppState.cast-name != "" ? AppState.cast-name : AppState.streaming-url;
+                    font-family: Theme.font;
+                    font-size: 13px;
+                    color: #FFFFFF;
+                    vertical-alignment: center;
+                }
+            }
+        }
+    }
+    // Player - Music: artwork + "title - artist"
+    if AppState.audio-mode && !(AppState.visualizer && AppState.has-frame): Rectangle {
+        property <length> side: min(parent.width * 0.6, parent.height - 220px);
+        Rectangle {
+            x: (parent.width - parent.side) / 2;
+            y: (parent.height - parent.side) / 2 - 40px;
+            width: parent.side;
+            height: parent.side;
+            border-radius: 12px;
+            clip: true;
+            background: Theme.bg-a1;
+            if AppState.has-art: Image {
+                width: 100%;
+                height: 100%;
+                source: AppState.art;
+                image-fit: cover;
+            }
+            if !AppState.has-art: Icon {
+                width: parent.width * 0.4;
+                height: self.width;
+                icon: Icons.disc-2t;
+                tint: Theme.fg-a4;
+                accent: Theme.accent-dim;
+            }
+        }
+        Text {
+            y: parent.height - 103px;
+            width: parent.width;
+            text: AppState.media-line;
+            font-family: Theme.font;
+            font-size: 20px;
+            font-weight: 500;
+            color: Theme.fg-1;
+            horizontal-alignment: center;
+        }
+    }
+    // Nothing loaded: Figma onboarding-style empty state
+    if !AppState.has-media: VerticalLayout {
+        alignment: center;
+        spacing: 18px;
+        HorizontalLayout {
+            alignment: center;
+            Icon {
+                width: 96px;
+                height: 96px;
+                icon: Icons.ondrane;
+            }
+        }
+        Text {
+            text: AppState.engine-ok ? @tr("Open a file, a folder or a network stream to start playing") : @tr("libVLC was not found — install VLC to enable playback");
+            font-family: Theme.font;
+            font-size: 16px;
+            color: Theme.fg-a2;
+            horizontal-alignment: center;
+        }
+        HorizontalLayout {
+            alignment: center;
+            spacing: 12px;
+            Rectangle {
+                width: 150px;
+                height: 34px;
+                border-radius: 6px;
+                background: ota.has-hover ? Theme.accent-bright : Theme.accent;
+                Text {
+                    text: @tr("Open File(s)");
+                    font-family: Theme.font;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: Theme.on-accent;
+                }
+                ota := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.act("open-files");
+                    }
+                }
+            }
+            Rectangle {
+                width: 150px;
+                height: 34px;
+                border-radius: 6px;
+                background: nta.has-hover ? Theme.divider-bright : Theme.bg-a1;
+                Text {
+                    text: @tr("Network Stream");
+                    font-family: Theme.font;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: Theme.fg-a2;
+                }
+                nta := TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.dialog = 1;
+                    }
+                }
+            }
+        }
+    }
+    if AppState.toast-visible: Rectangle {
+        x: (parent.width - self.width) / 2;
+        y: 24px;
+        width: tt.preferred-width + 32px;
+        height: 36px;
+        border-radius: 8px;
+        background: Theme.dark ? #191919e6 : #E2E2E2e6;
+        tt := Text {
+            width: 100%;
+            height: 100%;
+            horizontal-alignment: center;
+            vertical-alignment: center;
+            text: AppState.toast;
+            font-family: Theme.font;
+            font-size: 14px;
+            color: Theme.fg-2;
+        }
+    }
+}
+
+// ------------------------------------------------------------ seek bar
+export component SeekBar inherits Rectangle {
+    in property <bool> waveform: false;
+    height: 28px;
+    border-radius: 6px;
+    background: Theme.well;
+    property <length> usable: self.width - 12px;
+    property <float> shown: sta.pressed ? root.drag : AppState.position;
+    property <float> drag;
+    if !root.waveform: Rectangle {
+        x: 2px;
+        y: 2px;
+        width: max(0px, root.shown * root.usable + 8px);
+        height: parent.height - 4px;
+        border-radius: 4px;
+        background: Theme.accent-bg;
+    }
+    if root.waveform: Rectangle {
+        x: 6px;
+        width: root.usable;
+        for v[i] in AppState.waveform: Rectangle {
+            x: i * parent.width / AppState.waveform.length;
+            width: 2px;
+            y: (parent.height - self.height) / 2;
+            height: max(2px, v * (parent.height - 8px));
+            border-radius: 1px;
+            background: i / AppState.waveform.length <= root.shown ? Theme.accent : Theme.fg-a4;
+        }
+    }
+    Rectangle {
+        x: 2px + root.shown * root.usable;
+        y: 2px;
+        width: 8px;
+        height: parent.height - 4px;
+        border-radius: 4px;
+        visible: AppState.has-media;
+        background: sta.has-hover || sta.pressed ? Theme.accent-bright : Theme.accent;
+    }
+    sta := TouchArea {
+        enabled: AppState.has-media;
+        mouse-cursor: pointer;
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.left) {
+                root.drag = clamp((self.mouse-x - 6px) / root.usable, 0, 1);
+            } else if (e.kind == PointerEventKind.up && e.button == PointerEventButton.left) {
+                AppState.act-float("seek", root.drag);
+            } else if (e.kind == PointerEventKind.move) {
+                AppState.seek-hover(clamp((self.mouse-x - 6px) / root.usable, 0, 1), self.absolute-position.x + self.mouse-x);
+            }
+        }
+        moved => {
+            if (self.pressed) {
+                root.drag = clamp((self.mouse-x - 6px) / root.usable, 0, 1);
+            }
+        }
+        changed has-hover => {
+            if (!self.has-hover) {
+                AppState.preview-visible = false;
+            }
+        }
+    }
+}
+
+// Figma "volume": tapered wedge, green→red gradient, level width.
+export component VolumeWedge inherits Rectangle {
+    width: 89px;
+    height: 28px;
+    property <float> level: AppState.muted ? 0 : clamp(AppState.volume / AppState.max-volume, 0, 1);
+    Path {
+        width: 89px;
+        height: 28px;
+        viewbox-width: 89;
+        viewbox-height: 28;
+        fill: Theme.well;
+        commands: "M3.6 19.36C1.55 19.16 0 17.44 0 15.38L0 12.62C0 10.56 1.55 8.84 3.6 8.64L85.7 0.33C87.47 0.16 89 1.54 89 3.32L89 24.68C89 26.46 87.47 27.84 85.7 27.67L3.6 19.36Z";
+    }
+    Rectangle {
+        x: 1.5px;
+        y: 1.5px;
+        width: 86px * root.level;
+        height: 25px;
+        clip: true;
+        Path {
+            x: 0;
+            y: 0;
+            width: 86px;
+            height: 25px;
+            viewbox-width: 86;
+            viewbox-height: 25;
+            fill: Theme.volume-gradient;
+            commands: "M1.79 16.19C0.77 16.08 0 15.22 0 14.2L0 10.8C0 9.78 0.77 8.92 1.79 8.81L83.79 0.23C84.97 0.11 86 1.03 86 2.22L86 22.78C86 23.97 84.97 24.89 83.79 24.77L1.79 16.19Z";
+        }
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        pointer-event(e) => {
+            if (e.kind == PointerEventKind.down && e.button == PointerEventButton.left) {
+                AppState.act-int("volume", round(clamp(self.mouse-x / self.width, 0, 1) * AppState.max-volume));
+            }
+        }
+        moved => {
+            if (self.pressed) {
+                AppState.act-int("volume", round(clamp(self.mouse-x / self.width, 0, 1) * AppState.max-volume));
+            }
+        }
+        scroll-event(e) => {
+            if (e.delta-y != 0) {
+                AppState.act-int("volume-step", e.delta-y > 0 ? 1 : -1);
+                return accept;
+            }
+            reject
+        }
+    }
+}
+
+component TimeBox inherits Rectangle {
+    in property <string> text;
+    callback clicked();
+    width: 76px;
+    height: 28px;
+    border-radius: 6px;
+    background: ta.has-hover ? Theme.bg-a2 : transparent;
+    Text {
+        width: 100%;
+        height: 100%;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+        text: root.text;
+        font-family: Theme.font;
+        font-size: 15px;
+        color: Theme.fg-a2;
+    }
+    ta := TouchArea {
+        mouse-cursor: pointer;
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+export component ControlBar inherits Rectangle {
+    height: 54px;
+    background: Theme.dark ? #191919ed : #D9D9D9ed;
+    Rectangle {
+        y: 0;
+        height: 1px;
+        background: Theme.divider-dim;
+        visible: !Theme.dark;
+    }
+    HorizontalLayout {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        spacing: 20px;
+        HorizontalLayout {
+            spacing: 8px;
+            IconButton {
+                height: 28px;
+                icon: Icons.previous;
+                clicked => {
+                    AppState.act("prev");
+                }
+            }
+            if AppState.audio-mode: IconButton {
+                height: 28px;
+                icon: Icons.backward-15-sec;
+                clicked => {
+                    AppState.act-int("jump", -15);
+                }
+            }
+            Rectangle {
+                width: 54px;
+                height: 28px;
+                border-radius: 6px;
+                background: pta.has-hover ? Theme.accent-bright : Theme.accent;
+                Icon {
+                    icon: AppState.playing ? Icons.pause : Icons.play;
+                    tint: Theme.on-accent;
+                }
+                pta := TouchArea {
+                    clicked => {
+                        AppState.act("play-pause");
+                    }
+                }
+            }
+            if AppState.audio-mode: IconButton {
+                height: 28px;
+                icon: Icons.forward-15-sec;
+                clicked => {
+                    AppState.act-int("jump", 15);
+                }
+            }
+            IconButton {
+                height: 28px;
+                icon: Icons.next;
+                clicked => {
+                    AppState.act("next");
+                }
+            }
+        }
+        HorizontalLayout {
+            spacing: 8px;
+            TimeBox {
+                text: AppState.time-text;
+                clicked => {
+                    AppState.act("jump-to-time");
+                }
+            }
+            SeekBar {
+                waveform: AppState.audio-mode && AppState.waveform.length > 0;
+            }
+            TimeBox {
+                text: AppState.duration-text;
+                clicked => {
+                    AppState.act("toggle-remaining");
+                }
+            }
+        }
+        if AppState.toolbar.length > 0: HorizontalLayout {
+            spacing: 6px;
+            for t in AppState.toolbar: IconButton {
+                height: 28px;
+                icon: t.icon;
+                active: t.active;
+                clicked => {
+                    AppState.act("tool:" + t.id);
+                }
+            }
+        }
+        HorizontalLayout {
+            spacing: 8px;
+            Rectangle {
+                width: 24px;
+                Icon {
+                    y: (parent.height - self.height) / 2;
+                    icon: AppState.muted || AppState.volume == 0 ? Icons.close-none : AppState.volume < 40 ? Icons.close-low : AppState.volume < 80 ? Icons.close-medium : Icons.volume-high;
+                }
+                TouchArea {
+                    mouse-cursor: pointer;
+                    clicked => {
+                        AppState.act("mute");
+                    }
+                }
+            }
+            VolumeWedge { }
+        }
+        HorizontalLayout {
+            spacing: 12px;
+            IconButton {
+                height: 28px;
+                icon: AppState.quick-open && AppState.quick-tab == 2 ? Icons.audio-active : Icons.audio;
+                clicked => {
+                    AppState.act-int("quick", 2);
+                }
+            }
+            IconButton {
+                height: 28px;
+                icon: AppState.quick-open && AppState.quick-tab == 3 ? Icons.subtitles-active : Icons.subtitles;
+                clicked => {
+                    AppState.act-int("quick", 3);
+                }
+            }
+            IconButton {
+                height: 28px;
+                icon: AppState.quick-open && AppState.quick-tab < 2 ? Icons.playback-settings-active : Icons.playback-settings;
+                clicked => {
+                    AppState.act-int("quick", 0);
+                }
+            }
+        }
+        IconButton {
+            height: 28px;
+            icon: AppState.queue-open ? Icons.lists-active : Icons.lists;
+            clicked => {
+                AppState.act("toggle-queue");
+            }
+        }
+    }
+}
+
+// Seek-bar thumbnail tooltip
+export component SeekPreview inherits Rectangle {
+    width: AppState.has-preview ? 200px : 90px;
+    height: AppState.has-preview ? 140px : 32px;
+    border-radius: 8px;
+    background: Theme.bg-a3;
+    drop-shadow-blur: 12px;
+    drop-shadow-color: #00000080;
+    if AppState.has-preview: Rectangle {
+        x: 4px;
+        y: 4px;
+        width: parent.width - 8px;
+        height: parent.height - 34px;
+        border-radius: 6px;
+        clip: true;
+        background: #000000;
+        Image {
+            width: 100%;
+            height: 100%;
+            source: AppState.preview;
+            image-fit: contain;
+        }
+    }
+    Text {
+        y: parent.height - 28px;
+        height: 24px;
+        width: parent.width;
+        text: AppState.preview-time;
+        font-family: Theme.font;
+        font-size: 13px;
+        color: Theme.fg-2;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+}

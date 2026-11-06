@@ -1,0 +1,29 @@
+# Rust build artifacts
+target
+
+# Logs
+logs/
+
+# Local VLC testing folder
+VLC/
+
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Local Cargo configuration
+.cargo/*
+!.cargo/config.toml
+
+# Local validation media, runtime state and captures
+outputs/
+
+# Machine-local agent instructions and credentials
+AGENTS.md
+CLAUDE.md
+.env
+.env.*
+!.env.example
+*.log
+*_RenderLog.txt

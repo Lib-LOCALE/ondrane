@@ -1,0 +1,269 @@
+// Shared data model between the Rust controller (src/gui.rs) and the UI.
+import { IconData } from "icons.slint";
+
+export struct MediaItem {
+    title: string,
+    subtitle: string,
+    path: string,
+    // 0 video, 1 audio, 2 folder, 3 playlist, 4 stream, 5 action ("Create playlist", "Add")
+    kind: int,
+    progress: float,
+    watched: bool,
+    current: bool,
+    selected: bool,
+    favorite: bool,
+    poster: image,
+    has-poster: bool,
+    duration: string,
+}
+
+export struct Crumb {
+    label: string,
+    index: int,
+}
+
+export struct MenuEntry {
+    id: string,
+    icon: IconData,
+    has-icon: bool,
+    label: string,
+    shortcut: string,
+    submenu: bool,
+    separator: bool,     // draw a divider above this entry
+    checked: bool,
+    enabled: bool,
+    accent-icon: bool,   // icons tinted with the accent colour (right-click menu, first group)
+}
+
+// One row of a settings page. kind:
+// 0 section header, 1 toggle, 2 dropdown, 3 segmented values, 4 slider,
+// 5 text field, 6 action button, 7 accent swatches, 8 path + Browse,
+// 9 equalizer, 10 info text, 11 colour field, 12 password field
+export struct SettingRow {
+    kind: int,
+    key: string,
+    label: string,
+    info: string,
+    on: bool,
+    options: [string],
+    index: int,
+    value: float,
+    minimum: float,
+    maximum: float,
+    text: string,
+    button: string,
+    ticks: [string],
+    color: color,
+}
+
+export struct ShortcutRow {
+    section: string,
+    action: string,
+    key: string,
+    is-header: bool,
+}
+
+export struct SubtitlePair {
+    media: string,
+    subtitle: string,
+    matched: bool,
+}
+
+export struct ToolItem {
+    id: string,
+    label: string,
+    icon: IconData,
+    active: bool,
+}
+
+export struct ConvertRow {
+    name: string,
+    dest: string,
+    progress: float,
+    status: string,
+}
+
+// Forms of the "Open Disc", "Open Capture Device", "Convert" and "Stream Out" dialogs.
+export global Forms {
+    // disc: 0 DVD, 1 Blu-ray, 2 Audio CD, 3 VCD
+    in-out property <int> disc-type: 0;
+    in-out property <[string]> disc-devices: [];
+    in-out property <string> disc-device;
+    in-out property <bool> disc-no-menus: false;
+    in-out property <int> disc-title: 0;
+    in-out property <int> disc-chapter: 0;
+    // capture: 0 camera, 1 screen
+    in-out property <int> capture-mode: 0;
+    in-out property <[string]> capture-devices: [];
+    in-out property <int> capture-device: 0;
+    in-out property <bool> capture-audio: true;
+    in-out property <float> capture-fps: 30;
+    // convert
+    in-out property <[string]> convert-files: [];
+    in-out property <[string]> convert-profiles: [];
+    in-out property <int> convert-profile: 0;
+    in-out property <string> convert-dest;
+    in-out property <[ConvertRow]> convert-jobs: [];
+    // stream out
+    in-out property <int> stream-port: 8090;
+    in-out property <string> stream-source;
+    in-out property <string> stream-url;
+}
+
+// A libVLC dialog (kind 0 error, 1 login, 2 question, 3 progress).
+export global VlcDialog {
+    in-out property <int> kind;
+    in-out property <string> title;
+    in-out property <string> text;
+    in-out property <string> username;
+    in-out property <string> password;
+    in-out property <bool> ask-store;
+    in-out property <bool> store;
+    in-out property <string> cancel;
+    in-out property <string> action1;
+    in-out property <string> action2;
+    in-out property <bool> critical;
+    in-out property <float> progress;
+}
+
+export global AppState {
+    // ---- shell ----
+    in-out property <int> view: 0;               // 0 player, 1 library
+    in-out property <int> nav: 1;                // 0 home, 1 videos, 2 music, 3 network, 4 playlists, 5 recent
+    in-out property <bool> side-panel: false;    // player-mode browsing panel
+    in-out property <bool> hide-ui: false;
+    in-out property <bool> fullscreen: false;
+    in-out property <bool> maximized: false;
+    in-out property <string> window-title: "Ondrane";
+    in-out property <string> folder-label: "Videos";
+    in-out property <bool> engine-ok: true;
+    in-out property <bool> drop-hover: false;
+    in-out property <bool> recording: false;           // REC badge
+    in-out property <string> streaming-url: "";        // stream-out badge
+    in-out property <string> cast-name: "";            // casting badge          // files dragged over the window
+    in-out property <bool> native-decorations: false;  // "Show window decorations"
+    in-out property <bool> fs-controls: true;          // "Show controls in fullscreen"
+    in-out property <bool> visualizer: false;          // audio visualization uses the video canvas
+    // video framing: "Scale video to the window", "Zoom", "Position in the window"
+    in-out property <bool> video-scale: true;
+    in-out property <int> video-zoom: 0;               // 0 fit, 1 fill, 2 1:4, 3 1:2, 4 1:1, 5 2:1
+    in-out property <int> video-align: 0;              // 0 center, 1 top, 2 bottom, 3 left, 4 right
+
+    // ---- now playing ----
+    in-out property <bool> has-media: false;
+    in-out property <bool> playing: false;
+    in-out property <bool> audio-mode: false;
+    in-out property <bool> has-frame: false;
+    in-out property <image> frame;
+    in-out property <image> art;
+    in-out property <bool> has-art: false;
+    in-out property <string> media-name: "";
+    in-out property <string> media-line: "";       // "untangle - juxtopposed"
+    in-out property <string> media-folder: "";
+    in-out property <string> media-playlist: "";
+    in-out property <float> position: 0;
+    in-out property <string> time-text: "00:00:00";
+    in-out property <string> duration-text: "00:00:00";
+    in-out property <int> volume: 80;
+    in-out property <int> max-volume: 125;
+    in-out property <bool> muted: false;
+    in-out property <float> rate: 1.0;
+    in-out property <bool> shuffle: false;
+    in-out property <int> repeat: 0;               // 0 off, 1 all, 2 one
+    in-out property <[float]> waveform: [];
+    in-out property <bool> favorite: false;
+    in-out property <bool> ended: false;
+
+    // seek preview
+    in-out property <bool> preview-visible: false;
+    in-out property <bool> has-preview: false;
+    in-out property <image> preview;
+    in-out property <length> preview-x;
+    in-out property <string> preview-time;
+
+    // ---- library / browsing ----
+    in-out property <[Crumb]> crumbs: [];
+    in-out property <[MediaItem]> items: [];
+    in-out property <string> count-text: "";
+    in-out property <bool> grid: true;
+    in-out property <string> search: "";
+    in-out property <bool> can-back: false;
+    in-out property <bool> can-forward: false;
+    in-out property <string> section-title: "Videos";
+    in-out property <string> empty-text: "";
+    in-out property <[MediaItem]> continue-items: [];
+    in-out property <[MediaItem]> listen-items: [];
+    in-out property <[MediaItem]> folder-items: [];
+    in-out property <int> sort-index: 0;
+    in-out property <[string]> sort-options: [];
+
+    // queue
+    in-out property <[MediaItem]> queue: [];
+    in-out property <string> queue-summary: "";
+    in-out property <bool> queue-open: false;
+
+    // ---- settings ----
+    in-out property <bool> settings-open: false;
+    in-out property <int> settings-page: 0;
+    in-out property <string> settings-title: "Global Settings";
+    in-out property <[SettingRow]> settings-rows: [];
+    in-out property <string> settings-search: "";
+    in-out property <bool> settings-advanced: false;
+
+    // quick settings drawer (control bar "playback settings")
+    in-out property <bool> quick-open: false;
+    in-out property <int> quick-tab: 0;            // 0 playback, 1 video, 2 audio, 3 subtitles
+    in-out property <[SettingRow]> quick-rows: [];
+
+    // ---- dialogs ----
+    // 0 none, 1 network, 2 new playlist, 3 shortcuts, 4 subtitles, 5 customize, 6 onboarding,
+    // 7 about, 8 libVLC dialog, 9 disc, 10 capture, 11 convert, 12 stream out
+    in-out property <int> dialog: 0;
+    in-out property <int> onboarding-step: 0;
+    in-out property <string> onboarding-folder: "~/Videos";
+    in-out property <[ShortcutRow]> shortcuts: [];
+    in-out property <[SubtitlePair]> subtitle-pairs: [];
+    in-out property <string> subtitle-scope-label: "";
+    in-out property <[string]> new-playlist-files: [];
+    in-out property <[ToolItem]> tool-palette: [];
+    in-out property <[ToolItem]> toolbar: [];
+
+    // ---- menus ----
+    in-out property <bool> menu-open: false;
+    in-out property <length> menu-x;
+    in-out property <length> menu-y;
+    in-out property <length> menu-width: 292px;
+    in-out property <[MenuEntry]> menu-entries: [];
+    in-out property <bool> submenu-open: false;
+    in-out property <length> submenu-x;
+    in-out property <length> submenu-y;
+    in-out property <[MenuEntry]> submenu-entries: [];
+
+    // snapshot preview ("Show a preview after capture")
+    in-out property <image> snap-image;
+    in-out property <bool> snap-visible: false;
+
+    // ---- osd ----
+    in-out property <string> toast: "";
+    in-out property <bool> toast-visible: false;
+
+    // ---- callbacks (generic dispatch handled in Rust) ----
+    callback act(string);
+    callback act-int(string, int);
+    callback act-text(string, string);
+    callback act-float(string, float);
+    callback menu-request(string, length, length);   // menu id, x, y (window coords)
+    callback menu-pick(string);
+    callback submenu-request(string, length, length);
+    callback setting-bool(string, bool);
+    callback setting-int(string, int);
+    callback setting-float(string, float);
+    callback setting-text(string, string);
+    callback seek-hover(float, length);
+    callback item-activate(int);         // double click / Enter on items[i]
+    callback item-select(int);
+    callback item-menu(int, length, length);
+    callback panel-activate(int);
+    callback home-activate(string, int); // section, index
+    callback queue-activate(int);
+}
