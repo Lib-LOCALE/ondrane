@@ -109,10 +109,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for checks and desktop integration tests.
 ## Credits and licences
 
 - **Application code:** MIT. Original copyright notices, including Nirmal Joseph Ukken’s, are preserved in [LICENSE](LICENSE).
-- **Interface design and extracted UI pictograms:** Juxtopposed, *VLC Redesign*, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), adapted for Rust/Slint, Linux portals, additional themes and accessibility fixes.
+- **Interface design and extracted UI pictograms:** [Juxtopposed](https://www.figma.com/@juxtopposed), [*VLC Redesign*](https://www.figma.com/community/file/1691465999134370980/vlc-redesign), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), adapted for Rust/Slint, Linux portals, additional themes and accessibility fixes.
 - **Ondrane branding:** original VectorCraft/EffectCraft artwork, MIT; [sources and motion details](assets/branding/BRIEF.md).
 - **Slint:** used under its Royalty-free Desktop, Mobile, and Web Applications License 2.0. The application includes `AboutSlint` in its About dialog.
-- **Playback:** libVLC by VideoLAN, loaded from the user’s installation. **Font:** Inter, SIL OFL. **Palettes:** their respective upstream licences, preserved in [assets/theme-licenses](assets/theme-licenses).
+- **Playback:** libVLC by [VideoLAN and contributors](https://www.videolan.org/videolan/), included in the Linux Flatpak and loaded from the user’s VLC installation by native packages. **Font:** Inter, SIL OFL. **Palettes:** their respective upstream licences, preserved in [assets/theme-licenses](assets/theme-licenses).
 
 [Third-party notices](THIRD_PARTY_NOTICES.md) cover the component licences. `cargo xtask licenses` assembles dependency notices, Inter and palette notices, and the MPL-covered `option-ext` source for binary distributions.
 
