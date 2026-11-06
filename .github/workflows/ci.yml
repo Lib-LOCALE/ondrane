@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**.md", "docs/**", "VLC Redesign*"]
+  pull_request:
+    paths-ignore: ["**.md", "docs/**", "VLC Redesign*"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev \
+            libvlc5 vlc-plugin-base vlc-plugin-video-output ffmpeg weston xvfb xauth dbus-x11 gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+      - name: Build
+        run: cargo build --release --locked -p ondrane
+      - name: Test
+        run: cargo test --workspace --locked
+      - name: Clippy
+        if: runner.os == 'Linux'
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - name: Rust formatting
+        if: runner.os == 'Linux'
+        run: cargo fmt --all -- --check
+      - name: FileChooser portal protocol
+        if: runner.os == 'Linux'
+        run: |
+          dbus-run-session -- cargo test --workspace --locked filechooser_response_and_cancel -- --ignored --nocapture
+          dbus-run-session -- cargo test --workspace --locked screencast_response_fd_cancel_and_close -- --ignored --nocapture
+          cargo test --workspace --locked capture_pipe_transport -- --ignored --nocapture
+      - name: Wayland and X11 desktop playback
+        if: runner.os == 'Linux'
+        shell: bash
+        env:
+          SLINT_BACKEND: winit-software
+        run: |
+          set -euo pipefail
+          export XDG_RUNTIME_DIR="$(mktemp -d)"
+          chmod 700 "$XDG_RUNTIME_DIR"
+          export XDG_CONFIG_HOME="$RUNNER_TEMP/ondrane-config"
+          export XDG_CACHE_HOME="$RUNNER_TEMP/ondrane-cache"
+          export VLC_SMOKE_MEDIA="$RUNNER_TEMP/test-a.mp4"
+          export VLC_SMOKE_NEXT="$RUNNER_TEMP/test-b.mp4"
+          export VLC_SMOKE_OUTPUT="$RUNNER_TEMP/ondrane-captures"
+          ffmpeg -v error -f lavfi -i testsrc2=size=640x360:rate=30 -f lavfi -i sine=frequency=440 -t 30 -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac "$VLC_SMOKE_MEDIA"
+          ffmpeg -v error -f lavfi -i smptebars=size=640x360:rate=30 -f lavfi -i sine=frequency=660 -t 30 -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac "$VLC_SMOKE_NEXT"
+          weston --backend=headless-backend.so --socket=wayland-vlc-test --idle-time=0 --width=1280 --height=800 > "$RUNNER_TEMP/weston.log" 2>&1 &
+          weston_pid=$!
+          trap 'kill "$weston_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..50}; do
+            [ -S "$XDG_RUNTIME_DIR/wayland-vlc-test" ] && break
+            sleep 0.1
+          done
+          test -S "$XDG_RUNTIME_DIR/wayland-vlc-test"
+          export WAYLAND_DISPLAY=wayland-vlc-test
+          dbus-run-session -- timeout 120 cargo test --workspace --locked gui::smoke::desktop_playback -- --ignored --nocapture
+          dbus-run-session -- timeout 120 cargo test --workspace --locked gui::smoke::desktop_themes -- --ignored --nocapture
+          SLINT_BACKEND=winit-software dbus-run-session -- timeout 120 cargo test --workspace --locked gui::smoke::desktop_empty_player_clicks -- --ignored --nocapture
+          VLC_SMOKE_X11=1 dbus-run-session -- xvfb-run -a timeout 120 cargo test --workspace --locked gui::smoke::desktop_playback -- --ignored --nocapture
+      - name: Smoke test
+        run: |
+          cargo run --release -p ondrane -- --version
+      - name: Collect distribution notices
+        run: cargo xtask licenses
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ondrane-${{ runner.os }}
+          path: |
+            target/release/ondrane
+            target/release/ondrane.exe
+            target/third-party-licenses/
+            LICENSE
+            THIRD_PARTY_NOTICES.md
+          if-no-files-found: error
+          retention-days: 7
