@@ -43,7 +43,7 @@ Download a preview from [Releases](https://github.com/Lib-LOCALE/ondrane/release
 | Platform | Run |
 | --- | --- |
 | Linux | Extract the archive and run `./ondrane`, or build and install the desktop entry below. |
-| Windows | Install the standard 64-bit VLC 3 release, then use the per-user installer or portable archive. No administrator rights are required for Ondrane itself. |
+| Windows 10/11 x64 | Install 64-bit VLC 3 and the [Microsoft Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/), then use the per-user installer or portable archive. Ondrane itself installs per-user. |
 | macOS | Install VLC 3, then extract and open the unsigned `Ondrane.app` preview. The preview is not notarised. |
 
 On Debian/Ubuntu-based Linux systems:

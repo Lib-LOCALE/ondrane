@@ -21,7 +21,7 @@ The per-user installer writes `~/.local/bin/ondrane`, a desktop entry, icons and
 
 ## Windows
 
-Install the stable Rust MSVC toolchain, Visual Studio C++ Build Tools and NSIS 3 (`makensis` on PATH). Install 64-bit VLC 3 separately for playback.
+Install the stable Rust MSVC toolchain, Visual Studio C++ Build Tools and NSIS 3 (`makensis` on PATH). Install 64-bit VLC 3 separately for playback. End-user Windows 10/11 x64 machines also need the current [Microsoft Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/); the CI executable imports `VCRUNTIME140.dll`. Neither dependency is bundled.
 
 ```powershell
 cargo build --release --locked
