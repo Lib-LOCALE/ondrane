@@ -12,7 +12,7 @@ flatpak install --user flathub org.flatpak.Builder \
 ./packaging/flatpak/build.sh
 ```
 
-The build downloads checksummed sources first, then compiles offline. It builds libebml, libmatroska, FFmpeg 4.4.7 and libVLC 3.0.23 from their upstream source archives. Rust crate sources come from the committed lockfile through the official [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo). Regenerate `cargo-sources.json` whenever the lockfile changes. The supported Freedesktop 25.08 runtime supplies GStreamer and PipeWire support. Parallelism defaults to eight jobs; override `CARGO_BUILD_JOBS` if needed.
+The build downloads checksummed sources first, then compiles offline. It builds libebml, libmatroska, FFmpeg 4.4.7 and libVLC 3.0.23 from their upstream source archives. The VLC cache compatibility patch by Mathieu Velten is retained from [Hidamari’s Flatpak packaging](https://github.com/flathub/io.github.jeffshee.Hidamari/blob/691837e8833e741586dc175cc1d8eb9b0bea4e07/libvlc/vlc-ignore-time-for-cache.patch); it ignores timestamp changes caused by OSTree while still checking plugin sizes. The VLC icon and desktop entry are not installed as Ondrane resources. Rust crate sources come from the committed lockfile through the official [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo). Regenerate `cargo-sources.json` whenever the lockfile changes. The supported Freedesktop 25.08 runtime supplies GStreamer and PipeWire support. Parallelism defaults to eight jobs; override `CARGO_BUILD_JOBS` if needed.
 
 The output is `target/ondrane-<version>-<arch>.flatpak`. Install and run it with:
 
@@ -30,7 +30,7 @@ The Flatpak includes its playback engine; **no host VLC installation is needed**
 - FileChooser and ScreenCast use desktop portals. No blanket home-directory, host-filesystem or session-bus access.
 - Status notifier access is limited to `org.kde.StatusNotifierWatcher`.
 - Direct webcam/optical-disc access is not granted. Those native-device features are outside this package's default permissions.
-- Settings/history are separate from a native install, under `~/.var/app/io.github.lib_locale.ondrane`. No host-library lookup is required.
+- Settings/history are separate from a native install, under `~/.var/app/io.github.lib_locale.ondrane`. No host-library lookup is required. Single-instance forwarding stays separate from a native installation.
 
 The GitHub Flatpak is a local bundle, not an automatic-update repository. Install later release bundles to update it. The runtime continues receiving updates through Flathub.
 

@@ -5,7 +5,18 @@ use std::io::{BufRead, BufReader, Read, Write};
 use std::net::{Ipv4Addr, TcpListener, TcpStream};
 use std::time::Duration;
 
-const PORT: u16 = 47_214;
+fn instance_port() -> u16 {
+    // Flatpak file grants and settings belong to its sandbox, not a native install.
+    port_for(std::env::var_os("FLATPAK_ID").is_some())
+}
+
+const fn port_for(flatpak: bool) -> u16 {
+    if flatpak {
+        47_215
+    } else {
+        47_214
+    }
+}
 const MAGIC: &str = "ONDRANE-OPEN-1";
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -17,7 +28,7 @@ pub struct OpenRequest {
 
 /// Send `req` to a running instance; true when it accepted it.
 pub fn forward(req: &OpenRequest) -> bool {
-    forward_to(PORT, req)
+    forward_to(instance_port(), req)
 }
 
 fn forward_to(port: u16, req: &OpenRequest) -> bool {
@@ -40,7 +51,7 @@ fn forward_to(port: u16, req: &OpenRequest) -> bool {
 
 /// Accept requests from later launches; `on_open` runs on a server thread.
 pub fn listen(on_open: impl Fn(OpenRequest) + Send + 'static) -> bool {
-    listen_on(PORT, on_open)
+    listen_on(instance_port(), on_open)
 }
 
 fn listen_on(port: u16, on_open: impl Fn(OpenRequest) + Send + 'static) -> bool {
@@ -77,6 +88,13 @@ fn listen_on(port: u16, on_open: impl Fn(OpenRequest) + Send + 'static) -> bool 
 mod tests {
     use super::*;
     use std::sync::mpsc;
+
+    #[test]
+    fn native_and_flatpak_instances_are_separate() {
+        assert_eq!(port_for(false), 47_214);
+        assert_eq!(port_for(true), 47_215);
+        assert_ne!(port_for(false), port_for(true));
+    }
 
     #[test]
     fn forwards_to_the_first_instance() {

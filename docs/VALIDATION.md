@@ -6,7 +6,7 @@ This is a 0.1 preview, not a claim that every hardware/desktop combination is su
 
 Linux with a COSMIC Wayland desktop, CPU-rendered Slint, and libVLC 3.0.20:
 
-- Ordinary Rust suite: **44 library tests plus one developer-tool test passed**. Desktop/hardware tests are opt-in and excluded from that count.
+- Ordinary Rust suite: **45 library tests plus one developer-tool test passed**. Desktop/hardware tests are opt-in and excluded from that count.
 - GUI playback scenario: decoded frames reach the window; pause, volume/mute, speed, seek, fullscreen, library/settings navigation, second media, engine restart and Stop are exercised. Stop also checks that stale queued frames cannot reappear.
 - Real pointer dispatch: Open Files, Network Stream, canvas background, mini-player Stop and play/pause all receive clicks. This reproduces the overlay bug that direct controller-command tests missed.
 - Colour schemes: all ten supplied family/flavour selections are applied, saved, reloaded and rendered, including the four Catppuccin variants and the return to Ondrane.
@@ -19,6 +19,18 @@ The inherited Linux integration was also previously exercised with COSMIC’s re
 ## Automated CI
 
 The public workflow builds and tests Linux, Windows and macOS. Linux runs isolated FileChooser/ScreenCast protocol tests, synthetic capture transport, and headless Wayland/X11 desktop scenarios. The headless runner uses a PulseAudio null sink so missing physical sound hardware does not create native audio-error dialogs during input tests. Its software renderer does not test physical GPU acceleration or a user’s actual screen-sharing permission dialog. Passing CI does not establish macOS/Windows playback or device parity; native runtime/peripheral tests remain separate.
+
+## Upstream Flatpak validation
+
+The x86_64 GitHub Flatpak uses Freedesktop Platform 25.08 and a source-built libVLC 3.0.23 / FFmpeg 4.4.7 playback engine. All 46 ordinary tests also passed in the SDK's release build. The release integration-test executable was then exercised against the **Platform runtime**, with a read-only app directory, generated media, isolated settings, no GPU device access, and software-rendered Slint on the COSMIC Wayland desktop:
+
+- `desktop_playback`: all nine playback/navigation/restart/Stop steps passed.
+- `desktop_empty_player_clicks`: Open Files, Network Stream and mini-player pointer dispatch passed.
+- `desktop_branding`: welcome/About/Appearance rendering passed.
+- `capture_pipe_transport`: synthetic GStreamer-to-libVLC transport and recording decode passed.
+- `--diag`: loads `/app/lib/libvlc.so.5`, creates a player and reports libVLC 3.0.23. The VLC timestamp compatibility patch and final cache regeneration prevent stale plugin-cache errors after stripping and OSTree export.
+
+These are real runtime tests, but the file-selection action test does not automate the protected desktop chooser, and synthetic capture does not repeat a user's real ScreenCast consent. Manifest lint has no errors and one runtime-upgrade advisory (26.08 is available; 25.08 remains the chosen supported branch). AppStream XML validation passes. Flathub's repository linter reports its two screenshot-hosting requirements because this is a GitHub-hosted upstream bundle, not a Flathub-hosted repository. Do not describe that result as a Flathub approval.
 
 ## Remaining limits
 

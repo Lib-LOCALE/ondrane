@@ -45,7 +45,7 @@ Download a preview from [Releases](https://github.com/Lib-LOCALE/ondrane/release
 | Linux (recommended) | Install the `.flatpak` bundle, then run `flatpak run io.github.lib_locale.ondrane`. See [Flatpak instructions and sandbox limits](packaging/flatpak/README.md). |
 | Linux (native alternative) | Install VLC 3, extract the archive and run `./ondrane`, or build and install the desktop entry below. |
 | Windows 10/11 x64 | Install 64-bit VLC 3 and the [Microsoft Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/), then use the per-user installer or portable archive. Ondrane itself installs per-user. |
-| macOS | Install VLC 3, then extract and open the unsigned `Ondrane.app` preview. The preview is not notarised. |
+| macOS (Apple Silicon) | Install VLC 3, then extract and open the unsigned `Ondrane.app` preview. The preview is not notarised. |
 
 For a native build on Debian/Ubuntu-based Linux systems:
 
