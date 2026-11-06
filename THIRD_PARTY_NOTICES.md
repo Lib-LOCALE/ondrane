@@ -4,7 +4,7 @@ Ondrane application code is MIT-licensed. Preserve the copyright notices in `LIC
 
 ## Interface design
 
-**VLC Redesign**, by **Juxtopposed**.
+**[VLC Redesign](https://www.figma.com/community/file/1691465999134370980/vlc-redesign)**, by **[Juxtopposed](https://www.figma.com/@juxtopposed)**.
 
 - Source: https://www.figma.com/community/file/1691465999134370980/vlc-redesign
 - Creator: https://www.figma.com/@juxtopposed
@@ -56,9 +56,9 @@ No affiliation with the theme authors is claimed. Some text colours are adapted 
 
 ## Playback and external software
 
-**libVLC**, by VideoLAN and contributors, https://www.videolan.org/vlc/libvlc.html · https://code.videolan.org/videolan/vlc
+**libVLC**, by [VideoLAN and contributors](https://www.videolan.org/videolan/), https://www.videolan.org/vlc/libvlc.html · https://code.videolan.org/videolan/vlc
 
-libVLC is LGPL-2.1-or-later; some VLC plugins and dependent libraries have GPL or other terms. Ondrane loads the user’s separately installed VLC 3 runtime dynamically. Official Ondrane distribution workflows do not copy VLC DLLs, native libraries, plugins or codecs into packages. Installing or redistributing those separately requires compliance with their applicable licences; Ondrane’s MIT licence does not replace them.
+libVLC is LGPL-2.1-or-later; some VLC plugins and dependent libraries have GPL or other terms. Ondrane loads the user’s separately installed VLC 3 runtime dynamically. Native archives and Windows/macOS installers do not copy VLC DLLs, native libraries, plugins or codecs into packages. The Linux Flatpak is different: its manifest compiles libVLC 3.0.23, FFmpeg 4.4.7 (without `--enable-gpl`), libebml 1.4.5 and libmatroska 1.7.1 from pinned source archives and installs their licence texts. VLC plugin licences vary. The matching Flatpak source archive is distributed alongside the binary bundle, including exact dependency archives and the application source. The Freedesktop runtime is separately managed by Flatpak and retains its own licences. Installing or redistributing those separately requires compliance with their applicable licences; Ondrane’s MIT licence does not replace them.
 
 Wayland screen/window capture invokes separately installed GStreamer/PipeWire components. Update checks use the system `curl`. These programs are not embedded in Ondrane packages. Native system libraries and vendor SDKs used by a platform remain subject to their own terms.
 

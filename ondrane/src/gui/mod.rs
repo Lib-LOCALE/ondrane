@@ -3176,7 +3176,11 @@ impl GuiApp {
             backend.with_winit_event_loop_builder(event_loop)
         };
         backend.select()?;
-        slint::set_xdg_app_id("ondrane")?;
+        slint::set_xdg_app_id(if std::env::var_os("FLATPAK_ID").is_some() {
+            "io.github.lib_locale.ondrane"
+        } else {
+            "ondrane"
+        })?;
         let window = MainWindow::new()?;
         crate::i18n::set_language(&settings.app.global.language);
         let thumbs = ThumbnailCache::default();

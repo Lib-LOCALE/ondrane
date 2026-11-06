@@ -1,0 +1,223 @@
+{
+  "app-id": "io.github.lib_locale.ondrane",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "25.08",
+  "sdk": "org.freedesktop.Sdk",
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.rust-stable"
+  ],
+  "command": "ondrane",
+  "separate-locales": false,
+  "finish-args": [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=dri",
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--env=VLC_LIB_PATH=/app/lib/libvlc.so.5",
+    "--env=VLC_PLUGIN_PATH=/app/lib/vlc/plugins"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/rust-stable/bin",
+    "build-args": [
+      "--env=CARGO_BUILD_JOBS=8"
+    ],
+    "env": {
+      "CARGO_HOME": "/run/build/ondrane/cargo",
+      "CARGO_NET_OFFLINE": "true"
+    }
+  },
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/share/man",
+    "/share/doc",
+    "*.a",
+    "*.la"
+  ],
+  "modules": [
+    {
+      "name": "libebml",
+      "builddir": true,
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_SHARED_LIBS=ON",
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://dl.matroska.org/downloads/libebml/libebml-1.4.5.tar.xz",
+          "sha256": "4971640b0592da29c2d426f303e137a9b0b3d07e1b81d069c1e56a2f49ab221b"
+        }
+      ],
+      "post-install": [
+        "install -d /app/share/licenses/io.github.lib_locale.ondrane/libebml",
+        "for f in COPYING* LICENSE*; do [ ! -f \"$f\" ] || cp \"$f\" /app/share/licenses/io.github.lib_locale.ondrane/libebml/; done"
+      ]
+    },
+    {
+      "name": "libmatroska",
+      "builddir": true,
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DBUILD_SHARED_LIBS=ON",
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://dl.matroska.org/downloads/libmatroska/libmatroska-1.7.1.tar.xz",
+          "sha256": "572a3033b8d93d48a6a858e514abce4b2f7a946fe1f02cbfeca39bfd703018b3"
+        }
+      ],
+      "post-install": [
+        "install -d /app/share/licenses/io.github.lib_locale.ondrane/libmatroska",
+        "for f in COPYING* LICENSE*; do [ ! -f \"$f\" ] || cp \"$f\" /app/share/licenses/io.github.lib_locale.ondrane/libmatroska/; done"
+      ]
+    },
+    {
+      "name": "ffmpeg",
+      "config-opts": [
+        "--enable-pic",
+        "--enable-shared",
+        "--disable-doc",
+        "--disable-static",
+        "--enable-libvpx",
+        "--enable-libmp3lame",
+        "--enable-libvorbis",
+        "--enable-libopus",
+        "--disable-programs"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://ffmpeg.org/releases/ffmpeg-4.4.7.tar.xz",
+          "sha256": "39e7d6d0af050a0a8aae737d610d77264e67b9657f3a346f72bba03312565e2a"
+        }
+      ],
+      "post-install": [
+        "install -d /app/share/licenses/io.github.lib_locale.ondrane/ffmpeg",
+        "for f in COPYING* LICENSE*; do [ ! -f \"$f\" ] || cp \"$f\" /app/share/licenses/io.github.lib_locale.ondrane/ffmpeg/; done"
+      ]
+    },
+    {
+      "name": "vlc",
+      "config-opts": [
+        "BUILDCC=/usr/bin/gcc -std=gnu99",
+        "CFLAGS=-U_FORTIFY_SOURCE",
+        "CXXFLAGS=-U_FORTIFY_SOURCE",
+        "--disable-archive",
+        "--disable-dc1394",
+        "--disable-dv1394",
+        "--disable-linsys",
+        "--disable-dvdread",
+        "--disable-dvdnav",
+        "--disable-bluray",
+        "--disable-opencv",
+        "--disable-smbclient",
+        "--disable-dsm",
+        "--disable-sftp",
+        "--disable-nfs",
+        "--disable-smb2",
+        "--disable-decklink",
+        "--disable-vcd",
+        "--disable-libcddb",
+        "--disable-screen",
+        "--disable-vnc",
+        "--disable-freerdp",
+        "--disable-asdcp",
+        "--disable-a52",
+        "--disable-sdl-image",
+        "--disable-alsa",
+        "--disable-qt",
+        "--disable-skins2",
+        "--disable-ncurses",
+        "--disable-goom",
+        "--disable-projectm",
+        "--disable-vsxu",
+        "--disable-avahi",
+        "--disable-udev",
+        "--disable-mtp",
+        "--disable-upnp",
+        "--disable-microdns",
+        "--disable-secret",
+        "--disable-kwallet",
+        "--disable-vlc",
+        "--disable-lua",
+        "--disable-vlm",
+        "--disable-debug",
+        "--disable-update-check",
+        "--disable-maintainer-mode",
+        "--disable-dependency-tracking",
+        "--disable-taglib",
+        "--disable-fluidlite",
+        "--disable-notify",
+        "--disable-zvbi",
+        "--disable-shout",
+        "--disable-mod",
+        "--disable-x264",
+        "--disable-x265",
+        "--disable-spatialaudio",
+        "--disable-srt",
+        "--disable-live555",
+        "--disable-chromecast",
+        "--disable-libplacebo",
+        "--disable-vdpau"
+      ],
+      "cleanup": [
+        "/share/macosx"
+      ],
+      "post-install": [
+        "rm -f ${FLATPAK_DEST}/lib/vlc/plugins/plugins.dat",
+        "${FLATPAK_DEST}/lib/vlc/vlc-cache-gen ${FLATPAK_DEST}/lib/vlc/plugins",
+        "install -d /app/share/licenses/io.github.lib_locale.ondrane/vlc",
+        "for f in COPYING* LICENSE*; do [ ! -f \"$f\" ] || cp \"$f\" /app/share/licenses/io.github.lib_locale.ondrane/vlc/; done"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.videolan.org/videolan/vlc/3.0.23/vlc-3.0.23.tar.xz",
+          "sha256": "e891cae6aa3ccda69bf94173d5105cbc55c7a7d9b1d21b9b21666e69eff3e7e0"
+        }
+      ]
+    },
+    {
+      "name": "ondrane",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cargo build --release --locked --offline -p ondrane",
+        "cargo xtask licenses",
+        "install -Dm755 target/release/ondrane /app/bin/ondrane",
+        "install -Dm644 packaging/linux/ondrane.desktop /app/share/applications/io.github.lib_locale.ondrane.desktop",
+        "sed -i 's/^Icon=ondrane$/Icon=io.github.lib_locale.ondrane/' /app/share/applications/io.github.lib_locale.ondrane.desktop",
+        "install -Dm644 packaging/ondrane.svg /app/share/icons/hicolor/scalable/apps/io.github.lib_locale.ondrane.svg",
+        "install -Dm644 packaging/flatpak/io.github.lib_locale.ondrane.metainfo.xml /app/share/metainfo/io.github.lib_locale.ondrane.metainfo.xml",
+        "mkdir -p /app/share/licenses/io.github.lib_locale.ondrane/ondrane",
+        "cp LICENSE THIRD_PARTY_NOTICES.md /app/share/licenses/io.github.lib_locale.ondrane/ondrane/",
+        "cp -R target/third-party-licenses /app/share/licenses/io.github.lib_locale.ondrane/ondrane/dependencies"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "../..",
+          "skip": [
+            ".git",
+            "target",
+            "outputs",
+            ".flatpak-builder",
+            "AGENTS.md",
+            "CLAUDE.md"
+          ]
+        },
+        "cargo-sources.json"
+      ]
+    }
+  ]
+}

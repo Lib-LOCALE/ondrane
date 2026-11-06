@@ -15,7 +15,7 @@
 
 ![Ondrane player](docs/screenshots/player.png)
 
-**Ondrane is an independent project.** Its interface adapts Juxtopposed’s [VLC Redesign](https://www.figma.com/community/file/1691465999134370980/vlc-redesign), published under CC BY 4.0. It is not affiliated with or endorsed by VideoLAN or Juxtopposed.
+**Ondrane is an independent project.** Its interface adapts [Juxtopposed](https://www.figma.com/@juxtopposed)’s [VLC Redesign](https://www.figma.com/community/file/1691465999134370980/vlc-redesign), published under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Ondrane adapts the layouts and UI pictograms with a Rust/Slint implementation, Linux integration, new themes and original branding; see the [design credits and modifications](THIRD_PARTY_NOTICES.md#interface-design). It is not affiliated with or endorsed by [VideoLAN](https://www.videolan.org/videolan/) or [Juxtopposed](https://www.figma.com/@juxtopposed).
 
 ## What you can do
 
@@ -38,15 +38,16 @@ The original orbit/play identity was drawn in **VectorCraft** and animated in **
 
 ## Install
 
-Download a preview from [Releases](https://github.com/Lib-LOCALE/ondrane/releases). **Install VLC 3 separately**: Ondrane loads its playback engine dynamically; distribution packages do not bundle VLC, its codecs or plugins.
+Download a preview from [Releases](https://github.com/Lib-LOCALE/ondrane/releases). The **Linux Flatpak** includes its playback engine. **Install VLC 3 separately for native archives, Windows and macOS**; those packages load the engine dynamically.
 
 | Platform | Run |
 | --- | --- |
-| Linux | Extract the archive and run `./ondrane`, or build and install the desktop entry below. |
+| Linux (recommended) | Install the `.flatpak` bundle, then run `flatpak run io.github.lib_locale.ondrane`. See [Flatpak instructions and sandbox limits](packaging/flatpak/README.md). |
+| Linux (native alternative) | Install VLC 3, extract the archive and run `./ondrane`, or build and install the desktop entry below. |
 | Windows 10/11 x64 | Install 64-bit VLC 3 and the [Microsoft Visual C++ x64 runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/), then use the per-user installer or portable archive. Ondrane itself installs per-user. |
 | macOS | Install VLC 3, then extract and open the unsigned `Ondrane.app` preview. The preview is not notarised. |
 
-On Debian/Ubuntu-based Linux systems:
+For a native build on Debian/Ubuntu-based Linux systems:
 
 ```sh
 sudo apt install vlc

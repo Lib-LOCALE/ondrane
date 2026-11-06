@@ -258,8 +258,8 @@ fn appimage() {
         &appdir.join("usr/share/applications/ondrane.desktop"),
     );
     copy(
-        &root.join("packaging/linux/io.github.LibLOCALE.Ondrane.metainfo.xml"),
-        &appdir.join("usr/share/metainfo/io.github.LibLOCALE.Ondrane.metainfo.xml"),
+        &root.join("packaging/linux/io.github.lib_locale.ondrane.metainfo.xml"),
+        &appdir.join("usr/share/metainfo/io.github.lib_locale.ondrane.metainfo.xml"),
     );
     let icon = root.join("packaging/linux/icons/256x256/apps/ondrane.png");
     copy(&icon, &appdir.join("ondrane.png"));
@@ -324,6 +324,7 @@ fn windows_installer() {
     );
     licenses::generate(&root());
     copy(&root().join("LICENSE"), &stage.join("LICENSE"));
+    copy(&root().join("README.md"), &stage.join("README.md"));
     copy(
         &root().join("THIRD_PARTY_NOTICES.md"),
         &stage.join("THIRD_PARTY_NOTICES.md"),
@@ -336,6 +337,12 @@ fn windows_installer() {
         .current_dir(root().join("target"))
         .arg(format!("-DVERSION={}", version()))
         .arg(format!("-DSRC={}", stage.display()))
+        .arg(format!(
+            "-DOUT={}",
+            root()
+                .join(format!("target/Ondrane-Setup-{}.exe", version()))
+                .display()
+        ))
         .arg(root().join("packaging/windows/ondrane.nsi")));
 }
 

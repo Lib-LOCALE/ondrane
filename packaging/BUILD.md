@@ -10,6 +10,8 @@ cargo clippy --workspace --all-targets --locked -- -D warnings
 
 ## Linux
 
+The recommended distribution is the [upstream Flatpak](flatpak/README.md), built with `./packaging/flatpak/build.sh`. It includes libVLC and does not require VLC on the host. The native alternatives below require a separate VLC installation.
+
 On Debian/Ubuntu:
 
 ```sh

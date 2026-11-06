@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.LibLOCALE.Ondrane</id>
+  <id>io.github.lib_locale.ondrane</id>
   <name>Ondrane</name>
-  <developer id="io.github.lib-locale"><name>Ondrane Contributors</name></developer>
+  <developer id="io.github.lib_locale"><name>Ondrane Contributors</name></developer>
   <summary>A native desktop player for videos, music and streams</summary>
   <metadata_license>MIT</metadata_license>
   <project_license>MIT AND CC-BY-4.0 AND LicenseRef-Slint-Royalty-free-2.0</project_license>
@@ -10,6 +10,7 @@
   <url type="homepage">https://github.com/Lib-LOCALE/ondrane</url>
   <url type="bugtracker">https://github.com/Lib-LOCALE/ondrane/issues</url>
   <description><p>Ondrane is an independent Rust and Slint media player powered by libVLC. It includes a media library, resume history, subtitles, six colour-scheme families and native Wayland portals. Install VLC 3 separately for playback.</p></description>
+  <screenshots><screenshot type="default"><caption>Video playback with Ondrane’s native interface</caption><image>https://raw.githubusercontent.com/Lib-LOCALE/ondrane/main/docs/screenshots/player.png</image></screenshot></screenshots>
   <releases><release version="0.1.0" date="2026-11-06"/></releases>
   <content_rating type="oars-1.1"/>
 </component>

@@ -27,3 +27,6 @@ CLAUDE.md
 !.env.example
 *.log
 *_RenderLog.txt
+
+# Flatpak builder download and compilation cache
+.flatpak-builder/

@@ -15,7 +15,10 @@ Unicode true
 !define UNKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Ondrane"
 
 Name "${APP}"
-OutFile "Ondrane-Setup-${VERSION}.exe"
+!ifndef OUT
+  !define OUT "../../target/Ondrane-Setup-${VERSION}.exe"
+!endif
+OutFile "${OUT}"
 InstallDir "$LOCALAPPDATA\Programs\Ondrane"
 InstallDirRegKey HKCU "Software\Ondrane" "InstallDir"
 RequestExecutionLevel user
