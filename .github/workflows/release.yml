@@ -1,0 +1,112 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: linux-x86_64
+            binary: ondrane
+          - os: windows-latest
+            platform: windows-x86_64
+            binary: ondrane.exe
+          - os: macos-latest
+            platform: macos-arm64
+            binary: ondrane
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev
+      - run: cargo build --release --locked -p ondrane
+      - run: cargo xtask licenses
+      - name: Prepare distribution
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -1)"
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          dest="target/distribution/ondrane-${{ matrix.platform }}"
+          mkdir -p "$dest"
+          cp target/release/${{ matrix.binary }} "$dest/"
+          cp LICENSE THIRD_PARTY_NOTICES.md README.md "$dest/"
+          cp -R target/third-party-licenses "$dest/licenses"
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            app="$dest/Ondrane.app/Contents"
+            mkdir -p "$app/MacOS" "$app/Resources"
+            mv "$dest/ondrane" "$app/MacOS/ondrane"
+            cp packaging/macos/Info.plist "$app/Info.plist"
+            cp packaging/macos/ondrane.icns "$app/Resources/ondrane.icns"
+            cp LICENSE THIRD_PARTY_NOTICES.md "$app/Resources/"
+            cp -R target/third-party-licenses "$app/Resources/licenses"
+            /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" "$app/Info.plist"
+            /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $version" "$app/Info.plist"
+          fi
+      - name: Windows installer and portable archive
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $nsis = 'C:\Program Files (x86)\NSIS'
+          if (-not (Test-Path "$nsis\makensis.exe")) { choco install -y nsis --no-progress }
+          $env:Path = "$nsis;$env:Path"
+          cargo xtask windows-installer
+          if ($LASTEXITCODE -ne 0) { throw 'Installer build failed' }
+          Compress-Archive -Path target/distribution/ondrane-windows-x86_64/* -DestinationPath "target/ondrane-$env:VERSION-windows-x86_64.zip"
+      - name: Unix archive
+        if: runner.os != 'Windows'
+        shell: bash
+        run: tar -czf "target/ondrane-$VERSION-${{ matrix.platform }}.tar.gz" -C "target/distribution/ondrane-${{ matrix.platform }}" .
+      - name: Checksums
+        shell: bash
+        run: |
+          cd target
+          for asset in ondrane-*.tar.gz ondrane-*.zip Ondrane-Setup-*.exe; do
+            [ -f "$asset" ] || continue
+            if command -v sha256sum >/dev/null; then
+              sha256sum "$asset" > "$asset.sha256"
+            else
+              shasum -a 256 "$asset" > "$asset.sha256"
+            fi
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package-${{ matrix.platform }}
+          path: |
+            target/ondrane-*.tar.gz
+            target/ondrane-*.zip
+            target/Ondrane-Setup-*.exe
+            target/*.sha256
+          if-no-files-found: error
+          retention-days: 7
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: package-*
+          merge-multiple: true
+          path: packages
+      - uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          generate_release_notes: true
+          files: packages/*
