@@ -1,6 +1,6 @@
 # Third-party notices
 
-Ondrane application code is MIT-licensed. Preserve the copyright notices in `LICENSE`, including Nirmal Joseph Ukken’s original notice and the Ondrane contributors’ notice. Other components retain the terms below; MIT is not a blanket licence for every resource.
+Ondrane application code is MIT-licensed. Preserve the copyright notices in `LICENSE`, including [Nirmal Joseph Ukken](https://github.com/nirmaljosephukken)’s original notice and the Ondrane contributors’ notice. Other components retain the terms below; MIT is not a blanket licence for every resource.
 
 ## Interface design
 

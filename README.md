@@ -108,7 +108,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for checks and desktop integration tests.
 
 ## Credits and licences
 
-- **Application code:** MIT. Original copyright notices, including Nirmal Joseph Ukken’s, are preserved in [LICENSE](LICENSE).
+- **Application code:** MIT. Original copyright notices, including [Nirmal Joseph Ukken](https://github.com/nirmaljosephukken)’s, are preserved in [LICENSE](LICENSE).
 - **Interface design and extracted UI pictograms:** [Juxtopposed](https://www.figma.com/@juxtopposed), [*VLC Redesign*](https://www.figma.com/community/file/1691465999134370980/vlc-redesign), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), adapted for Rust/Slint, Linux portals, additional themes and accessibility fixes.
 - **Ondrane branding:** original VectorCraft/EffectCraft artwork, MIT; [sources and motion details](assets/branding/BRIEF.md).
 - **Slint:** used under its Royalty-free Desktop, Mobile, and Web Applications License 2.0. The application includes `AboutSlint` in its About dialog.
