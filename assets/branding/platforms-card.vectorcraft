@@ -1,0 +1,2744 @@
+{
+  "format": "vectorcraft",
+  "version": 4,
+  "generator": "VectorCraft 0.24.1",
+  "pdfCompatible": true,
+  "preview": {
+    "mime": "image/png",
+    "data": "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"
+  },
+  "pdf": {
+    "mime": "application/pdf",
+    "blob": [
+      0,
+      14796
+    ]
+  },
+  "document": {
+    "version": 3,
+    "title": "Ondrane Platforms Card",
+    "units": "Pixels",
+    "rulers": "artboard",
+    "color_mode": "Rgb",
+    "artboards": [
+      {
+        "id": 1,
+        "name": "Artboard 1",
+        "rect": {
+          "x0": 0.0,
+          "y0": 0.0,
+          "x1": 520.0,
+          "y1": 340.0
+        },
+        "show_center_mark": false,
+        "show_cross_hairs": false
+      }
+    ],
+    "layers": [
+      {
+        "id": 1,
+        "name": "Layer 1",
+        "kind": {
+          "type": "layer",
+          "color": {
+            "Preset": 0
+          },
+          "template": false,
+          "printable": true,
+          "children": [
+            {
+              "id": 2,
+              "name": "Card Frame",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.08627451,
+                        "g": 0.12941177,
+                        "b": 0.21176471
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.16862746,
+                        "g": 0.23137255,
+                        "b": 0.35686275
+                      }
+                    },
+                    "width": 1.5
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            30.0,
+                            8.0
+                          ],
+                          "in": [
+                            17.849735503722542,
+                            8.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            490.0,
+                            8.0
+                          ],
+                          "out": [
+                            502.1502644962775,
+                            8.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            512.0,
+                            30.0
+                          ],
+                          "in": [
+                            512.0,
+                            17.849735503722542
+                          ]
+                        },
+                        {
+                          "p": [
+                            512.0,
+                            310.0
+                          ],
+                          "out": [
+                            512.0,
+                            322.1502644962775
+                          ]
+                        },
+                        {
+                          "p": [
+                            490.0,
+                            332.0
+                          ],
+                          "in": [
+                            502.1502644962775,
+                            332.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            30.0,
+                            332.0
+                          ],
+                          "out": [
+                            17.849735503722542,
+                            332.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            8.0,
+                            310.0
+                          ],
+                          "in": [
+                            8.0,
+                            322.1502644962775
+                          ]
+                        },
+                        {
+                          "p": [
+                            8.0,
+                            30.0
+                          ],
+                          "out": [
+                            8.0,
+                            17.849735503722542
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 504.0,
+                  "h": 324.0,
+                  "radii": [
+                    22.0,
+                    22.0,
+                    22.0,
+                    22.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    8.0,
+                    8.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 3,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  34.0,
+                  46.0
+                ],
+                "runs": [
+                  {
+                    "text": "CROSS-PLATFORM RELEASES",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 13.0,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.47058824,
+                          "g": 0.8901961,
+                          "b": 0.79607844
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 4,
+              "name": "MIT Badge Bg",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.101960786,
+                        "g": 0.2,
+                        "b": 0.20784314
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.47058824,
+                        "g": 0.8901961,
+                        "b": 0.79607844
+                      }
+                    },
+                    "width": 1.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            381.0,
+                            27.0
+                          ],
+                          "in": [
+                            373.8202982521997,
+                            27.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            475.0,
+                            27.0
+                          ],
+                          "out": [
+                            482.1797017478003,
+                            27.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            488.0,
+                            40.0
+                          ],
+                          "in": [
+                            488.0,
+                            32.820298252199684
+                          ]
+                        },
+                        {
+                          "p": [
+                            488.0,
+                            40.0
+                          ],
+                          "out": [
+                            488.0,
+                            47.179701747800316
+                          ]
+                        },
+                        {
+                          "p": [
+                            475.0,
+                            53.0
+                          ],
+                          "in": [
+                            482.1797017478003,
+                            53.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            381.0,
+                            53.0
+                          ],
+                          "out": [
+                            373.8202982521997,
+                            53.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            368.0,
+                            40.0
+                          ],
+                          "in": [
+                            368.0,
+                            47.179701747800316
+                          ]
+                        },
+                        {
+                          "p": [
+                            368.0,
+                            40.0
+                          ],
+                          "out": [
+                            368.0,
+                            32.820298252199684
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 120.0,
+                  "h": 26.0,
+                  "radii": [
+                    13.0,
+                    13.0,
+                    13.0,
+                    13.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    368.0,
+                    27.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 5,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  428.0,
+                  44.0
+                ],
+                "runs": [
+                  {
+                    "text": "MIT ¬∑ v0.1.0",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 12.0,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.47058824,
+                          "g": 0.8901961,
+                          "b": 0.79607844
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Center",
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 6,
+              "name": "Row Windows",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.06666667,
+                        "g": 0.101960786,
+                        "b": 0.17254902
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.15686275,
+                        "g": 0.21568628,
+                        "b": 0.32941177
+                      }
+                    },
+                    "width": 1.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            42.0,
+                            74.0
+                          ],
+                          "in": [
+                            34.26801350236889,
+                            74.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            74.0
+                          ],
+                          "out": [
+                            485.7319864976311,
+                            74.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            88.0
+                          ],
+                          "in": [
+                            492.0,
+                            80.26801350236889
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            130.0
+                          ],
+                          "out": [
+                            492.0,
+                            137.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            144.0
+                          ],
+                          "in": [
+                            485.7319864976311,
+                            144.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            42.0,
+                            144.0
+                          ],
+                          "out": [
+                            34.26801350236889,
+                            144.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            130.0
+                          ],
+                          "in": [
+                            28.0,
+                            137.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            88.0
+                          ],
+                          "out": [
+                            28.0,
+                            80.26801350236889
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 464.0,
+                  "h": 70.0,
+                  "radii": [
+                    14.0,
+                    14.0,
+                    14.0,
+                    14.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    28.0,
+                    74.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 7,
+              "name": "Row Linux",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.06666667,
+                        "g": 0.101960786,
+                        "b": 0.17254902
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.15686275,
+                        "g": 0.21568628,
+                        "b": 0.32941177
+                      }
+                    },
+                    "width": 1.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            42.0,
+                            158.0
+                          ],
+                          "in": [
+                            34.26801350236889,
+                            158.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            158.0
+                          ],
+                          "out": [
+                            485.7319864976311,
+                            158.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            172.0
+                          ],
+                          "in": [
+                            492.0,
+                            164.2680135023689
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            214.0
+                          ],
+                          "out": [
+                            492.0,
+                            221.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            228.0
+                          ],
+                          "in": [
+                            485.7319864976311,
+                            228.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            42.0,
+                            228.0
+                          ],
+                          "out": [
+                            34.26801350236889,
+                            228.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            214.0
+                          ],
+                          "in": [
+                            28.0,
+                            221.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            172.0
+                          ],
+                          "out": [
+                            28.0,
+                            164.2680135023689
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 464.0,
+                  "h": 70.0,
+                  "radii": [
+                    14.0,
+                    14.0,
+                    14.0,
+                    14.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    28.0,
+                    158.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 8,
+              "name": "Row macOS",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.06666667,
+                        "g": 0.101960786,
+                        "b": 0.17254902
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.15686275,
+                        "g": 0.21568628,
+                        "b": 0.32941177
+                      }
+                    },
+                    "width": 1.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            42.0,
+                            242.0
+                          ],
+                          "in": [
+                            34.26801350236889,
+                            242.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            242.0
+                          ],
+                          "out": [
+                            485.7319864976311,
+                            242.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            256.0
+                          ],
+                          "in": [
+                            492.0,
+                            248.2680135023689
+                          ]
+                        },
+                        {
+                          "p": [
+                            492.0,
+                            298.0
+                          ],
+                          "out": [
+                            492.0,
+                            305.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            478.0,
+                            312.0
+                          ],
+                          "in": [
+                            485.7319864976311,
+                            312.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            42.0,
+                            312.0
+                          ],
+                          "out": [
+                            34.26801350236889,
+                            312.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            298.0
+                          ],
+                          "in": [
+                            28.0,
+                            305.7319864976311
+                          ]
+                        },
+                        {
+                          "p": [
+                            28.0,
+                            256.0
+                          ],
+                          "out": [
+                            28.0,
+                            248.2680135023689
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 464.0,
+                  "h": 70.0,
+                  "radii": [
+                    14.0,
+                    14.0,
+                    14.0,
+                    14.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    28.0,
+                    242.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 9,
+              "name": "Dot Windows",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.47058824,
+                        "g": 0.8901961,
+                        "b": 0.79607844
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "none"
+                    },
+                    "width": 0.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            51.0,
+                            100.0
+                          ],
+                          "in": [
+                            48.23857625084603,
+                            100.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            100.0
+                          ],
+                          "out": [
+                            61.76142374915397,
+                            100.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            105.0
+                          ],
+                          "in": [
+                            64.0,
+                            102.23857625084604
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            113.0
+                          ],
+                          "out": [
+                            64.0,
+                            115.76142374915396
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            118.0
+                          ],
+                          "in": [
+                            61.76142374915397,
+                            118.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            51.0,
+                            118.0
+                          ],
+                          "out": [
+                            48.23857625084603,
+                            118.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            113.0
+                          ],
+                          "in": [
+                            46.0,
+                            115.76142374915396
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            105.0
+                          ],
+                          "out": [
+                            46.0,
+                            102.23857625084604
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 18.0,
+                  "h": 18.0,
+                  "radii": [
+                    5.0,
+                    5.0,
+                    5.0,
+                    5.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    46.0,
+                    100.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 10,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  106.0
+                ],
+                "runs": [
+                  {
+                    "text": "Windows 10 / 11 (x64)",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 17.0,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.9529412,
+                          "g": 0.96862745,
+                          "b": 1.0
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 11,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  128.0
+                ],
+                "runs": [
+                  {
+                    "text": "Direct Win32 FFI ¬∑ Native .msi installer & portable .zip",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 12.5,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.6509804,
+                          "g": 0.70980394,
+                          "b": 1.0
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 12,
+              "name": "Dot Linux",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.6509804,
+                        "g": 0.70980394,
+                        "b": 1.0
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "none"
+                    },
+                    "width": 0.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            51.0,
+                            184.0
+                          ],
+                          "in": [
+                            48.23857625084603,
+                            184.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            184.0
+                          ],
+                          "out": [
+                            61.76142374915397,
+                            184.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            189.0
+                          ],
+                          "in": [
+                            64.0,
+                            186.23857625084602
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            197.0
+                          ],
+                          "out": [
+                            64.0,
+                            199.76142374915398
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            202.0
+                          ],
+                          "in": [
+                            61.76142374915397,
+                            202.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            51.0,
+                            202.0
+                          ],
+                          "out": [
+                            48.23857625084603,
+                            202.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            197.0
+                          ],
+                          "in": [
+                            46.0,
+                            199.76142374915398
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            189.0
+                          ],
+                          "out": [
+                            46.0,
+                            186.23857625084602
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 18.0,
+                  "h": 18.0,
+                  "radii": [
+                    5.0,
+                    5.0,
+                    5.0,
+                    5.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    46.0,
+                    184.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 13,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  190.0
+                ],
+                "runs": [
+                  {
+                    "text": "Linux (Ubuntu ¬∑ X11 / Wayland)",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 17.0,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.9529412,
+                          "g": 0.96862745,
+                          "b": 1.0
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 14,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  212.0
+                ],
+                "runs": [
+                  {
+                    "text": "XDG desktop portal & system libVLC ¬∑ .deb & .tar.gz",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 12.5,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.47058824,
+                          "g": 0.8901961,
+                          "b": 0.79607844
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 15,
+              "name": "Dot macOS",
+              "appearance": {
+                "items": [
+                  {
+                    "kind": "fill",
+                    "paint": {
+                      "type": "solid",
+                      "color": {
+                        "model": "rgb",
+                        "r": 0.9529412,
+                        "g": 0.96862745,
+                        "b": 1.0
+                      }
+                    }
+                  },
+                  {
+                    "kind": "stroke",
+                    "paint": {
+                      "type": "none"
+                    },
+                    "width": 0.0
+                  }
+                ]
+              },
+              "kind": {
+                "type": "path",
+                "path": {
+                  "subpaths": [
+                    {
+                      "anchors": [
+                        {
+                          "p": [
+                            51.0,
+                            268.0
+                          ],
+                          "in": [
+                            48.23857625084603,
+                            268.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            268.0
+                          ],
+                          "out": [
+                            61.76142374915397,
+                            268.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            273.0
+                          ],
+                          "in": [
+                            64.0,
+                            270.23857625084605
+                          ]
+                        },
+                        {
+                          "p": [
+                            64.0,
+                            281.0
+                          ],
+                          "out": [
+                            64.0,
+                            283.76142374915395
+                          ]
+                        },
+                        {
+                          "p": [
+                            59.0,
+                            286.0
+                          ],
+                          "in": [
+                            61.76142374915397,
+                            286.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            51.0,
+                            286.0
+                          ],
+                          "out": [
+                            48.23857625084603,
+                            286.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            281.0
+                          ],
+                          "in": [
+                            46.0,
+                            283.76142374915395
+                          ]
+                        },
+                        {
+                          "p": [
+                            46.0,
+                            273.0
+                          ],
+                          "out": [
+                            46.0,
+                            270.23857625084605
+                          ]
+                        }
+                      ],
+                      "closed": true
+                    }
+                  ]
+                },
+                "live": {
+                  "shape": "rectangle",
+                  "w": 18.0,
+                  "h": 18.0,
+                  "radii": [
+                    5.0,
+                    5.0,
+                    5.0,
+                    5.0
+                  ],
+                  "xf": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    46.0,
+                    268.0
+                  ]
+                }
+              }
+            },
+            {
+              "id": 16,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  274.0
+                ],
+                "runs": [
+                  {
+                    "text": "macOS (Apple Silicon & Intel)",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 17.0,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.9529412,
+                          "g": 0.96862745,
+                          "b": 1.0
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            },
+            {
+              "id": 17,
+              "kind": {
+                "type": "text",
+                "kind": {
+                  "kind": "point"
+                },
+                "xf": [
+                  1.0,
+                  0.0,
+                  0.0,
+                  1.0,
+                  80.0,
+                  296.0
+                ],
+                "runs": [
+                  {
+                    "text": "VideoToolbox acceleration ¬∑ .app bundle & .dmg",
+                    "style": {
+                      "font_family": "Inter",
+                      "font_style": "Regular",
+                      "size": 12.5,
+                      "tracking": 0.0,
+                      "baseline_shift": 0.0,
+                      "h_scale": 100.0,
+                      "v_scale": 100.0,
+                      "rotation": 0.0,
+                      "fill": {
+                        "type": "solid",
+                        "color": {
+                          "model": "rgb",
+                          "r": 0.6509804,
+                          "g": 0.70980394,
+                          "b": 1.0
+                        }
+                      },
+                      "stroke": {
+                        "type": "none"
+                      },
+                      "stroke_width": 0.0,
+                      "underline": false,
+                      "strikethrough": false,
+                      "all_caps": false
+                    }
+                  }
+                ],
+                "para": {
+                  "justify": "Left",
+                  "justify_auto": true,
+                  "left_indent": 0.0,
+                  "right_indent": 0.0,
+                  "first_line_indent": 0.0,
+                  "space_before": 0.0,
+                  "space_after": 0.0,
+                  "hyphenate": false,
+                  "mojikumi": "lineEndHalf",
+                  "burasagari": "standard"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "swatches": [
+      {
+        "name": "[None]",
+        "paint": {
+          "type": "none"
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "White",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Black",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Red",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.92941177,
+            "g": 0.10980392,
+            "b": 0.14117648
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Orange Red",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.94509804,
+            "g": 0.3529412,
+            "b": 0.14117648
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Orange",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.96862745,
+            "g": 0.5764706,
+            "b": 0.11764706
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Amber",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.9843137,
+            "g": 0.6901961,
+            "b": 0.23137255
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Yellow",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.9882353,
+            "g": 0.93333334,
+            "b": 0.12941177
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Yellow Green",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.8509804,
+            "g": 0.8784314,
+            "b": 0.12941177
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Lime",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.54901963,
+            "g": 0.7764706,
+            "b": 0.24705882
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Green",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.22352941,
+            "g": 0.70980394,
+            "b": 0.2901961
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Emerald",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.0,
+            "g": 0.57254905,
+            "b": 0.27058825
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Teal",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.0,
+            "g": 0.40784314,
+            "b": 0.21568628
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Aqua",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.13333334,
+            "g": 0.70980394,
+            "b": 0.4509804
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Cyan Green",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.0,
+            "g": 0.6627451,
+            "b": 0.6156863
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Cyan",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.16078432,
+            "g": 0.67058825,
+            "b": 0.8862745
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Azure",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.0,
+            "g": 0.44313726,
+            "b": 0.7372549
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Blue",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.18039216,
+            "g": 0.19215687,
+            "b": 0.57254905
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Indigo",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.105882354,
+            "g": 0.078431375,
+            "b": 0.39215687
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Violet",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.4,
+            "g": 0.1764706,
+            "b": 0.5686275
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Purple",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.5764706,
+            "g": 0.15294118,
+            "b": 0.56078434
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Magenta",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.61960787,
+            "g": 0.0,
+            "b": 0.3647059
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Rose",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.83137256,
+            "g": 0.078431375,
+            "b": 0.3529412
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Pink",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.92941177,
+            "g": 0.11764706,
+            "b": 0.4745098
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Brown",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.78039217,
+            "g": 0.69803923,
+            "b": 0.6
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Tan",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.6,
+            "g": 0.5254902,
+            "b": 0.45882353
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Coffee",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.4509804,
+            "g": 0.3882353,
+            "b": 0.34117648
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Chocolate",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.3254902,
+            "g": 0.2784314,
+            "b": 0.25490198
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Sand",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.7764706,
+            "g": 0.6117647,
+            "b": 0.42745098
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Copper",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.6509804,
+            "g": 0.4862745,
+            "b": 0.32156864
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Rust",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.54901963,
+            "g": 0.38431373,
+            "b": 0.22352941
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Walnut",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.45882353,
+            "g": 0.29803923,
+            "b": 0.14117648
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Espresso",
+        "paint": {
+          "type": "solid",
+          "color": {
+            "model": "rgb",
+            "r": 0.3764706,
+            "g": 0.21960784,
+            "b": 0.07450981
+          }
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "White, Black",
+        "paint": {
+          "type": "gradient",
+          "gradient": {
+            "kind": "Linear",
+            "stops": [
+              {
+                "offset": 0.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              },
+              {
+                "offset": 1.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              }
+            ]
+          },
+          "angle": 0.0
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Radial White, Black",
+        "paint": {
+          "type": "gradient",
+          "gradient": {
+            "kind": "Radial",
+            "stops": [
+              {
+                "offset": 0.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              },
+              {
+                "offset": 1.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              }
+            ]
+          },
+          "angle": 0.0
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Sunset",
+        "paint": {
+          "type": "gradient",
+          "gradient": {
+            "kind": "Linear",
+            "stops": [
+              {
+                "offset": 0.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.9843137,
+                  "g": 0.6901961,
+                  "b": 0.23137255
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              },
+              {
+                "offset": 1.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.83137256,
+                  "g": 0.078431375,
+                  "b": 0.3529412
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              }
+            ]
+          },
+          "angle": 0.0
+        },
+        "global": false,
+        "spot": false
+      },
+      {
+        "name": "Ocean",
+        "paint": {
+          "type": "gradient",
+          "gradient": {
+            "kind": "Linear",
+            "stops": [
+              {
+                "offset": 0.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.16078432,
+                  "g": 0.67058825,
+                  "b": 0.8862745
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              },
+              {
+                "offset": 1.0,
+                "color": {
+                  "model": "rgb",
+                  "r": 0.18039216,
+                  "g": 0.19215687,
+                  "b": 0.57254905
+                },
+                "opacity": 1.0,
+                "midpoint": 0.5
+              }
+            ]
+          },
+          "angle": 0.0
+        },
+        "global": false,
+        "spot": false
+      }
+    ],
+    "swatch_groups": [
+      {
+        "name": "Grays",
+        "swatches": [
+          {
+            "name": "K=90",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.9
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=80",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.8
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=70",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.7
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=60",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.6
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=50",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.5
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=40",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.4
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=30",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.3
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=20",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.2
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "K=10",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "gray",
+                "k": 0.1
+              }
+            },
+            "global": false,
+            "spot": false
+          }
+        ]
+      },
+      {
+        "name": "Brights",
+        "swatches": [
+          {
+            "name": "Bright Red",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "rgb",
+                "r": 1.0,
+                "g": 0.11372549,
+                "b": 0.14509805
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "Bright Yellow",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "rgb",
+                "r": 1.0,
+                "g": 0.9019608,
+                "b": 0.0
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "Bright Green",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "rgb",
+                "r": 0.0,
+                "g": 0.9019608,
+                "b": 0.4627451
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "Bright Blue",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "rgb",
+                "r": 0.16078432,
+                "g": 0.4745098,
+                "b": 1.0
+              }
+            },
+            "global": false,
+            "spot": false
+          },
+          {
+            "name": "Bright Violet",
+            "paint": {
+              "type": "solid",
+              "color": {
+                "model": "rgb",
+                "r": 0.8352941,
+                "g": 0.0,
+                "b": 0.9764706
+              }
+            },
+            "global": false,
+            "spot": false
+          }
+        ]
+      }
+    ],
+    "graphic_styles": [
+      {
+        "name": "Default Graphic Style",
+        "appearance": {
+          "items": [
+            {
+              "kind": "fill",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 1.0,
+                  "g": 1.0,
+                  "b": 1.0
+                }
+              }
+            },
+            {
+              "kind": "stroke",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0
+                }
+              },
+              "width": 1.0
+            }
+          ]
+        },
+        "id": 1,
+        "unit_box": true
+      },
+      {
+        "name": "Black Outline",
+        "appearance": {
+          "items": [
+            {
+              "kind": "fill",
+              "paint": {
+                "type": "none"
+              }
+            },
+            {
+              "kind": "stroke",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0
+                }
+              },
+              "width": 1.0
+            }
+          ]
+        },
+        "id": 2,
+        "unit_box": true
+      },
+      {
+        "name": "Heavy Ink",
+        "appearance": {
+          "items": [
+            {
+              "kind": "fill",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.105882354,
+                  "g": 0.078431375,
+                  "b": 0.39215687
+                }
+              }
+            },
+            {
+              "kind": "stroke",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.0,
+                  "g": 0.0,
+                  "b": 0.0
+                }
+              },
+              "width": 4.0
+            }
+          ]
+        },
+        "id": 3,
+        "unit_box": true
+      },
+      {
+        "name": "Sunshine",
+        "appearance": {
+          "items": [
+            {
+              "kind": "fill",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.9843137,
+                  "g": 0.6901961,
+                  "b": 0.23137255
+                }
+              }
+            },
+            {
+              "kind": "stroke",
+              "paint": {
+                "type": "solid",
+                "color": {
+                  "model": "rgb",
+                  "r": 0.94509804,
+                  "g": 0.3529412,
+                  "b": 0.14117648
+                }
+              },
+              "width": 2.0
+            }
+          ]
+        },
+        "id": 4,
+        "unit_box": true
+      }
+    ],
+    "symbols": [],
+    "guides": [],
+    "grid": {
+      "spacing": 72.0,
+      "subdivisions": 8
+    },
+    "raster_effects_ppi": 72.0,
+    "images": {},
+    "next_id": 18,
+    "metadata": {
+      "author": "",
+      "authorTitle": "",
+      "description": "",
+      "keywords": [],
+      "rating": 0,
+      "copyrightStatus": "unknown",
+      "copyrightNotice": "",
+      "copyrightUrl": "",
+      "created": 1794692801,
+      "modified": 1794692850
+    }
+  },
+  "images": {}
+}
+ VCBLOBS %PDF-1.7
+%ÄÄÄÄ
+
+1 0 obj
+<</Type/Pages/Count 1/Kids[6 0 R]>>
+endobj
+2 0 obj
+<</ProcSet[/PDF/Text/ImageC/ImageB]/Font<</f0 3 0 R>>>>
+endobj
+3 0 obj
+<</Type/Font/Subtype/Type0/BaseFont/PWCOZV+Inter-Regular/Encoding/Identity-H/DescendantFonts[4 0 R]/ToUnicode 8 0 R>>
+endobj
+4 0 obj
+<</Type/Font/Subtype/CIDFontType2/BaseFont/PWCOZV+Inter-Regular/CIDSystemInfo<</Registry(Adobe)/Ordering(Identity)/Supplement 0>>/FontDescriptor 5 0 R/DW 0/CIDToGIDMap/Identity/W[0 0 656.25 1 1 730.46875 2 2 643.5547 3 3 764.64844 4 4 641.60156 5 5 459.96094 6 6 638.6719 7 7 565.4297 8 8 689.9414 9 9 645.5078 10 10 590.33203 11 11 903.3203 12 12 281.25 13 13 601.0742 14 14 268.5547 15 15 288.08594 16 16 562.0117 17 17 630.8594 18 18 288.08594 19 19 406.73828 20 20 985.35156 21 21 242.1875 22 22 590.8203 23 23 612.3047 24 24 599.6094 25 25 818.3594 26 26 527.83203 27 27 360.35156 28 28 364.7461 29 29 545.89844 30 30 620.1172 31 31 645.9961 32 32 364.7461 33 33 721.6797 34 34 376.46484 35 35 583.0078 36 36 571.28906 37 37 327.14844 38 38 617.6758 39 39 609.8633 40 40 753.41797 41 41 561.52344 42 42 875.97656 43 43 242.1875 44 44 644.04297 45 46 612.3047 47 47 552.2461 48 48 591.3086 49 49 364.7461 50 50 744.1406 51 51 682.1289 52 52 562.0117 53 53 746.09375 54 54 548.8281 55 55 689.9414 56 56 613.28125]>>
+endobj
+5 0 obj
+<</Type/FontDescriptor/FontName/PWCOZV+Inter-Regular/Flags 131076/FontBBox[9.765625 -215.82031 959.96094 906.25]/ItalicAngle 0/Ascent 968.75/Descent -241.21094/CapHeight 727.53906/StemV 95.4/CIDSet 7 0 R/FontFile2 9 0 R>>
+endobj
+6 0 obj
+<</Type/Page/Resources 2 0 R/MediaBox[0 0 520 340]/BleedBox[0 0 520 340]/TrimBox[0 0 520 340]/Parent 1 0 R/Contents 10 0 R>>
+endobj
+7 0 obj
+<</Length 13/Filter/FlateDecode>>
+stream
+xú˚ˇ>  #’Í
+endstream
+endobj
+8 0 obj
+<</Length 594/Type/CMap/Filter/FlateDecode/WMode 0>>
+stream
+xúmî…é‚0ÜÔyäöC$˙¿$∂¡ÈFâ-á^‘¥fŒL$p¢,ﬁ~ˇEwk4@øk˝™∞„o˚Ò“UGõü)Ωs[ıM¡„ıÛ°é‚xS˝ï}˜¬Ïÿ›≠ÌåÍ¶*ZÓhΩ€Ï|ŸEqºÛ≈•w|˜˘üÀäœ•ˇrj–∫oªÍ≈ÒGŸ]xF#PËâvé}Wv7J¢8˛≈M[V~F*ä„≠wÎÍ:4◊Fâ‘†‰≠©ä=wt*Ωk§á∫ë“‰ ¢æãÎ°¡˚[€ÒuÁOxπæO"¢‰ùœe€57Ö∆»Ò	ñ◊∆qS˙3çÓÕ~3Ó˚∫æ–$•·îΩø… ˇr∏2%¸y*î§æé>n5KÇ‰˜sÂÓB°≈¢r‹÷áÇõÉ?s4O”4]–<œÛ|1T¸«>µ;ûä?á&∏´Õ”tbAÈ†¶ ¿ñCM`œiPzeaK°2ƒ≠°°‘<'PKÿ,‘
+JrÆQArn`õBm°û†Ú†VYPj@öf»©¿gêEÅOo°¿g–ô>…>ã
+
+|V‚¿g¡†¿g1%æL≤Ä/√Ã¯¥x
+ﬂ#¯2Q‡3¬ >Éz|ùiŸüÿ¿óa|3”‡≥ËEÉ/ì8±ÅœHŸÿ5¯,f¶¡g±1>ãΩk·É>ÏAÉœJeÀ†åÏ]…îå¸?≈æ©ÿ¿óa.|Ï¡»˛VP‡õ¢3#˚À¬Öëõ1\ù·Ö¯º´Eﬂ4Ïª@Ñã9‹¬“ÛÁKSWı>·â∫øvÉzÕˇ^_ª
+endstream
+endobj
+9 0 obj
+<</Length 9034/Filter/FlateDecode>>
+stream
+xúÕ{y|S«’ËôπãdÀõ¨’6W\[K≤≤lπH^ 0´%[266`¿Äñ0!&ƒêƒê§,mB6í∞åå≥A˛í6…ÀØ_⁄∫MH“ÙKö¶4iñ&Ì◊6|˝~sØdLñæ~Ô˜˛xÊ'Õπ3gfŒúsÊlW  t+niv§ﬁ| ~ÄÿïmÕkÚ5ª – @RBsÎ÷ï’/æ|@Úœ∆^ni
+7›$‰˜@QKKSÿ|á! ˇS »jY€æE∑'”Pê _¥Æ_˛ß¸e>¿D Ämk√[⁄∞/˘^Äâ€@X^€¥‡„Œ&˛Ä˘q€˙MÌçΩ/æ‡ ¿O⁄66µµã€ ä¨ ¯ø˝{ûÖá·anÄ≠êÎ∏À√ü≤≠√…ãØè¡≤u√_®£‹üŸV
+√8ª`í—MÚ‡–ÁÿÉ¸Ú+C«˙˘”‹gÃÌ∏óˇ˜7f3>2z/∫^l7ûâÓ7≤û<8≤¶V~5∫ÓÁ◊◊enY˚yfKl}.Å¿¢@yP™ûá§yUÑ_∞$@
+md|0¥RË^ 8;¸Ç¥∞bÖÿ`≥€		¯≈≤>@‡˘‹πàZÈ&ÿ%⁄Eªõ0.°Ò,c4ÅœO~!ÚE∞—Ôãd3~Ç˝∑$A$ÿÔ7∂fK∆ÿÚ{”;ÌÌK2!ﬂÅ`øËÎ3 É?‰	‘öÇ}fD1›Ñu∆IL˛ ›èò˝˛(ÇMh»@aK˙∆£D˘är¬óÏÑ…Œ_∞ãv[w@ 55;ëÇ6ÅîP®$"*v∏ëåØ	ÿ£O)†„s†& ¨∫ª√âØ	ÑlËX<Öä(T≤ÖÇ¡†ç‡lí‡_A`~Ä@E∂ìø≠ädR(≥*¸|
+¨†œs–6ÜÉ9É¡Ë	ÇB#1˚E_–M8óP.6;‹(çø&@4¢èhEüÕnr^a7aúBcD”‡Ë =ÆM%ü~M®|·rÌ—˙Ön°õ g§ÄÀ&¨c^ Tcœƒ†=(iAÄ ßçÚ%Jäõh\$ŒÔÏ¨äYÎ"q¢Oàæ0¡+	ZAPàhr›$Œ%Pjì¸+ûg°A†+)§(°2Ö⁄xW_\¯À}πˆ≈—πnT§u‰	¯	õ ª≈0™¬l∞QÅ¡F§Ü&[ó©[$~œtíU†ì•ÔöîDı_ÙùML ¶º&`∑âˆ`Æ›Mí]åÀIc∏ÃMR\ÖÅ$˚g—í,˙Ç$Ö>Õ$Eëóﬁ%êÖ)¬Û,¨Ë√DÔ	›!ÅËEüË&©Æ™ÖÅ€XÃ"âM‚71∏™Ê™®ù6{0ãî~£+©˛EÅHj™ü†∞èËùÙ úÌã$”ØúÌ#»,
+Ñ…Æ	D(˚õÌÎÓË∂)πvë†p∂©„t
+ŒVzÇ$Ÿ_IR¸ï!Ço÷˜à0`ÀÚò÷áR§erAp˘¬ I}B9I}$Q$öêO=gµ"–É|>ÂÄQÙéµN≤œit≥+&ßõX\D[´+ÇiõÊä0¥MwEX⁄⁄\é∂c\û∂ÆàÜ∂ôÆàñ∂c]ë8⁄:]båˇÑU-àBAÀÈmq◊®AÛ»‡u–=j–12∏Q\@íùﬂ{NÇ¬œ®G•Á}>ª+Ç”M∆π"à∂¢+ÇiõÂä0¥ÕvEX⁄:\é∂9ÆO€ÒÆàÜ∂\-ms]ë8⁄ÊπÑREaÛ]BàXCÇ_$(Du"L/a’Ÿ…wí¸\7ôËÑJ·{§)ÜKDjÿˇ%Üçû~RLƒë$æújôò·ê©<PTNÈ≈ûÔ√)t	^ÖrØ¢8Âﬂﬁì Áw“B˚¡L„Ä≤ibI§ôËYã\B©P˘=ÙáK‹§ÿïg)uìíˇ*A˛%n2Ÿ¡`ŒÚÑJjŒûŸ›])Väa!–`£VWÙıï d2Ê∫…3±à>¬f6[Aã$ÄèË¸Œ¶Ó<QJªK‹dÍçhBû∫·E_[ !jS§yÅ≥¨¿	∂≥¨ÉK˙®•ç˜›¢2C¨ﬁˇÕÎ¢÷NıJ¨?‘(Œn¨	÷∂Œ¢ñÓõs¬¢ ÷!VÑKl"â˜WPèÔWv		ﬂµâ®⁄Tﬁ¢¬‡≤√Ñ˚÷™ÑuP"≤)Lv®1jIØÔtì“/A ú# ±¥ƒMn"Ò xÖXI7•Rú6¬Bzï”ÚÑR—Æ¯€hß@ÈääÇŸÑÀû9:vQÖ¯]⁄ïñHU˛ÊQî¯c‚
+— ÁõGéâXrâBÂb±¯5∂˘¡ÄPÃã £”M¶ﬂ0:ﬂVs√®Ô;Á˛´~ô‚¸Wñπ»Tg∑ îRÎ.˘~T¬˚ÛHÅ”M ï#S˝t®úì—ßù*®(î
+ybIt˝
+W$ûÕˆ≈¶¸U∫Úˇï”3Q;V*ñÿÏ£Ù≈å“YÈä¿gå+3\òÍ¥SôQB£ßa¡LìzÌ˚ÄﬁpC) uìYﬂ”_Âä 2HqÆõTª»‰\7ôMπX.
+yBE∑éqkéã*4ôÌtìπÆ>Ä
+ßõ‘∏˙ Q`û´)=Û]}HÈY@q*ùn≤ê‚P`≈°¿bäCÅZ◊Y ;›$‡:KC'ßõ]gë⁄∑ƒu©}K)¢–2äß@À)û’Q<™ß{ñ;›$D˜§@òÓIÅ∫'VPúN7i§8h¢8XIq(–¨–UÊtìÖ.
+≠RË¢–jÖ.
+≠QË¢P´BÖ÷*tQhùBÖ÷ª"P:"¿6ÂâHN7Ÿ†Ç”ùn≤ë2]yÚ9›dì+Ç¢8Ì*Hq:≈π≈ÅõFV›¨<)3∂® ù±U)˙6WEnUAä∞])¬mÆLYoáÚ§†ÔTAäﬁ©Ç}ó+Ç¢∑´ Eÿ≠Ç·WnYØKyR–˜® EøS)˙^WEÓRAä–≠Çaü´OßD∂Ñ∑ı±ò)àvõ=Ù9â∂â0Y5[bŒ⁄ÒhÜbæ“H¿Äê"‰√d∏¸PâéJ∫4§KD’F§CUU4Síz@√Òºf# 0ê±ŸÑ3N’RõAüçR∆ÈSöaú%'çKnÜ$H≥&•5CÜÕöQõé¨9»f±⁄ö¡2eé±d6√ò¨8Ãi∆pÕ¿ÉñÂµ-¿äàX¶ãÖ±ÕÄ!!'4C"Ë‚uÕ_ÒÒPsm“Jß·;ˇø°)(’MôRPêïïô©’≤leEyôﬂ7]örÛîõß›T:µ`r¡‰í‚"o°g“ƒ¨¸¨¸<∑Àô;a|é#;SÃ«ŸÖ±clÈVãŸ§5h©˙î‰§ƒ]|´a5©˙î	|öŸıv§∑ÎÈG4yºìËeLvØXÏµõ<
+‰ÕQæ=¥√ƒP“–^ì^Ùz˙˘j®Yã$y Ií4 !È“%y‡≠∑ê‘9Ä§ûy†≠m†SËÏDí40–)IrH˚˛®ì~wJù◊:%iÁtâx_:÷)I!I
+H«$)‘)ΩlHÍdﬁ ÿ6¸)◊¬];LïJ 3ÉπN‡XÜcw √†0 ¥l6∞,Ñy∞Ê »ÃH∑¶¶$&ƒi¿éÏùŸ…çÀ¬ﬁ¬‘,œ$≥Ÿ"ÊaqèM∆T≥gRQQ±'	3…Â7û~9/z:˝ÇiÎ…û∑vÏ|´´·È≠¶ÈO_@µü~ÜjœuºstÂ˛ ΩÚ◊/»_ﬂ9c”°wo¿–¿~ƒB
+§ÅG*àCòE’¿F,né£íÜ≈≥y#TãÊ §YzHÅîâªFóÊÙËÌìÃfìë◊ Ò¢]Ø∑O*Ú:D{?íOˇ~Ìùw£9Ô ØÈSÂã®Ñ:‘'ø∆n˛e◊˝ÔN˙!ˆ£°¯ì√ªªéQZ(œÂ.C2å∑î{ùM¬¬¨ '}
+Ç4K X˝ÿ8$£d˛>±©&#fs&•z±#∆/&Â¢¸∆…ì»yÒ" }˙i˘Õã]óvÓº‘µÁ≠ù;ﬂ·—9˘…œ>ïü|Å‹â4êÊNï]WˆÇˆ·ÀÏiÓ2(Úd9ƒ±®Êﬁ«ÑÅañÕJ'ïgà ”>6cLö%N√2PÄ
+¢ÚÃÒdb*>o°√ëì„pxãäTÒ:(π&£Ÿl±d2&#œ„ï?H|I€p§∂È·∫y{j˙˚_›˚Qœ}Ïfœ%>€uÄÑªä(=p«¢ùMˇ„˘ÖkΩæ-sg,ôbˆx.‹ø„'--g7¨›|◊™9ıﬁ‰	)%ÀÔmŸˆ”ç √√–ÉÔg2ô)Sah#Ä»‚uBLNsÉê &pJ„ÅÑ‘LU’*ãZ<¿dHNÑHpÿyùı∫|á¨}ˇ4ï~‰?8K•øÛÕÆÆ∑:á˛à_åt›qê≤g7åï∆(õ B8ƒƒv8ΩûUvÒËÌ¶˛∏èºÚÊ	¿P¿Õ„A)‡í&$"FÙ∑E%xDu„¥†ç^ØÁ©‚";c∞3Gœk
+q∆ª8Î’ÜéˆºÜælµï‰WXπ¡+yËò¬(ØÍÌ„èΩ[ ÿWï=ÌR&KóèÚb´€p∫4ß¡k7Ÿı¢æÅ])ª/pπ'N\yìÀ•9üzÓ…‹ ƒ¡…3Õ0≤áX∂ñ•À≈Aú^!;ùÚŸdW>˝L◊–dº{Ë6nÑåOmè≠…Ô·!r§¨t=œ`@’)Î±#02≠zklEd6[äää%¥∞®òW.≥√ëc6õÙ˝(	≠7M≥•O3£’(˘<ÀLXê.ü}L>ù6œÖ9n⁄¬¢ó^*aN^…cÃˇºΩÛØækßò7ˇe˜Í/_;u˝¨3πA–Aæ‰˙ˆYÅeπzq\-G…”ÅéXØ—ŸFùÿnÍgˆM¬≠¿óË©”O»	'F÷GπA` M2cÑ–‚Ÿ Pt5=£≥8ë^‘£ç®Lπ¡·a8ÜoBßô*F© xƒE =èg©WQöŸ:H†rÊQåì¡Ÿ◊53¨äf⁄ë«†r—‡AË˜Ú¢ü}ûûk0LHˇ¸gÚ"∂nh’Ãf‚CWè+˜l€ßÏAÓ2Ë¿Ú/l]bÉ>¡íh—p†C:’÷Å><ìËwŒ§T}
+«a}J*ﬁÛµ¸2˝Û+dî?øÚh$ÚË#}}F‘ÉZ—jtø‹*ˇ@æ_n{ME6îÅJÂó‰Â? ?«ÜˇÜN#:Hó,T&asIÍ∂å≤-5UûIÙé£úíπsKJÊŒMTæKJÊ*¸
+‡ªc˜ÇÁ™˛Ü,ËÕà…BDﬁl|˜˘x˘0*SÑ2N˛˚œïóàﬁkµCTè”íx∫X5FXUdÃ0µ].2ÙUèGK¿ìÑ¢∆<Øa–kÚÍ?µ∫åFW˙óo˝e“É€˙…OÂñﬂÉ![ØgÊØ≠Ωºj’À!Ê‡µuÁ_o~©û9x%è!ï«ñ>4ÔZçb;∑†Õ<É0 xòå)µΩ Ï∂PˆáÄE’U¥6+•À¢0eUÖ6…ÙXá„˙ÿ@9— R£aSò„±(~¡DØ$uh~ˇ)Ttf√SøÏø≥cÎ√∏w®Å≠˚≈ÊïÉøöÇü€uA™U-√±3∏A0Cl&±<•ƒTê≤ÅÂ9ûÂ:„≈≥ÅÁu´ü≠EaFÉüeì&|0LmY£˙∑†îfµ »c…≤f©—[úÃ»ßju»™g£V[ÙäI8Gu„x≈Õ·È˚ﬁ‹≤ıÕ}k;ÀSì˙OS+w’>˛–Wﬂ]QyèıƒˆE≥∆“Lús%Ô‘ÿÂ3˛Û˘>\wæΩ„‚ÜËYŸ÷oFı£nPË˚¢Ö‚h¥¿ÁD›ÒaMáˇÿŸ˘«√G.wv^>≤·`E≈¡m==÷ƒû<É∏û˘ÍôìÚµûá€≤n˝≈éémÎ~“* ¯
+∂.j}ìGimp¥÷fB¶ﬁ˙]Z;¢∂Qüƒ†#Ú©ã{≠%6õ7}œ¿Vo˙ò‚¥ΩÂSgåÒ§ßymÿ:ŸZ˚vWÁ[À—G≤u…•]ùóñ¢èÆGWB?_≥Êı:ô≠√1øf[!&Jy3À∞àA’¿0QT.}îcli∆T-9(áSπïSl¶!ß∑0''+ØX4±p≈bQ˝>N?˘aÊ”÷Æ∆é}èûì”z~Û©ãéG,kZªñ4<y¯‡˙W¨?80aŸ‚∆ÚM9Æ ?áÓ[pËñ‹“Üe”™,„≥mj8Bﬂe"»p?o,íë˙V‘ ∑å∂„HD∏_GÔÛ÷Øµ¸W ºw‰èÒ>ﬁ…†óíhG tã≈àuVß°05µÿ√cD~«ﬂ^ufˆÜ“≠ªŒÏ‹çÎAM®Í÷ÂìÚ3_ëó ˇxΩ®¨9ÄÕ`Î¿I4$j{›	∞éyXR≠©‘›{ÚXT1{sT9j¶£ª‰{˜9n ∞ï‰‹Û∫‹çˆ˛Í—Ï)c“ãè„iXxªtç«≥¶ÙÌ°7á~~urs~~Û‰´Q/±ùªôê3•
+‚xTòaÃv<«Ú´Æ˚éÎ˜s9Ã∆"Ôõ'‰YÕ˙d%´»Dô—ÀÈ¿^ÍCba'÷{‘(î
+Ú[◊aœÚsGñ!«–m/ÔH=ó∂ø˝‰K	•€;≥s˚áóÙ,úwœí%œÔ1ñC©Ø£ª–©∆æéÌÚ%˘oÀWÌxØgﬂÓ|b…°ÂK,;T8¥0l`ü·!í°X*L†RF·jáœbÃ†hÙFÌ3Gß–%Îí ‚ız}™VóÓ4xëGÔ1âzQ_¨ëiﬁˇß◊^{%»i(ˇá¨ˆ˚Ñ¸+îˇìtMN†ﬁI˛Î˝∞HFE?®]¶zï…™WÜTö4‡è9ï⁄M®´£¥mŒô™_◊mÚ«(=ÚQZ¯‡≠Ú3Ú—„Ô…”ﬁP#fÆZ9ã∆KŸTı†¯<å°û^™Zz©˙Dã!≈”Ke∑ÎÌ—\%€.PWn∑„.9}¯Ú>ˆ∏¸¢è4(È‰+Úê¸'n∞O>˚ßèÂHˇ	‰E…(—
+(~ø¡ÆÉTòı¨é¡¶Ê~ú‚x®å**RxH}å£Ü2:î  R≥
+ïêïrUUãIΩ‰˙ﬁ”	cj4ßh•¨≠Ωl›…EÕ=Éµ˜m*ã˘ù
+∂¨ –¸»lRH°a8£¶ë◊Ω»®¸(sLzöAØ∏+≤jn∞Ãôÿd≤+Vßÿ¬Û»Æ™#n?˛…ŒÌ8<u˜¬koiŒ?∞‚ﬁ±ßs>∆mâG∫C˚j¨=ü<â¯˚ßÓ~ÛáUgŒ◊.*ÿ˘ >~ÔŸ%)ø(ùyl+dP;hKO–—ËΩ˙:G˙FÏ†’úBiÀ@‹ç^#j¸î€•0Ê3éˇ=ÔT⁄Åuäªh€p_⁄I˜W#^„ëÉØW}≈¶•xRçtå√≈\X`≤Táƒ+78ñÎ¢°[Ø·1Àï§®0^≥9zΩ¡a–kucú»$Íç1Rƒq/≠{Ë=zº¯ÚMïzØ9{L•x‡¯â˝l›—°∫™r-{8>˛»]òEÒÚ?T:n˛î›Ã]Ü<ò#UÂ Ü÷xéÂx∂Co$µ8bôU¿qö0h4—ÑWãÌc«ÿ¨Ê‘î‰ƒ8«B ãôõO‘É8D—∆ÒºFúÜ£fGcä∫ë[~–≈h˚wÓÆˇÒ≠[w?“≥≠∫kÛ{«€ª˜˝Ø÷Æç˜ˆﬁqŸÿÿwÀÍ[{⁄∑ylﬂ¶ı{äWŒÏËkl{vı2.¡ÚwoXØúÈ( ;óªP(MDà•N—úñÈ§Q8u~À®–Ÿ˙Î…VdåS«+©ëM√*©&1ößS5»d7EY∞Æ‰·Õ;=ªm∞´Î?;¶ºC>áœ‹Ö”ñÏΩµºcÔ·wº∫~˝è;Êyqø¸X¬jñ¬-P„3…û „Î…Ÿ(ob≥ﬁªâ45s8º4ÇByXÕ»ﬁ«uôıû8ˆ¬CéÛœü¬«qÉ◊*ij}ÆT	YkºmõÔΩTtÌ4`X2|ôyümÖl(Ç)Œi7YQCa®	HV™Uj¿#Zçb∏X(8Ê˙ê˝©„\,˙3Â88äräÑ±¥lŸ(;zÖﬁ¬i∏xˆ™¨”‰P!gb”HX‰ı&1ö$l2ö—•’ßVVÔ<:ßq«M∑¥o›õ~ yê,.π∑´6í`X∏GjÏû°õULüæ°lwzÕ—u°-Â„‚ì∆M‡[6≠ö:yÂ¶[ÕÉªá∆ŒYPÚ–ú€ ~òhJ—1⁄ú*©6®Íu/ ﬂ»n?«`™◊U$≠& ô’E√3≠Üc¢v2]±ìtTç›ÎØ%˙É-D— ≥D}ú.ÉJIç’’ÔÎ!˚(†˜öpj≈∫ô„/n´Ôﬂªd√Ì˝€Î≥uˇπ°Ì∂Ê’€>u˚P˛lkK˜Í!^æqÔû!)J?öˇÔd∂Û˚’Ãh˛î”pÔÉnò
+‘ÛÍ≥ÕZsôÃb;ñ©∂}£èaôÍ†ä,∆åvÙé3<XÆ,Uò™àpSØË…Ë¢fP2 (ˆ∫ù¬X[zr"àHºÆ$EE≈J≥ TT‰ıyçEÃ·y“(÷3â°∫§2“h∆e˜Ωπ©∫k—ú˙Wo;X_€änŒNÕv˛ÚÌÊYøé»«<À™énÏ≈∞Mr◊œ[‘2”∏ˆÖMı˚6ﬂ\˜¯ ˚R{ ÿ¸‡Ù˘∂í;´ÙRÒµÌ3+ë=Ó(Î(_∑óafKÊV.k™ÒoU≤Ù^πé›¡∂*˘‘ñgåàC±Ã.œÒàÎûWÛÂ†~)Ö¿–lbŸ•¨íO≈ﬂÀÛ—ım‹†d≤Z ÑLöOQ#‡ı˙8ËP¨ÿI%[©9ıËzîf2ö{Oeùk˜ø±uÀ˚Wﬂ^aHB%´ÓÆ¨∏{ı—c«Â:Œf.ù±_äÙ…◊Óôπ|ÏP;7\Ïh?øÓ√ŒˇY=ÎGÏéë‹1°QπcÏ£‰ÑlX6ñ;‚Qπ„w„—≤ÿwÊéÍYSí‚¥ûcGÂéé—$Í=˙Q«ïR-xå“x∫?i‰ÿOåú◊:s˘ÿS‹‡–€£Œ¸®”"ÿ¿|∆÷©’(>Éq5µ4vSÇ$¶>©ı®q˙qäIˆ"Ø›k7Q∞ozò©zwÏa∫'ÓΩˆ›™Õ˛´í7†Ê=¬#Zc`îRÄr£X.vã,—^ñ≠Uá∏ÿÂ—#†/E‚µdà&Ø‘(ﬁ^q^û«iOˆÔÌÿÚ3ßã#IÉø¡/Õ‹u¡{qÔ’„ø⁄÷JÂ‚ù·Jºèﬂ«0Í‘™oùZÍB–?¸'qÉ`¢~âR£FØ◊C!}JB<œÅ	ô‘P(+JÑÚ&By_%Ú◊=Í…∂mgÍ.Ù»W≠›_a.]+YÛD(ÙƒÊ’ké|—≠Ï7Ä+Â!çÊU¶dÌıºÍOòi©È#yï![¶a•æ+Î†…ÿ,ÎﬁΩ‰öíoK/òÍ˙Ì%YáıøïØñîegULñø∆WÒ%˘ß“íÖÖñH®t®‡öå∂Õ_3≥rÌ|yèZÂì+U>dJ∂¡®0„9¢’¬–Rn±≈\T\<∫–ß[˚Û∂LîíﬂZÚ˚‚ß≤…ÛËÊÇ
+yÕè8Û‰-ÀŸ∆°U3iD8∫rµkáíû“∑[∏À ¬4i*`Üg0ﬂ	<p,œ5„Q4•C06ìæRà¶s"µ7æ¸àΩE∏˛íàÍ™≥åÈ˘7'N†Ò{z ˆ”º_˜Ó~s«ŒwÓ⁄~a-ñw‡“^˘3„9T˚	}rÎo‹{‚N˘Î˙Ó£e`˜„èº Ò@¨ŒEÎK	‡ï&i¬∫xV”óX™Õπ°⁄ë 	©#’k“(‘Ë{˚ÕËøﬁì]Ëüíõo·Ø=Ñ>ìÖ°€±nΩ‹8RT™˚ﬂ®¿.˛û
+l¨éÌA80ÙÓ´hjZe~~•y^˙Äº∂ø¸Ωcè˛∂úiøíGsπÇù≈∂BLÑ€§ÑåÃÒ4¿8zY«œ3ajTSßXÓZµVB¶w◊JhN1·_ •4G6WnˆD«D5`ä”@ ¢—
+ãÚV»K$j‡Gﬁ
+yºÙnÒÃË ^qÓø
+Z+∑6Ï9•7îÔj›ÛÊˆmóˆµÓ™0Ëœ‹˛ªªï"⁄=ï«ÂäΩÀÍÑ9≈ù›ÔˇŒˇ>sjxÂ≤Ã≥Wªzû[å[Ò\ﬂÔ◊>€vÚï◊€8Í‡–ANÑo,£· 
+∆Í¡Êç.Gx(3å*	ˇ”3kñßp÷,ŒT1qRy˘§â#±[ß∆.ä§åÚ2f$v°:—€œ÷)Öq@–É'0ô¯¿–∑A¥˛®ñŒ¢o
+ÃıòÏ^&sh#˛≈„è´ø_ßøŸg¡˜^˙_^´O.˝;h¥J˜ñﬂ?)⁄Œºbj5>•˝ù≤é˛Óh‰T S˚À?[åO©ÛF˝ïrö¡Ω€8ÙÛô∞çÌÃiË·∆@?ª˙π.(‰r°Å}˙5S†K Ï/†;†œÅcÏN(‚`ÖôÈ“| ÖËÿŒûÉ^ˆ2¥∞?á~?T∞ì° y¯xá≠ÉÈÏ?`ÁÑ-¯q/C?√@/˚¥∞°˜Çë˝ncGyÙ≥;`âC/˙zπha/+k˜≤k`{zÈö‹C?◊ìzæÇml#ÙR⁄ŸèÄV\∂—πÙ\ ®ÌGÉX¿{˝¯u¸)„`f1ÌÃ 3¿|¡∆≥ÈÏˆ∂è}ãÀ‚ÚπM‹«ºáﬂ…ø¡©±iñj^—"≠[ªF{&éâõw Ójº?˛∂¯!›r›Ê[¬ÅDMbq‚Æƒ{_IJLöôÙH“oì„í$üO~#˘oQ9ñ¬´@Ê√}p7 JJJ ç2ößi«∆@ç"K
+#àáö(å!	ñDa™°%
+≥ê˝QòÉ"x=
+Ûêéÿ(¨ÅÖ(3
+kAã6F·8–∂(¨ç¬	£‡D$†sQ8	
+Ò;‡áı–[a#¨ÇfhÅv`¿D(B4Å 3a¥Clj`#¨á’–+ÏÈ–Ì–Îa#lÖ9ö†:†¬∞
+!
+îußB3¨Çvp√dòì`"4@4A#x`*Ãá0¿‘Q+πø±÷hjnY¨ÙnÇU∞÷ÅoÓ˙ÔÌ¥fÇ aXçﬂ‡»*ÿ§å–!ç–kï˘k@Äı∞Ö™µ∞	ÚF†˘V†eˆte]ï˙M
+ıTÌ–õ`
+‰C˛®÷B‰+≤QwÆP©,(ªµ√few*9£V¡
+hÇu∞I9≥ #˚Q™U)/ÄôPÃÖ6wÙ ’7¨‡·[ºûy G’öÔ⁄˜:ßnÅ0¨Rx‹ ≠ »fE:-Q>V¿tòß¿Ì0Ñ^®úÿ+}mÉvÖîÜV»S4∞Úa.T(wÍ>'jsÂGaˇw˛§R pÄ&A¬‡Å|»Çbò ¿¿xp¡KË¡S†ÊA%Ãá%∞RAK!,ê 9∞f@‘ÇL0 †ÊB,ÄrXƒ@	LÖeês`2ÃB,\Ç]À÷∂ñ¶uy+¬õöí⁄¬õ÷µ6≠lW5ÎVx
+ä)}Uœ√´ÛÑÓ	§˛∑-ü∑s}˝\qérïÁîvm£v°v_ ª¥ôM|¥{;ﬂ /„Á∞>∂êœÊîÓ$ﬂÙ∏)M2I©R≤§ì4†]nLæÈq ›èº @Y$Ìù “ﬁ@Ùy<}~^±é†-íCªŒi;±“ﬁcÙOJπÖ_…/Êg±”ÿ<^‡4Iπœ£·.¬ﬁ¡Pvñk‰°¨˛7i0P
+endstream
+endobj
+10 0 obj
+<</Length 1361/Filter/FlateDecode>>
+stream
+xú’XKo7æ˚W®y¥ù∏VHÍE]zk‚[”K8=¨ƒ–ø_|îfF≥û]£ç/ú©IÒÕôØé9rWXB$wsÁ»ìf)1±#œR#s)éº0óª˚œ.êSwÁb≈zpâƒs")N]bq\º∆ZB2,êªi íô`%Aå!÷8ºÄÎ@™∆+¯ÍptÖÏGu7_‹^¸qÒuWaŒ¶qÜñÅCëî˘êl;π˜Ô˚‰˛yûjÿ™¢ìõﬁ±PRïË»k%Æ./5S—›˝Áã_ØπÎ˚∑∑‰8∏Î€—z‰ÆÔ˛¸˘#}$‚æJ_C_„—ö˙ö˚Zl˝4iÙ5Sççﬂ7{~9‚’ys√o7ª˜~˚¥ë=üà”_◊ø_¸v}:`*j—Äˇ∞F`ÿ√e'!PÄÉã*ûK-¿¢¬O^Ö§6<g g’≈b«)¨î)ª‡e J £ ,‰ëŒ0Ì¿¡ÄUÓBâ‡j˜=˝Á£‡˝ªÁ¨ıq◊‰kIŸIÕˇ#‰L
+Ù∞$ŒC˜ Â2bB}ÂIíï≤§ŒDd“Ï£§¢ÛNg+Ú0? îÌ_9äj.íb%ADGq%ök ‹ï|	∂´8%/Yâ¢pl«VzT|	\u!‰ç÷pp!6F¡p—Å“¯V"∂ŒrW:‹»ÓıH1üÀ6Zñ¡äb>7≤˜Ôû≠Œæ”—ú¨{·û	"ó€'mzÂ&	›	ê∞	êëÊ"»Rµ’40j%Üô`ÇÇ^`=ÿ◊j∑{è?oÂø◊ı•kh’òÈu–^RûµØf´äq¶QÃîÅ≈¯a5›å∫Ã!]í3”¸MÛUÏ`3\©›Ï	‹˛|?ÌÚ«zñKÏò»›πT8∏Ãædéíœ—1âó†Ií‹çå.l@j#%´1d(‹Ú»¯îˆ{Ã©!ËÔ (·pîDÛùw\Æ‰$Ùâµ&∏cYm3{r|‹•Àô.-}ï>àJD•uh
+4±"ß"ÂN˙ld”ƒÁæÃ„nªg6ª°_!Ù+Ñ~Ö`Wpª=&@∏¡9QUÇÛÄP„CàO'ç√hÅgüâS˚Ò%ØxΩ—d◊l?‚Ò”pÓÀ8∑˜Ahg2I”*deKWü˜ÁÂÊfˇ7gÃî∑˚^mß^OW—´äŒl?öÏÀÂab^¨å~Y¡´9,ö±Æ8˘y ;¡÷oŸnoˇvºÁ’c„€	O[™(d£¢=I™—ÚWsKÆÜ‘ûﬁ√ª’¬@)$`à≈“¿òﬁ¿ëø©!•ß∑÷ûﬁã‡!Ω5ŒwﬁOoNÙ4È›ﬂˇéÅ6	g±¨ï≈_4ΩÓÏo8õ€€¸èS"_Ü ô8˙5Ü“v‚q]ÆÅt\úNV∆ÙÒﬂﬂeŒîà∞‘âmzï5¨{n5ÉMâ¥æô¥tπ˙û4∫‹M«Yl‹Ê˜F¸ÀµL‹ÆúzH¯≠Gz∏PôD}
+,€/˚/pÚ¿˛ƒu€—:æò≤¯ı’´Zïx¨0úHÀ⁄å1yú—ùáÙŒ÷Í•‡óÊ£9PnuA4ÿ˘ëN≥±SLF†y[4#ÔJÉπU∞™∞HË2>öŸ≤_r~äöf5˜´›oSk9håÆñ«√">«]ã•M`Ω#|I›á—ª‚\jvB˜Úl≤„Û)¶Ä„BπImöä˙%Vøm∞E≈`´›∂E?ËD|ÃT√¸˘b¨πÉÏ±j;4‡Ω±`œ®'r“»W∂_ñ¯Y·cÔ‰Ó|‘I∑¸[9›c
+endstream
+endobj
+11 0 obj
+<</Title(Ondrane Platforms Card)/Creator(VectorCraft)/Producer(VectorCraft)/ModDate(D:20261114214730Z)/CreationDate(D:20261114214641Z)>>
+endobj
+12 0 obj
+<</Length 1072/Type/Metadata/Subtype/XML>>
+stream
+<?xpacket begin="Ôªø" id="W5M0MpCehiHzreSzNTczkc9d"?><x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="xmp-writer"><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"  xmlns:xmp="http://ns.adobe.com/xap/1.0/"  xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"  xmlns:xmpTPg="http://ns.adobe.com/xap/1.0/t/pg/"  xmlns:pdf="http://ns.adobe.com/pdf/1.3/" ><dc:title><rdf:Alt><rdf:li xml:lang="x-default">Ondrane Platforms Card</rdf:li></rdf:Alt></dc:title><xmp:CreatorTool>VectorCraft</xmp:CreatorTool><pdf:Producer>VectorCraft</pdf:Producer><xmp:ModifyDate>2026-11-14T21:47:30+00:00</xmp:ModifyDate><xmp:CreateDate>2026-11-14T21:46:41+00:00</xmp:CreateDate><xmpTPg:NPages>1</xmpTPg:NPages><dc:format>application/pdf</dc:format><xmpMM:InstanceID>o/2auNxu/W6s/AZ5WoGOFA==</xmpMM:InstanceID><xmpMM:DocumentID>o/2auNxu/W6s/AZ5WoGOFA==</xmpMM:DocumentID><xmpMM:RenditionClass>default</xmpMM:RenditionClass><pdf:PDFVersion>1.7</pdf:PDFVersion></rdf:Description></rdf:RDF></x:xmpmeta><?xpacket end="r"?>
+endstream
+endobj
+13 0 obj
+<</ViewerPreferences<</DisplayDocTitle true>>/Type/Catalog/Pages 1 0 R/Metadata 12 0 R>>
+endobj
+xref
+0 14
+0000000000 65535 f
+0000000016 00000 n
+0000000067 00000 n
+0000000138 00000 n
+0000000271 00000 n
+0000001305 00000 n
+0000001542 00000 n
+0000001682 00000 n
+0000001762 00000 n
+0000002442 00000 n
+0000011545 00000 n
+0000012976 00000 n
+0000013129 00000 n
+0000014278 00000 n
+trailer
+<</Size 14/Root 13 0 R/Info 11 0 R/ID[(o/2auNxu/W6s/AZ5WoGOFA==)(o/2auNxu/W6s/AZ5WoGOFA==)]>>
+startxref
+14383
+%%EOF

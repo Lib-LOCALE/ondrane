@@ -19,7 +19,15 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/player.png" alt="Ondrane player" width="100%">
+  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.1.0/ondrane-showcase.mp4" title="Watch the Full HD presentation video with soundtrack">
+    <img src="docs/ondrane-showcase.gif" alt="Ondrane — Presentation Showcase (Pure Rust + Slint + libVLC)" width="100%">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.1.0/ondrane-showcase.mp4">
+    <img src="https://img.shields.io/badge/%E2%96%B6%20Watch%20Full%20HD%20Video%20(with%20Sound)-MP4%20720p%20%C2%B7%201.1%20MB-78e3cb?style=for-the-badge&labelColor=101827" alt="Watch Full HD Video (with Sound)">
+  </a>
 </p>
 
 > **Ondrane** is an independent, pure-Rust desktop media player implementing [Juxtopposed](https://www.figma.com/@juxtopposed)'s [*VLC Redesign*](https://www.figma.com/community/file/1691465999134370980/vlc-redesign) (CC BY 4.0) with a GPU-accelerated Slint interface, zero-bloat native OS integrations across Windows, Linux, and macOS, and pure-Rust engine modules that go well beyond the stock VLC Qt interface.
@@ -68,10 +76,12 @@ Download packages and checksums from [**Releases**](https://github.com/Lib-LOCAL
 - **Audio & Video Precision** — 10-band equalizer with presets, replay gain, spatial/stereo widening, pitch shift, hardware decoding toggle, video color adjustments, crop/zoom/aspect ratio, snapshots with instant preview, and lossless/transcoded recording & stream-out.
 - **Batch Subtitle Matcher** — Match external `.srt` / `.ass` / `.vtt` subtitle files to whole episode folders in one click.
 - **Bilingual UI** — Complete English & French translations bundled directly into the binary.
-- **Original Identity** — Vector/motion artwork designed in **VectorCraft** & **EffectCraft** ([brand details](assets/branding/BRIEF.md)).
+- **Original Identity & Showcase** — Vector graphics, UI plates, motion presentation, and original synth soundtrack crafted with **VectorCraft**, **PhotoCraft**, **EffectCraft**, and **SoundCraft** ([brand details](assets/branding/BRIEF.md) · [local MP4](docs/ondrane-showcase.mp4)).
 
 <details>
-<summary>More screenshots & branding motion</summary>
+<summary>Screenshots & orbit motion assets</summary>
+
+![Ondrane Player](docs/screenshots/player.png)
 
 ![Appearance and Settings](docs/screenshots/settings.png)
 

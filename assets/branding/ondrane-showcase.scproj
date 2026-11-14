@@ -1,0 +1,1034 @@
+{
+  "format_version": 1,
+  "name": "ondrane-showcase",
+  "sample_rate": 48000,
+  "bit_depth": "Int24",
+  "frame_rate": "Fps30",
+  "timecode_start": 0,
+  "tempo": {
+    "tempos": [
+      {
+        "tick": 0,
+        "bpm": 120.0
+      }
+    ],
+    "meters": [
+      {
+        "tick": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "key_signatures": [],
+  "tracks": [
+    {
+      "id": 1,
+      "name": "Warm Pad",
+      "kind": "Instrument",
+      "format": "Stereo",
+      "color": [
+        86,
+        132,
+        214
+      ],
+      "height": "Medium",
+      "playlists": [
+        {
+          "name": "Warm Pad",
+          "clips": [
+            {
+              "id": 4,
+              "name": "Warm Pad",
+              "start": 0,
+              "length": 576000,
+              "content": {
+                "Midi": {
+                  "sequence": {
+                    "notes": [
+                      {
+                        "pitch": 60,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 64,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 67,
+                        "velocity": 75,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 71,
+                        "velocity": 70,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 74,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 57,
+                        "velocity": 80,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 60,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 64,
+                        "velocity": 76,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 67,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 71,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 53,
+                        "velocity": 82,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 57,
+                        "velocity": 75,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 60,
+                        "velocity": 76,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 64,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 67,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 2760
+                      },
+                      {
+                        "pitch": 55,
+                        "velocity": 80,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1360
+                      },
+                      {
+                        "pitch": 59,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1360
+                      },
+                      {
+                        "pitch": 62,
+                        "velocity": 75,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1360
+                      },
+                      {
+                        "pitch": 64,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1360
+                      },
+                      {
+                        "pitch": 69,
+                        "velocity": 70,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1360
+                      },
+                      {
+                        "pitch": 60,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 1200
+                      },
+                      {
+                        "pitch": 67,
+                        "velocity": 76,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 1200
+                      },
+                      {
+                        "pitch": 71,
+                        "velocity": 72,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 1200
+                      },
+                      {
+                        "pitch": 74,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 1200
+                      }
+                    ],
+                    "ctrls": []
+                  }
+                }
+              },
+              "gain_db": 0.0,
+              "gain_env": [],
+              "fade_in": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "fade_out": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "muted": false,
+              "edit_locked": false,
+              "time_locked": false,
+              "rating": 0,
+              "sync_point": 0,
+              "color": null,
+              "auto_name": null,
+              "stretch": 1.0,
+              "group": null,
+              "loop_id": null
+            }
+          ]
+        }
+      ],
+      "active_playlist": 0,
+      "mixer": {
+        "volume_db": 0.0,
+        "pan": [
+          -1.0,
+          1.0
+        ],
+        "mute": false,
+        "solo": false,
+        "solo_safe": false,
+        "phase_invert": false,
+        "input": "None",
+        "output": "Main",
+        "inserts": [
+          {
+            "plugin": "chorus",
+            "params": {
+              "delay": 12.0,
+              "depth": 45.0,
+              "feedback": 0.0,
+              "mix": 38.0,
+              "rate": 0.45,
+              "spread": 90.0
+            },
+            "bypass": false,
+            "active": true,
+            "preset": "<factory default>"
+          },
+          {
+            "plugin": "plate_reverb",
+            "params": {
+              "damping": 6500.0,
+              "decay": 3.2,
+              "diffusion": 85.0,
+              "low_cut": 20.0,
+              "mix": 34.0,
+              "pre_delay": 22.0,
+              "size": 72.0,
+              "width": 100.0
+            },
+            "bypass": false,
+            "active": true,
+            "preset": "<factory default>"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sends": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "automation_mode": "Read",
+        "trim_db": 0.0,
+        "vca": null,
+        "surround": null
+      },
+      "automation": [],
+      "view": "notes",
+      "hidden": false,
+      "inactive": false,
+      "frozen": false,
+      "comments": "",
+      "folder": null,
+      "folder_open": true,
+      "instrument": {
+        "plugin": "subtractive_synth",
+        "params": {
+          "amp_attack": 350.0,
+          "amp_decay": 400.0,
+          "amp_release": 1300.0,
+          "amp_sustain": 85.0,
+          "cutoff": 1150.0,
+          "filter_attack": 420.0,
+          "filter_decay": 800.0,
+          "filter_env_amount": 22.0,
+          "filter_release": 300.0,
+          "filter_sustain": 55.0,
+          "glide": 0.0,
+          "level": -11.0,
+          "osc1_wave": 3.0,
+          "osc2_detune": 14.0,
+          "osc2_semitones": 0.0,
+          "osc2_wave": 0.0,
+          "osc_mix": 38.0,
+          "resonance": 15.0,
+          "velocity": 70.0
+        },
+        "bypass": false,
+        "active": true,
+        "preset": "<factory default>"
+      },
+      "ticks_timebase": true,
+      "elastic": null,
+      "pinned": false
+    },
+    {
+      "id": 2,
+      "name": "Mint Chimes",
+      "kind": "Instrument",
+      "format": "Stereo",
+      "color": [
+        94,
+        170,
+        214
+      ],
+      "height": "Medium",
+      "playlists": [
+        {
+          "name": "Mint Chimes",
+          "clips": [
+            {
+              "id": 5,
+              "name": "Mint Chimes",
+              "start": 0,
+              "length": 576000,
+              "content": {
+                "Midi": {
+                  "sequence": {
+                    "notes": [
+                      {
+                        "pitch": 76,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 120,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 79,
+                        "velocity": 84,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 480,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 83,
+                        "velocity": 80,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 960,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 86,
+                        "velocity": 88,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 1440,
+                        "length": 720
+                      },
+                      {
+                        "pitch": 83,
+                        "velocity": 76,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2160,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 79,
+                        "velocity": 74,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2520,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 81,
+                        "velocity": 90,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 720
+                      },
+                      {
+                        "pitch": 84,
+                        "velocity": 82,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 3360,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 88,
+                        "velocity": 86,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 3840,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 83,
+                        "velocity": 84,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 4320,
+                        "length": 720
+                      },
+                      {
+                        "pitch": 79,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 4800,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 84,
+                        "velocity": 80,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5280,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 77,
+                        "velocity": 92,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 720
+                      },
+                      {
+                        "pitch": 84,
+                        "velocity": 85,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 6240,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 88,
+                        "velocity": 88,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 6720,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 91,
+                        "velocity": 90,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 7200,
+                        "length": 720
+                      },
+                      {
+                        "pitch": 88,
+                        "velocity": 82,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 7680,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 84,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8160,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 86,
+                        "velocity": 90,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 88,
+                        "velocity": 86,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 9120,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 91,
+                        "velocity": 92,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 9600,
+                        "length": 480
+                      },
+                      {
+                        "pitch": 84,
+                        "velocity": 88,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 960
+                      },
+                      {
+                        "pitch": 91,
+                        "velocity": 85,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 960
+                      }
+                    ],
+                    "ctrls": []
+                  }
+                }
+              },
+              "gain_db": 0.0,
+              "gain_env": [],
+              "fade_in": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "fade_out": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "muted": false,
+              "edit_locked": false,
+              "time_locked": false,
+              "rating": 0,
+              "sync_point": 0,
+              "color": null,
+              "auto_name": null,
+              "stretch": 1.0,
+              "group": null,
+              "loop_id": null
+            }
+          ]
+        }
+      ],
+      "active_playlist": 0,
+      "mixer": {
+        "volume_db": 0.0,
+        "pan": [
+          -1.0,
+          1.0
+        ],
+        "mute": false,
+        "solo": false,
+        "solo_safe": false,
+        "phase_invert": false,
+        "input": "None",
+        "output": "Main",
+        "inserts": [
+          {
+            "plugin": "mod_delay",
+            "params": {
+              "feedback": 30.0,
+              "lpf": 12000.0,
+              "mix": 28.0,
+              "mod_depth": 0.0,
+              "mod_rate": 0.5,
+              "time": 250.0
+            },
+            "bypass": false,
+            "active": true,
+            "preset": "<factory default>"
+          },
+          {
+            "plugin": "plate_reverb",
+            "params": {
+              "damping": 8500.0,
+              "decay": 2.8,
+              "diffusion": 85.0,
+              "low_cut": 20.0,
+              "mix": 40.0,
+              "pre_delay": 18.0,
+              "size": 75.0,
+              "width": 100.0
+            },
+            "bypass": false,
+            "active": true,
+            "preset": "<factory default>"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sends": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "automation_mode": "Read",
+        "trim_db": 0.0,
+        "vca": null,
+        "surround": null
+      },
+      "automation": [],
+      "view": "notes",
+      "hidden": false,
+      "inactive": false,
+      "frozen": false,
+      "comments": "",
+      "folder": null,
+      "folder_open": true,
+      "instrument": {
+        "plugin": "subtractive_synth",
+        "params": {
+          "amp_attack": 4.0,
+          "amp_decay": 420.0,
+          "amp_release": 1100.0,
+          "amp_sustain": 8.0,
+          "cutoff": 4800.0,
+          "filter_attack": 5.0,
+          "filter_decay": 360.0,
+          "filter_env_amount": 35.0,
+          "filter_release": 300.0,
+          "filter_sustain": 30.0,
+          "glide": 0.0,
+          "level": -7.0,
+          "osc1_wave": 2.0,
+          "osc2_detune": 7.0,
+          "osc2_semitones": 12.0,
+          "osc2_wave": 3.0,
+          "osc_mix": 42.0,
+          "resonance": 12.0,
+          "velocity": 70.0
+        },
+        "bypass": false,
+        "active": true,
+        "preset": "<factory default>"
+      },
+      "ticks_timebase": true,
+      "elastic": null,
+      "pinned": false
+    },
+    {
+      "id": 3,
+      "name": "Sub Pulse",
+      "kind": "Instrument",
+      "format": "Stereo",
+      "color": [
+        80,
+        190,
+        168
+      ],
+      "height": "Medium",
+      "playlists": [
+        {
+          "name": "Sub Pulse",
+          "clips": [
+            {
+              "id": 6,
+              "name": "Sub Pulse",
+              "start": 0,
+              "length": 576000,
+              "content": {
+                "Midi": {
+                  "sequence": {
+                    "notes": [
+                      {
+                        "pitch": 36,
+                        "velocity": 84,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 0,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 36,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 1440,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 33,
+                        "velocity": 84,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 2880,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 45,
+                        "velocity": 76,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 4320,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 41,
+                        "velocity": 85,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 5760,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 43,
+                        "velocity": 78,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 7200,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 43,
+                        "velocity": 82,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 8640,
+                        "length": 1440
+                      },
+                      {
+                        "pitch": 36,
+                        "velocity": 86,
+                        "release_velocity": 64,
+                        "channel": 0,
+                        "start": 10080,
+                        "length": 1200
+                      }
+                    ],
+                    "ctrls": []
+                  }
+                }
+              },
+              "gain_db": 0.0,
+              "gain_env": [],
+              "fade_in": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "fade_out": {
+                "len": 0,
+                "shape": "EqualPower",
+                "curvature": 0.0
+              },
+              "muted": false,
+              "edit_locked": false,
+              "time_locked": false,
+              "rating": 0,
+              "sync_point": 0,
+              "color": null,
+              "auto_name": null,
+              "stretch": 1.0,
+              "group": null,
+              "loop_id": null
+            }
+          ]
+        }
+      ],
+      "active_playlist": 0,
+      "mixer": {
+        "volume_db": 0.0,
+        "pan": [
+          -1.0,
+          1.0
+        ],
+        "mute": false,
+        "solo": false,
+        "solo_safe": false,
+        "phase_invert": false,
+        "input": "None",
+        "output": "Main",
+        "inserts": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sends": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "automation_mode": "Read",
+        "trim_db": 0.0,
+        "vca": null,
+        "surround": null
+      },
+      "automation": [],
+      "view": "notes",
+      "hidden": false,
+      "inactive": false,
+      "frozen": false,
+      "comments": "",
+      "folder": null,
+      "folder_open": true,
+      "instrument": {
+        "plugin": "subtractive_synth",
+        "params": {
+          "amp_attack": 25.0,
+          "amp_decay": 350.0,
+          "amp_release": 650.0,
+          "amp_sustain": 72.0,
+          "cutoff": 290.0,
+          "filter_attack": 5.0,
+          "filter_decay": 300.0,
+          "filter_env_amount": 12.0,
+          "filter_release": 300.0,
+          "filter_sustain": 30.0,
+          "glide": 0.0,
+          "level": -9.0,
+          "osc1_wave": 2.0,
+          "osc2_detune": 7.0,
+          "osc2_semitones": -12.0,
+          "osc2_wave": 3.0,
+          "osc_mix": 30.0,
+          "resonance": 8.0,
+          "velocity": 70.0
+        },
+        "bypass": false,
+        "active": true,
+        "preset": "<factory default>"
+      },
+      "ticks_timebase": true,
+      "elastic": null,
+      "pinned": false
+    }
+  ],
+  "sources": [],
+  "videos": [],
+  "busses": [],
+  "outputs": [
+    {
+      "name": "Out 1-2",
+      "first_channel": 0,
+      "format": "Stereo"
+    }
+  ],
+  "markers": [],
+  "groups": [],
+  "auto_names": {},
+  "edit": {
+    "tool": "Smart",
+    "edit_mode": "Slip",
+    "selection": {
+      "start": 0,
+      "end": 0
+    },
+    "selected_tracks": [
+      1,
+      2,
+      3
+    ],
+    "selected_clips": [],
+    "selected_sources": [],
+    "playhead": 0,
+    "grid": {
+      "Note": {
+        "value": "Sixteenth",
+        "dotted": false,
+        "triplet": false
+      }
+    },
+    "nudge": {
+      "Seconds": 1.0
+    },
+    "grid_follow_main": false,
+    "nudge_follow_main": false,
+    "grid_clips_markers": false,
+    "grid_lines": true,
+    "main_counter": "MinSecs",
+    "sub_counter": "Samples",
+    "zoom": {
+      "samples_per_px": 1024.0,
+      "scroll": 0,
+      "waveform_zoom": 1.0,
+      "presets": [
+        64.0,
+        256.0,
+        1024.0,
+        4096.0,
+        16384.0
+      ]
+    },
+    "zoom_toggle": null,
+    "rulers": [
+      "bars_beats",
+      "min_secs",
+      "tempo",
+      "meter",
+      "markers"
+    ],
+    "link_timeline_edit": true,
+    "link_track_edit": false,
+    "insertion_follows_playback": false,
+    "loop_playback": false,
+    "pre_post_roll": false,
+    "pre_roll": 96000,
+    "post_roll": 96000,
+    "tab_to_transient": false,
+    "automation_follows_edit": true,
+    "markers_follow_edit": false,
+    "layered_editing": false,
+    "mirrored_midi": false,
+    "click": false,
+    "countoff": false,
+    "countoff_bars": 2,
+    "midi_merge": false,
+    "record_mode": "normal",
+    "loop_record": false,
+    "quickpunch": false,
+    "scrolling": "page",
+    "solo_mode": "sip",
+    "pre_fader_metering": false,
+    "delay_compensation": true,
+    "keyboard_focus": "commands",
+    "timeline_selection": {
+      "start": 0,
+      "end": 0
+    },
+    "flags": [
+      "view.clip.gain_line",
+      "view.clip.name",
+      "view.clip.overlap_shadows",
+      "view.marker.ruler_lines",
+      "waveform.peak"
+    ],
+    "values": {}
+  },
+  "next_id": 7,
+  "comments": "",
+  "midi_originals": {}
+}

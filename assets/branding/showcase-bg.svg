@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <filter id="filter-1" filterUnits="userSpaceOnUse" x="-287" y="-297" width="814" height="814" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="45"/></filter>
+    <filter id="filter-2" filterUnits="userSpaceOnUse" x="668" y="98" width="884" height="884" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="50"/></filter>
+  </defs>
+  <title>Ondrane Showcase Backdrop</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <rect id="Midnight_Backdrop" data-name="Midnight Backdrop" x="0" y="0" width="1280" height="720" fill="#101827"/>
+    <g filter="url(#filter-1)">
+      <circle id="Mint_Glow_TopLeft" data-name="Mint Glow TopLeft" cx="120" cy="110" r="270" fill="#78e3cb" opacity="0.13"/>
+    </g>
+    <g filter="url(#filter-2)">
+      <circle id="Periwinkle_Glow_BottomRight" data-name="Periwinkle Glow BottomRight" cx="1110" cy="540" r="290" fill="#a6b5ff" opacity="0.14"/>
+    </g>
+    <path id="Outer_Orbit_Ring" data-name="Outer Orbit Ring" d="M560 360 C560 183.269 703.269 40 880 40 C1056.731 40 1200 183.269 1200 360 C1200 536.731 1056.731 680 880 680 C703.269 680 560 536.731 560 360 Z" fill="none" stroke="#78e3cb" stroke-width="1.5" stroke-miterlimit="10" stroke-dasharray="8 14" opacity="0.14"/>
+    <circle id="Inner_Orbit_Ring" data-name="Inner Orbit Ring" cx="880" cy="360" r="230" fill="none" stroke="#a6b5ff" stroke-width="1.2" stroke-miterlimit="10" opacity="0.11"/>
+    <line id="Top_Guide_Line" data-name="Top Guide Line" x1="48" y1="48" x2="1232" y2="48" fill="none" stroke="#f3f7ff" stroke-miterlimit="10" opacity="0.08"/>
+    <line id="Bottom_Guide_Line" data-name="Bottom Guide Line" x1="48" y1="672" x2="1232" y2="672" fill="none" stroke="#f3f7ff" stroke-miterlimit="10" opacity="0.08"/>
+  </g>
+</svg>
