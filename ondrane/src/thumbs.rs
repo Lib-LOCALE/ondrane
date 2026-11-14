@@ -14,7 +14,7 @@ use image::{imageops, RgbaImage};
 use serde::{Deserialize, Serialize};
 use sha1::{Digest, Sha1};
 
-use crate::engine::VlcEngine;
+use crate::engine::{VlcEngine, VlcPlayer};
 
 pub const COLS: u32 = 10;
 pub const THUMB_W: u32 = 320;
@@ -366,8 +366,8 @@ impl ThumbnailMaker {
                 if len > 0 && w > 0 && h > 0 {
                     break;
                 }
-                std::thread::sleep(Duration::from_millis(50));
-                waited_ms += 50;
+                std::thread::sleep(Duration::from_millis(25));
+                waited_ms += 25;
             }
 
             let total_ms = player.length_ms();
@@ -383,6 +383,7 @@ impl ThumbnailMaker {
             let count = ((total_ms as u64) / step_ms).min(MAX_THUMBS as u64) as usize;
 
             let mut frames = BTreeMap::new();
+            let mut last_seq = 0u64;
 
             for idx in 0..=count {
                 if stop.load(Ordering::SeqCst) {
@@ -390,29 +391,20 @@ impl ThumbnailMaker {
                     return;
                 }
                 let target_ms = (idx as u64) * step_ms;
+                last_seq = player
+                    .video_buffer_state
+                    .lock()
+                    .map(|st| st.frame_seq)
+                    .unwrap_or(last_seq);
                 player.seek_ms(target_ms as i64);
-                std::thread::sleep(Duration::from_millis(85));
 
-                if let Ok(state) = player.video_buffer_state.lock() {
-                    if state.width > 0
-                        && state.height > 0
-                        && state.buffer.len() == (state.width * state.height * 4) as usize
-                    {
-                        if let Some(rgba) = image::RgbaImage::from_raw(
-                            state.width,
-                            state.height,
-                            state.buffer.clone(),
-                        ) {
-                            let rgb = image::DynamicImage::ImageRgba8(rgba).into_rgb8();
-                            let resized = imageops::resize(
-                                &rgb,
-                                thumb_w,
-                                thumb_h,
-                                imageops::FilterType::Triangle,
-                            );
-                            frames.insert(idx, resized);
-                        }
-                    }
+                if let Some((rgba, seq)) = capture_seeked_frame(&player, last_seq, 250, Some(&stop))
+                {
+                    last_seq = seq;
+                    let rgb = image::DynamicImage::ImageRgba8(rgba).into_rgb8();
+                    let resized =
+                        imageops::resize(&rgb, thumb_w, thumb_h, imageops::FilterType::Triangle);
+                    frames.insert(idx, resized);
                 }
             }
 
@@ -425,6 +417,44 @@ impl ThumbnailMaker {
                 }
             }
         }));
+    }
+}
+
+fn capture_seeked_frame(
+    player: &VlcPlayer,
+    prev_seq: u64,
+    timeout_ms: u64,
+    stop: Option<&AtomicBool>,
+) -> Option<(RgbaImage, u64)> {
+    let mut waited_ms = 0u64;
+    let poll_ms = 10u64;
+    loop {
+        if stop.is_some_and(|s| s.load(Ordering::SeqCst)) {
+            return None;
+        }
+        let seq = player
+            .video_buffer_state
+            .lock()
+            .map(|st| st.frame_seq)
+            .unwrap_or(0);
+        if seq > prev_seq || waited_ms >= timeout_ms {
+            if let Ok(st) = player.video_buffer_state.lock() {
+                if st.width > 0
+                    && st.height > 0
+                    && st.buffer.len() == (st.width * st.height * 4) as usize
+                {
+                    if let Some(rgba) = RgbaImage::from_raw(st.width, st.height, st.buffer.clone())
+                    {
+                        return Some((rgba, st.frame_seq));
+                    }
+                }
+            }
+            if waited_ms >= timeout_ms {
+                return None;
+            }
+        }
+        std::thread::sleep(Duration::from_millis(poll_ms));
+        waited_ms += poll_ms;
     }
 }
 
@@ -499,21 +529,19 @@ fn extract_poster(engine: &VlcEngine, media: &Path, out: &Path) -> bool {
         if player.length_ms() > 0 && w > 0 && h > 0 {
             break;
         }
-        std::thread::sleep(Duration::from_millis(50));
-        waited += 50;
+        std::thread::sleep(Duration::from_millis(25));
+        waited += 25;
     }
+    let prev_seq = player
+        .video_buffer_state
+        .lock()
+        .map(|st| st.frame_seq)
+        .unwrap_or(0);
     let len = player.length_ms();
     if len > 10_000 {
         player.seek_ms(len / 5);
     }
-    std::thread::sleep(Duration::from_millis(350));
-    let frame = player.video_buffer_state.lock().ok().and_then(|st| {
-        if st.width > 0 && st.height > 0 && st.buffer.len() == (st.width * st.height * 4) as usize {
-            RgbaImage::from_raw(st.width, st.height, st.buffer.clone())
-        } else {
-            None
-        }
-    });
+    let frame = capture_seeked_frame(&player, prev_seq, 500, None).map(|(rgba, _)| rgba);
     player.stop();
     let Some(rgba) = frame else { return false };
     let w = 480u32;

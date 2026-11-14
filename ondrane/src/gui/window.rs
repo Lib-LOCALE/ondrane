@@ -291,7 +291,7 @@ impl Controller {
             return;
         }
         let labels = TrayLabels {
-            show: tr("Show / Hide VLC"),
+            show: tr("Show / Hide Ondrane"),
             play_pause: tr("Play / Pause"),
             next: tr("Next"),
             previous: tr("Previous"),
@@ -515,12 +515,32 @@ impl Controller {
         if !self.st.borrow().settings.app.global.check_updates {
             return;
         }
-        background(system::latest_release, |c, tag| {
-            if let Some(tag) = tag {
-                if system::is_newer(&tag, env!("CARGO_PKG_VERSION")) {
+        self.run_update_check(false);
+    }
+
+    /// Interactive update check triggered from the About dialog.
+    pub(super) fn check_updates_manual(&self) {
+        self.run_update_check(true);
+    }
+
+    fn run_update_check(&self, manual: bool) {
+        if manual {
+            self.toast(tr("Checking for updates…"));
+        }
+        background(system::latest_release, move |c, tag| {
+            let current = env!("CARGO_PKG_VERSION");
+            match tag {
+                Some(tag) if system::is_newer(&tag, current) => {
                     c.toast(tr_fmt("Ondrane {} is available", &[&tag]));
                     system::notify("Ondrane", &tr_fmt("Ondrane {} is available", &[&tag]), 8000);
                 }
+                Some(_) if manual => {
+                    c.toast(tr_fmt("Ondrane is up to date (v{})", &[current]));
+                }
+                None if manual => {
+                    c.toast(tr("Could not check for updates right now"));
+                }
+                _ => {}
             }
         });
     }

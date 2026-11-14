@@ -33,6 +33,7 @@ impl Controller {
         {
             if let Some((path, engine)) = result {
                 let _ = self.libvlc.set(path);
+                a.set_about_engine(ss(format!("libVLC {}", engine.version())));
                 *self.engine.borrow_mut() = Some(engine);
                 let poster_dir = self.st.borrow().thumbs.cache_dir().join("posters");
                 let _ = self

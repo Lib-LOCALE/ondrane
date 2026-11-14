@@ -206,7 +206,37 @@ pub fn capture_devices() -> Vec<(String, String)> {
         }
     }
     #[cfg(target_os = "windows")]
-    out.push(("dshow://".into(), crate::i18n::tr("Default camera")));
+    {
+        out.push(("dshow://".into(), crate::i18n::tr("Default camera")));
+        let mut seen = std::collections::HashSet::new();
+        for guid in [
+            r"SYSTEM\CurrentControlSet\Control\Class\{ca3e7ab9-b4c3-4ae6-8251-579ef933890f}",
+            r"SYSTEM\CurrentControlSet\Control\Class\{6bdd1fc6-810f-11d0-bec7-08002be2092f}",
+        ] {
+            for i in 0..=16 {
+                let sub = format!("{guid}\\{i:04}");
+                let name = crate::system::registry::get_string(
+                    crate::system::registry::HKLM,
+                    &sub,
+                    "FriendlyName",
+                )
+                .filter(|s| !s.is_empty())
+                .or_else(|| {
+                    crate::system::registry::get_string(
+                        crate::system::registry::HKLM,
+                        &sub,
+                        "DriverDesc",
+                    )
+                    .filter(|s| !s.is_empty())
+                });
+                if let Some(name) = name {
+                    if seen.insert(name.clone()) {
+                        out.push((format!("dshow://|{name}"), name));
+                    }
+                }
+            }
+        }
+    }
     #[cfg(target_os = "macos")]
     out.push((
         "avfoundation://default".into(),
@@ -464,10 +494,18 @@ impl Controller {
             "screen://".to_string()
         } else {
             let devs = self.x.borrow().capture_devices.clone();
-            let Some((mrl, _)) = devs.get(f.get_capture_device().max(0) as usize).cloned() else {
+            let Some((raw_mrl, _)) = devs.get(f.get_capture_device().max(0) as usize).cloned()
+            else {
                 return self.toast(tr("No camera found"));
             };
-            mrl
+            if let Some((base, dev)) = raw_mrl.split_once('|') {
+                if !dev.is_empty() {
+                    opts.push(format!(":dshow-vdev={dev}"));
+                }
+                base.to_string()
+            } else {
+                raw_mrl
+            }
         };
         if with_audio {
             #[cfg(target_os = "linux")]

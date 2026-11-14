@@ -610,6 +610,12 @@ fn resolve_playlist_entry(line: &str, base: Option<&Path>) -> String {
             if let Ok(p) = u.to_file_path() {
                 return p.to_string_lossy().to_string();
             }
+            let decoded = percent_decode(u.path());
+            let trimmed = decoded.strip_prefix('/').unwrap_or(&decoded);
+            if is_windows_drive_path(trimmed) {
+                return trimmed.to_string();
+            }
+            return decoded;
         }
     }
     if Path::new(l).is_absolute() || is_windows_drive_path(l) {
@@ -628,17 +634,98 @@ fn resolve_playlist_entry(line: &str, base: Option<&Path>) -> String {
 
 /// Parse an M3U/M3U8 playlist, resolving relative entries against `base`.
 /// Handles UTF-8 BOM, Windows backslashes, absolute Windows drive paths,
-/// `file://` URIs, and auto-detects PLS playlists if passed.
+/// `file://` URIs, and auto-detects PLS or XSPF playlists if passed.
 pub fn parse_m3u(text: &str, base: Option<&Path>) -> Vec<String> {
     let text = text.strip_prefix('\u{feff}').unwrap_or(text);
-    if text.trim_start().starts_with("[playlist]") {
+    let trimmed = text.trim_start();
+    if trimmed.starts_with("[playlist]") {
         return parse_pls(text, base);
+    }
+    if trimmed.starts_with("<?xml") || trimmed.starts_with("<playlist") {
+        return parse_xspf(text, base);
     }
     text.lines()
         .map(str::trim)
         .filter(|l| !l.is_empty() && !l.starts_with('#'))
         .map(|l| resolve_playlist_entry(l, base))
         .collect()
+}
+
+fn decode_xml_entities(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    let mut rest = s;
+    while let Some(amp) = rest.find('&') {
+        out.push_str(&rest[..amp]);
+        let after = &rest[amp + 1..];
+        if let Some(semi) = after.find(';') {
+            let entity = &after[..semi];
+            let decoded = match entity {
+                "amp" => Some('&'),
+                "lt" => Some('<'),
+                "gt" => Some('>'),
+                "quot" => Some('"'),
+                "apos" => Some('\''),
+                _ if entity.starts_with("#x") || entity.starts_with("#X") => {
+                    u32::from_str_radix(&entity[2..], 16)
+                        .ok()
+                        .and_then(char::from_u32)
+                }
+                _ if entity.starts_with('#') => {
+                    entity[1..].parse::<u32>().ok().and_then(char::from_u32)
+                }
+                _ => None,
+            };
+            if let Some(ch) = decoded {
+                out.push(ch);
+                rest = &after[semi + 1..];
+                continue;
+            }
+        }
+        out.push('&');
+        rest = after;
+    }
+    out.push_str(rest);
+    out
+}
+
+/// Parse an XSPF XML playlist, extracting `<location>` elements inside
+/// `<trackList>` and resolving them against `base`.
+pub fn parse_xspf(text: &str, base: Option<&Path>) -> Vec<String> {
+    let text = text.strip_prefix('\u{feff}').unwrap_or(text);
+    let lower = text.to_ascii_lowercase();
+    let scope = if let Some(start) = lower.find("<tracklist") {
+        let end = lower[start..]
+            .find("</tracklist>")
+            .map(|e| start + e)
+            .unwrap_or(text.len());
+        (start, end)
+    } else {
+        (0, text.len())
+    };
+    let slice = &text[scope.0..scope.1];
+    let slice_lower = &lower[scope.0..scope.1];
+    let mut entries = Vec::new();
+    let mut pos = 0;
+    while let Some(rel_open) = slice_lower[pos..].find("<location") {
+        let open_start = pos + rel_open;
+        let Some(rel_gt) = slice_lower[open_start..].find('>') else {
+            break;
+        };
+        let content_start = open_start + rel_gt + 1;
+        let Some(rel_close) = slice_lower[content_start..].find("</location>") else {
+            break;
+        };
+        let content_end = content_start + rel_close;
+        let raw = slice[content_start..content_end].trim();
+        if !raw.is_empty() {
+            let loc = decode_xml_entities(raw);
+            if !loc.trim().is_empty() {
+                entries.push(resolve_playlist_entry(loc.trim(), base));
+            }
+        }
+        pos = content_end + "</location>".len();
+    }
+    entries
 }
 
 /// Parse a PLS playlist, extracting FileN= entries and resolving them against `base`.
@@ -663,8 +750,122 @@ pub fn parse_pls(text: &str, base: Option<&Path>) -> Vec<String> {
     entries
 }
 
-/// Deterministic pseudo-waveform (0..1 bar heights) for the music seek bar.
+fn wav_waveform(path: &Path, bars: usize) -> Option<Vec<f32>> {
+    use std::io::{Read, Seek, SeekFrom};
+
+    if bars == 0 {
+        return Some(Vec::new());
+    }
+    let mut f = fs::File::open(path).ok()?;
+    let mut riff = [0u8; 12];
+    f.read_exact(&mut riff).ok()?;
+    if &riff[0..4] != b"RIFF" || &riff[8..12] != b"WAVE" {
+        return None;
+    }
+
+    let mut fmt_info: Option<(u16, u16, u16)> = None;
+    let mut chunk = [0u8; 8];
+    while f.read_exact(&mut chunk).is_ok() {
+        let id = &chunk[0..4];
+        let size = u32::from_le_bytes([chunk[4], chunk[5], chunk[6], chunk[7]]) as u64;
+        if id == b"fmt " && size >= 16 {
+            let mut fmt = [0u8; 16];
+            f.read_exact(&mut fmt).ok()?;
+            let audio_fmt = u16::from_le_bytes([fmt[0], fmt[1]]);
+            let channels = u16::from_le_bytes([fmt[2], fmt[3]]);
+            let bits = u16::from_le_bytes([fmt[14], fmt[15]]);
+            fmt_info = Some((audio_fmt, channels, bits));
+            let skip = (size - 16) + (size & 1);
+            f.seek(SeekFrom::Current(skip as i64)).ok()?;
+        } else if id == b"data" && size > 0 {
+            let (audio_fmt, channels, bits) = fmt_info?;
+            if channels == 0 || !matches!(bits, 8 | 16 | 24 | 32) || !matches!(audio_fmt, 1 | 3) {
+                return None;
+            }
+            let sample_bytes = (bits / 8) as usize;
+            let frame_bytes = sample_bytes * channels as usize;
+            let total_frames = size / frame_bytes as u64;
+            if total_frames == 0 {
+                return None;
+            }
+            let data_start = f.stream_position().ok()?;
+            let frames_per_bar = (total_frames / bars as u64).max(1);
+            let window_frames = frames_per_bar.min(256) as usize;
+            let mut buf = vec![0u8; window_frames * frame_bytes];
+            let mut rms_vals = Vec::with_capacity(bars);
+
+            for i in 0..bars {
+                let start_frame = (i as u64 * total_frames) / bars as u64;
+                let max_bytes = ((total_frames - start_frame) * frame_bytes as u64)
+                    .min(buf.len() as u64) as usize;
+                let byte_slice = &mut buf[..max_bytes];
+                if f.seek(SeekFrom::Start(
+                    data_start + start_frame * frame_bytes as u64,
+                ))
+                .is_err()
+                    || f.read_exact(byte_slice).is_err()
+                {
+                    rms_vals.push(0.0);
+                    continue;
+                }
+                let mut sum_sq = 0.0f64;
+                let mut n = 0usize;
+                for frame in byte_slice.chunks_exact(sample_bytes) {
+                    let s = match (audio_fmt, bits) {
+                        (_, 8) => (frame[0] as f64 - 128.0) / 128.0,
+                        (1, 16) => i16::from_le_bytes([frame[0], frame[1]]) as f64 / 32768.0,
+                        (1, 24) => {
+                            let v = (frame[0] as i32)
+                                | ((frame[1] as i32) << 8)
+                                | ((frame[2] as i8 as i32) << 16);
+                            v as f64 / 8_388_608.0
+                        }
+                        (1, 32) => {
+                            i32::from_le_bytes([frame[0], frame[1], frame[2], frame[3]]) as f64
+                                / 2_147_483_648.0
+                        }
+                        (3, 32) => f32::from_le_bytes([frame[0], frame[1], frame[2], frame[3]])
+                            .clamp(-1.0, 1.0) as f64,
+                        _ => 0.0,
+                    };
+                    sum_sq += s * s;
+                    n += 1;
+                }
+                rms_vals.push(if n > 0 {
+                    (sum_sq / n as f64).sqrt() as f32
+                } else {
+                    0.0
+                });
+            }
+
+            let peak = rms_vals.iter().copied().fold(0.0f32, f32::max).max(0.02);
+            return Some(
+                rms_vals
+                    .into_iter()
+                    .map(|v| (0.12 + 0.88 * (v / peak)).clamp(0.1, 1.0))
+                    .collect(),
+            );
+        } else {
+            let skip = size + (size & 1);
+            if f.seek(SeekFrom::Current(skip as i64)).is_err() {
+                break;
+            }
+        }
+    }
+    None
+}
+
+/// Real acoustic RMS waveform for local WAV files (computed in pure Rust),
+/// with a fast deterministic pseudo-waveform fallback for streams and compressed formats.
 pub fn waveform_for(target: &str, bars: usize) -> Vec<f32> {
+    if !is_url(target) {
+        let p = Path::new(target);
+        if extension_lower(p) == "wav" && p.is_file() {
+            if let Some(real) = wav_waveform(p, bars) {
+                return real;
+            }
+        }
+    }
     let mut h: u64 = 1469598103934665603;
     for b in target.bytes() {
         h ^= b as u64;
@@ -814,5 +1015,61 @@ mod tests {
         let a = waveform_for("x", 50);
         assert_eq!(a, waveform_for("x", 50));
         assert!(a.iter().all(|v| (0.1..=1.0).contains(v)));
+    }
+
+    #[test]
+    fn xspf_playlist_parsing() {
+        let xspf = "\u{feff}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\
+            <playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">\n\
+              <trackList>\n\
+                <track><location>file:///tmp/track%201.flac</location></track>\n\
+                <track><location>Tracks/Song%20&amp;%20Beats.mp3</location></track>\n\
+                <track><location>https://example.org/stream.opus</location></track>\n\
+              </trackList>\n\
+            </playlist>";
+        let parsed = parse_m3u(xspf, Some(Path::new("/music")));
+        assert_eq!(parsed.len(), 3);
+        assert!(parsed[0].ends_with("track 1.flac"));
+        assert_eq!(
+            parsed[1],
+            Path::new("/music")
+                .join("Tracks/Song%20&%20Beats.mp3")
+                .to_string_lossy()
+        );
+        assert_eq!(parsed[2], "https://example.org/stream.opus");
+    }
+
+    #[test]
+    fn wav_real_waveform_extraction() {
+        let dir = tempfile::tempdir().unwrap();
+        let wav_path = dir.path().join("tone.wav");
+        // 16-bit mono PCM: first half silence, second half loud square wave
+        let samples = 400u32;
+        let data_bytes = samples * 2;
+        let mut raw = Vec::new();
+        raw.extend_from_slice(b"RIFF");
+        raw.extend_from_slice(&(36 + data_bytes).to_le_bytes());
+        raw.extend_from_slice(b"WAVE");
+        raw.extend_from_slice(b"fmt ");
+        raw.extend_from_slice(&16u32.to_le_bytes());
+        raw.extend_from_slice(&1u16.to_le_bytes()); // PCM
+        raw.extend_from_slice(&1u16.to_le_bytes()); // mono
+        raw.extend_from_slice(&8000u32.to_le_bytes());
+        raw.extend_from_slice(&16000u32.to_le_bytes());
+        raw.extend_from_slice(&2u16.to_le_bytes());
+        raw.extend_from_slice(&16u16.to_le_bytes());
+        raw.extend_from_slice(b"data");
+        raw.extend_from_slice(&data_bytes.to_le_bytes());
+        for i in 0..samples {
+            let sample: i16 = if i < samples / 2 { 0 } else { 20_000 };
+            raw.extend_from_slice(&sample.to_le_bytes());
+        }
+        fs::write(&wav_path, raw).unwrap();
+
+        let bars = waveform_for(&wav_path.to_string_lossy(), 10);
+        assert_eq!(bars.len(), 10);
+        assert!(bars[0] < bars[9]);
+        assert!((bars[0] - 0.12).abs() < 0.01);
+        assert!((bars[9] - 1.0).abs() < 0.01);
     }
 }

@@ -2524,6 +2524,8 @@ impl Controller {
                 self.refresh_settings();
             }
             "about" => a.set_dialog(7),
+            "open-repo" => crate::system::open_url(crate::system::REPO_URL),
+            "check-updates-now" => self.check_updates_manual(),
             "open-disc" => self.open_disc_dialog(),
             "disc-play" => self.play_disc(),
             "open-capture" => self.open_capture_dialog(),
@@ -3014,11 +3016,13 @@ impl Controller {
     }
 
     fn shutdown(&self) {
-        #[cfg(target_os = "linux")]
         {
             let mut x = self.x.borrow_mut();
-            x.capture_generation = x.capture_generation.wrapping_add(1);
-            x.screen_capture = None;
+            #[cfg(target_os = "linux")]
+            {
+                x.capture_generation = x.capture_generation.wrapping_add(1);
+                x.screen_capture = None;
+            }
             x.services = None;
         }
         self.save_progress();
@@ -3257,6 +3261,12 @@ impl GuiApp {
 
         let a = window.global::<AppState>();
         a.set_items(ModelRc::from(items));
+        a.set_about_version(ss(format!(
+            "v{} · {} {}",
+            env!("CARGO_PKG_VERSION"),
+            std::env::consts::OS,
+            std::env::consts::ARCH
+        )));
 
         a.set_grid(start_grid);
         a.set_side_panel(side_panel);

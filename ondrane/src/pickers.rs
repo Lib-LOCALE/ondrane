@@ -97,8 +97,61 @@ fn portal_paths(uris: Vec<String>) -> Vec<PathBuf> {
 }
 
 /// Native Win32 OPENFILENAMEW dialog via `comdlg32.dll` (zero external dependencies on Windows 10/11 x64).
+#[cfg(any(target_os = "windows", test))]
+fn parse_win32_file_buffer(buf: &[u16]) -> Vec<PathBuf> {
+    let mut parts = Vec::new();
+    let mut start = 0;
+    for (i, &unit) in buf.iter().enumerate() {
+        if unit == 0 {
+            if i == start {
+                break;
+            }
+            parts.push(String::from_utf16_lossy(&buf[start..i]));
+            start = i + 1;
+        }
+    }
+    if parts.len() == 1 {
+        vec![PathBuf::from(&parts[0])]
+    } else if parts.len() > 1 {
+        let dir = PathBuf::from(&parts[0]);
+        parts[1..].iter().map(|f| dir.join(f)).collect()
+    } else {
+        Vec::new()
+    }
+}
+
+#[cfg(any(target_os = "windows", test))]
+fn save_dialog_spec(file_name: &str) -> (String, Option<String>) {
+    let ext = std::path::Path::new(file_name)
+        .extension()
+        .and_then(|e| e.to_str())
+        .map(str::trim)
+        .filter(|e| !e.is_empty() && e.chars().all(|c| c.is_ascii_alphanumeric()));
+    if let Some(ext) = ext {
+        let upper = ext.to_ascii_uppercase();
+        let filter = format!("{upper} Files (*.{ext})\0*.{ext}\0All Files\0*.*\0\0");
+        (filter, Some(ext.to_string()))
+    } else {
+        ("All Files\0*.*\0\0".to_string(), None)
+    }
+}
+
+#[cfg(any(target_os = "windows", test))]
+fn win32_explorer_select_arg(path: &std::path::Path) -> String {
+    let clean: String = path
+        .display()
+        .to_string()
+        .chars()
+        .filter(|&c| c != '"')
+        .collect();
+    format!("/select,\"{clean}\"")
+}
+
 #[cfg(target_os = "windows")]
-pub fn win32_open_file_dialog(title: &str, filter: &str, allow_multiple: bool) -> Vec<PathBuf> {
+mod win32 {
+    use super::*;
+    use std::ffi::c_void;
+
     #[repr(C)]
     struct OpenFileNameW {
         l_struct_size: u32,
@@ -126,92 +179,211 @@ pub fn win32_open_file_dialog(title: &str, filter: &str, allow_multiple: bool) -
         flags_ex: u32,
     }
 
-    type FnGetOpenFileNameW = unsafe extern "system" fn(*mut OpenFileNameW) -> i32;
+    #[repr(C)]
+    struct BrowseInfoW {
+        hwnd_owner: usize,
+        pidl_root: *const c_void,
+        psz_display_name: *mut u16,
+        lpsz_title: *const u16,
+        ul_flags: u32,
+        lpfn: usize,
+        l_param: isize,
+        i_image: i32,
+    }
 
-    if let Ok(lib) = unsafe { libloading::Library::new("comdlg32.dll") } {
-        if let Ok(get_open) = unsafe { lib.get::<FnGetOpenFileNameW>(b"GetOpenFileNameW\0") } {
-            let filter_utf16: Vec<u16> = filter.encode_utf16().collect();
-            let title_utf16: Vec<u16> = title.encode_utf16().chain(std::iter::once(0)).collect();
-            let mut file_buf = vec![0u16; 8192];
+    type FnGetFileNameW = unsafe extern "system" fn(*mut OpenFileNameW) -> i32;
+    type FnSHBrowseForFolderW = unsafe extern "system" fn(*mut BrowseInfoW) -> *mut c_void;
+    type FnSHGetPathFromIDListW = unsafe extern "system" fn(*const c_void, *mut u16) -> i32;
+    type FnSHGetPathFromIDListEx =
+        unsafe extern "system" fn(*const c_void, *mut u16, u32, u32) -> i32;
+    type FnCoInitializeEx = unsafe extern "system" fn(*mut c_void, u32) -> i32;
+    type FnCoUninitialize = unsafe extern "system" fn();
+    type FnCoTaskMemFree = unsafe extern "system" fn(*mut c_void);
 
-            // OFN_EXPLORER (0x00080000) | OFN_FILEMUSTEXIST (0x00001000) | OFN_PATHMUSTEXIST (0x00000800) | OFN_NOCHANGEDIR (0x00000008)
-            let mut flags = 0x0008_0000 | 0x0000_1000 | 0x0000_0800 | 0x0000_0008;
-            if allow_multiple {
-                flags |= 0x0000_0200; // OFN_ALLOWMULTISELECT
-            }
+    fn wide_z(s: &str) -> Vec<u16> {
+        s.encode_utf16().chain(std::iter::once(0)).collect()
+    }
 
-            let mut ofn = OpenFileNameW {
-                l_struct_size: std::mem::size_of::<OpenFileNameW>() as u32,
-                hwnd_owner: 0,
-                h_instance: 0,
-                lpstr_filter: filter_utf16.as_ptr(),
-                lpstr_custom_filter: std::ptr::null_mut(),
-                n_max_cust_filter: 0,
-                n_filter_index: 1,
-                lpstr_file: file_buf.as_mut_ptr(),
-                n_max_file: file_buf.len() as u32,
-                lpstr_file_title: std::ptr::null_mut(),
-                n_max_file_title: 0,
-                lpstr_initial_dir: std::ptr::null(),
-                lpstr_title: title_utf16.as_ptr(),
-                flags,
-                n_file_offset: 0,
-                n_file_extension: 0,
-                lpstr_def_ext: std::ptr::null(),
-                l_cust_data: 0,
-                lpfn_hook: 0,
-                lp_template_name: std::ptr::null(),
-                pv_reserved: 0,
-                dw_reserved: 0,
-                flags_ex: 0,
-            };
+    fn base_ofn(
+        filter_utf16: &[u16],
+        title_utf16: &[u16],
+        file_buf: &mut [u16],
+        def_ext_ptr: *const u16,
+        flags: u32,
+    ) -> OpenFileNameW {
+        OpenFileNameW {
+            l_struct_size: std::mem::size_of::<OpenFileNameW>() as u32,
+            hwnd_owner: 0,
+            h_instance: 0,
+            lpstr_filter: filter_utf16.as_ptr(),
+            lpstr_custom_filter: std::ptr::null_mut(),
+            n_max_cust_filter: 0,
+            n_filter_index: 1,
+            lpstr_file: file_buf.as_mut_ptr(),
+            n_max_file: file_buf.len() as u32,
+            lpstr_file_title: std::ptr::null_mut(),
+            n_max_file_title: 0,
+            lpstr_initial_dir: std::ptr::null(),
+            lpstr_title: title_utf16.as_ptr(),
+            flags,
+            n_file_offset: 0,
+            n_file_extension: 0,
+            lpstr_def_ext: def_ext_ptr,
+            l_cust_data: 0,
+            lpfn_hook: 0,
+            lp_template_name: std::ptr::null(),
+            pv_reserved: 0,
+            dw_reserved: 0,
+            flags_ex: 0,
+        }
+    }
 
-            let ok = unsafe { get_open(&mut ofn) };
-            if ok != 0 {
-                // Parse double-NUL terminated UTF-16 string list
-                let mut parts = Vec::new();
-                let mut start = 0;
-                for i in 0..file_buf.len() {
-                    if file_buf[i] == 0 {
-                        if i == start {
-                            break;
-                        }
-                        parts.push(String::from_utf16_lossy(&file_buf[start..i]));
-                        start = i + 1;
-                    }
-                }
-                if parts.len() == 1 {
-                    return vec![PathBuf::from(&parts[0])];
-                } else if parts.len() > 1 {
-                    let dir = PathBuf::from(&parts[0]);
-                    return parts[1..].iter().map(|f| dir.join(f)).collect();
-                }
-            }
+    pub fn open_file_dialog(title: &str, filter: &str, allow_multiple: bool) -> Vec<PathBuf> {
+        let Ok(lib) = (unsafe { libloading::Library::new("comdlg32.dll") }) else {
             return Vec::new();
+        };
+        let Ok(get_open) = (unsafe { lib.get::<FnGetFileNameW>(b"GetOpenFileNameW\0") }) else {
+            return Vec::new();
+        };
+
+        let filter_utf16: Vec<u16> = filter.encode_utf16().collect();
+        let title_utf16 = wide_z(title);
+        let mut file_buf = vec![0u16; 8192];
+
+        // OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR
+        let mut flags = 0x0008_0000 | 0x0000_1000 | 0x0000_0800 | 0x0000_0008;
+        if allow_multiple {
+            flags |= 0x0000_0200; // OFN_ALLOWMULTISELECT
+        }
+
+        let mut ofn = base_ofn(
+            &filter_utf16,
+            &title_utf16,
+            &mut file_buf,
+            std::ptr::null(),
+            flags,
+        );
+        if unsafe { get_open(&mut ofn) } != 0 {
+            parse_win32_file_buffer(&file_buf)
+        } else {
+            Vec::new()
         }
     }
 
-    // PowerShell fallback if comdlg32 was unavailable
-    let multi_str = if allow_multiple { "$true" } else { "$false" };
-    let ps_script = format!(
-        "Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.OpenFileDialog; $f.Title = '{}'; $f.Multiselect = {}; if ($f.ShowDialog() -eq 'OK') {{ $f.FileNames -join '|' }}",
-        title.replace('\'', ""),
-        multi_str
-    );
-    if let Ok(output) = Command::new("powershell")
-        .args(["-NoProfile", "-STA", "-Command", &ps_script])
-        .output()
-    {
-        if output.status.success() {
-            let out = String::from_utf8_lossy(&output.stdout).trim().to_string();
-            if !out.is_empty() {
-                return out.split('|').map(PathBuf::from).collect();
-            }
+    pub fn save_file_dialog(title: &str, file_name: &str) -> Option<PathBuf> {
+        let lib = unsafe { libloading::Library::new("comdlg32.dll") }.ok()?;
+        let get_save = unsafe { lib.get::<FnGetFileNameW>(b"GetSaveFileNameW\0") }.ok()?;
+
+        let (filter, def_ext) = save_dialog_spec(file_name);
+        let filter_utf16: Vec<u16> = filter.encode_utf16().collect();
+        let title_utf16 = wide_z(title);
+        let def_ext_utf16 = def_ext.as_deref().map(wide_z);
+        let def_ext_ptr = def_ext_utf16
+            .as_ref()
+            .map_or(std::ptr::null(), |v| v.as_ptr());
+
+        let mut file_buf = vec![0u16; 4096];
+        let initial: Vec<u16> = file_name.encode_utf16().collect();
+        let copy_len = initial.len().min(file_buf.len().saturating_sub(1));
+        file_buf[..copy_len].copy_from_slice(&initial[..copy_len]);
+
+        // OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR
+        let flags = 0x0008_0000 | 0x0000_0002 | 0x0000_0800 | 0x0000_0008;
+        let mut ofn = base_ofn(
+            &filter_utf16,
+            &title_utf16,
+            &mut file_buf,
+            def_ext_ptr,
+            flags,
+        );
+        if unsafe { get_save(&mut ofn) } != 0 {
+            let end = file_buf
+                .iter()
+                .position(|&c| c == 0)
+                .unwrap_or(file_buf.len());
+            let s = String::from_utf16_lossy(&file_buf[..end]);
+            (!s.is_empty()).then(|| PathBuf::from(s))
+        } else {
+            None
         }
     }
-    Vec::new()
+
+    pub fn pick_folder_dialog(title: &str) -> Option<PathBuf> {
+        let shell32 = unsafe { libloading::Library::new("shell32.dll") }.ok()?;
+        let ole32 = unsafe { libloading::Library::new("ole32.dll") }.ok()?;
+        let browse =
+            unsafe { shell32.get::<FnSHBrowseForFolderW>(b"SHBrowseForFolderW\0") }.ok()?;
+        let co_free = unsafe { ole32.get::<FnCoTaskMemFree>(b"CoTaskMemFree\0") }.ok()?;
+
+        // BIF_NEWDIALOGSTYLE requires COM STA; drop it only if the thread is already MTA.
+        let mut co_init_ok = false;
+        let mut use_new_style = true;
+        if let Ok(co_init) = unsafe { ole32.get::<FnCoInitializeEx>(b"CoInitializeEx\0") } {
+            const COINIT_APARTMENTTHREADED: u32 = 0x2;
+            let hr = unsafe { co_init(std::ptr::null_mut(), COINIT_APARTMENTTHREADED) };
+            if hr == 0 || hr == 1 {
+                co_init_ok = true;
+            } else if hr < 0 {
+                use_new_style = false;
+            }
+        }
+
+        let title_utf16 = wide_z(title);
+        let mut display_buf = vec![0u16; 512];
+        // BIF_RETURNONLYFSDIRS | BIF_EDITBOX | (optional BIF_NEWDIALOGSTYLE)
+        let flags = 0x0000_0001 | 0x0000_0010 | if use_new_style { 0x0000_0040 } else { 0 };
+        let mut bi = BrowseInfoW {
+            hwnd_owner: 0,
+            pidl_root: std::ptr::null(),
+            psz_display_name: display_buf.as_mut_ptr(),
+            lpsz_title: title_utf16.as_ptr(),
+            ul_flags: flags,
+            lpfn: 0,
+            l_param: 0,
+            i_image: 0,
+        };
+
+        let pidl = unsafe { browse(&mut bi) };
+        let result = if !pidl.is_null() {
+            let mut path_buf = vec![0u16; 4096];
+            let ok = if let Ok(get_ex) =
+                unsafe { shell32.get::<FnSHGetPathFromIDListEx>(b"SHGetPathFromIDListEx\0") }
+            {
+                unsafe { get_ex(pidl, path_buf.as_mut_ptr(), path_buf.len() as u32, 0) != 0 }
+            } else if let Ok(get_w) =
+                unsafe { shell32.get::<FnSHGetPathFromIDListW>(b"SHGetPathFromIDListW\0") }
+            {
+                unsafe { get_w(pidl, path_buf.as_mut_ptr()) != 0 }
+            } else {
+                false
+            };
+            unsafe { co_free(pidl) };
+            if ok {
+                let end = path_buf.iter().position(|&c| c == 0).unwrap_or(0);
+                let s = String::from_utf16_lossy(&path_buf[..end]);
+                (!s.is_empty()).then(|| PathBuf::from(s))
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
+        if co_init_ok {
+            if let Ok(co_uninit) = unsafe { ole32.get::<FnCoUninitialize>(b"CoUninitialize\0") } {
+                unsafe { co_uninit() };
+            }
+        }
+        result
+    }
 }
 
+#[cfg(target_os = "windows")]
+pub fn win32_open_file_dialog(title: &str, filter: &str, allow_multiple: bool) -> Vec<PathBuf> {
+    win32::open_file_dialog(title, filter, allow_multiple)
+}
+
+#[cfg_attr(target_os = "windows", allow(dead_code))]
 fn run_lines(cmd: &mut Command, sep: char) -> Option<Vec<PathBuf>> {
     let output = cmd.output().ok()?;
     if !output.status.success() {
@@ -227,13 +399,6 @@ fn run_lines(cmd: &mut Command, sep: char) -> Option<Vec<PathBuf>> {
             .map(PathBuf::from)
             .collect(),
     )
-}
-
-#[cfg(any(target_os = "windows", test))]
-fn ps_escape(s: &str) -> String {
-    s.chars()
-        .filter(|c| !matches!(c, '\'' | '\"' | '$' | '`' | ';' | '\n' | '\r'))
-        .collect()
 }
 
 /// Pick one or more files matching space-separated glob `patterns`.
@@ -307,12 +472,7 @@ pub fn pick_folder(title: &str) -> Option<PathBuf> {
     }
     #[cfg(target_os = "windows")]
     {
-        let ps = format!("Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.FolderBrowserDialog; $f.Description = '{}'; if ($f.ShowDialog() -eq 'OK') {{ $f.SelectedPath }}", ps_escape(title));
-        return run_lines(
-            Command::new("powershell").args(["-NoProfile", "-STA", "-Command", &ps]),
-            '\n',
-        )
-        .and_then(|v| v.into_iter().next());
+        return win32::pick_folder_dialog(title);
     }
     #[cfg(target_os = "macos")]
     {
@@ -349,12 +509,7 @@ pub fn pick_save(title: &str, file_name: &str) -> Option<PathBuf> {
     }
     #[cfg(target_os = "windows")]
     {
-        let ps = format!("Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.SaveFileDialog; $f.Title = '{}'; $f.FileName = '{}'; if ($f.ShowDialog() -eq 'OK') {{ $f.FileName }}", ps_escape(title), ps_escape(file_name));
-        return run_lines(
-            Command::new("powershell").args(["-NoProfile", "-STA", "-Command", &ps]),
-            '\n',
-        )
-        .and_then(|v| v.into_iter().next());
+        return win32::save_file_dialog(title, file_name);
     }
     #[cfg(target_os = "macos")]
     {
@@ -389,19 +544,38 @@ pub fn pick_save(title: &str, file_name: &str) -> Option<PathBuf> {
     }
 }
 
-/// Open a folder in the system file manager.
+/// Open a folder (or highlight a file on Windows) in the system file manager.
 pub fn reveal(path: &std::path::Path) {
-    let target = if path.is_dir() {
-        path.to_path_buf()
-    } else {
-        path.parent().map(|p| p.to_path_buf()).unwrap_or_default()
-    };
     #[cfg(target_os = "windows")]
-    let _ = Command::new("explorer").arg(&target).spawn();
-    #[cfg(target_os = "macos")]
-    let _ = Command::new("open").arg(&target).spawn();
-    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
-    let _ = Command::new("xdg-open").arg(&target).spawn();
+    {
+        use std::os::windows::process::CommandExt;
+        const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+        let mut cmd = Command::new("explorer");
+        cmd.creation_flags(CREATE_NO_WINDOW);
+        if path.is_file() {
+            cmd.raw_arg(win32_explorer_select_arg(path));
+        } else {
+            let target = if path.is_dir() {
+                path.to_path_buf()
+            } else {
+                path.parent().map(|p| p.to_path_buf()).unwrap_or_default()
+            };
+            cmd.arg(&target);
+        }
+        let _ = cmd.spawn();
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        let target = if path.is_dir() {
+            path.to_path_buf()
+        } else {
+            path.parent().map(|p| p.to_path_buf()).unwrap_or_default()
+        };
+        #[cfg(target_os = "macos")]
+        let _ = Command::new("open").arg(&target).spawn();
+        #[cfg(not(target_os = "macos"))]
+        let _ = Command::new("xdg-open").arg(&target).spawn();
+    }
 }
 
 pub fn pick_media_files() -> Vec<PathBuf> {
@@ -425,16 +599,41 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_ps_escape_sanitization() {
-        let malicious = "test'; rm -rf /; $evil = `calc.exe`\n\"inject\"";
-        let sanitized = ps_escape(malicious);
-        assert!(!sanitized.contains('\''));
-        assert!(!sanitized.contains('\"'));
-        assert!(!sanitized.contains('$'));
-        assert!(!sanitized.contains('`'));
-        assert!(!sanitized.contains(';'));
-        assert!(!sanitized.contains('\n'));
-        assert_eq!(sanitized, "test rm -rf / evil = calc.exeinject");
+    fn win32_multi_select_buffer_parsing() {
+        let single: Vec<u16> = "C:\\Videos\\movie.mkv\0\0".encode_utf16().collect();
+        assert_eq!(
+            parse_win32_file_buffer(&single),
+            vec![PathBuf::from("C:\\Videos\\movie.mkv")]
+        );
+
+        let multi: Vec<u16> = "C:\\Music\0track1.flac\0track2.mp3\0\0"
+            .encode_utf16()
+            .collect();
+        assert_eq!(
+            parse_win32_file_buffer(&multi),
+            vec![
+                PathBuf::from("C:\\Music").join("track1.flac"),
+                PathBuf::from("C:\\Music").join("track2.mp3"),
+            ]
+        );
+
+        let empty = [0u16; 4];
+        assert!(parse_win32_file_buffer(&empty).is_empty());
+    }
+
+    #[test]
+    fn win32_save_spec_and_explorer_select() {
+        let (filter, ext) = save_dialog_spec("playlist.m3u");
+        assert_eq!(ext.as_deref(), Some("m3u"));
+        assert!(filter.starts_with("M3U Files (*.m3u)\0*.m3u\0"));
+        assert!(filter.ends_with("\0All Files\0*.*\0\0"));
+
+        let (plain, no_ext) = save_dialog_spec("untitled");
+        assert!(no_ext.is_none());
+        assert_eq!(plain, "All Files\0*.*\0\0");
+
+        let arg = win32_explorer_select_arg(std::path::Path::new(r#"C:\Videos\clip "1".mp4"#));
+        assert_eq!(arg, r#"/select,"C:\Videos\clip 1.mp4""#);
     }
 }
 

@@ -139,11 +139,26 @@ msgstr "Retour"
 msgid "About Ondrane"
 msgstr "À propos d’Ondrane"
 
-msgid "A Rust + Slint media player built on libVLC, following the community \"VLC Redesign\" Figma concept by Juxtopposed."
-msgstr "Un lecteur multimédia Rust + Slint construit sur libVLC, d'après le concept Figma communautaire « VLC Redesign » de Juxtopposed."
+msgid "A fast, native cross-platform media player for Windows, Linux and macOS — written in Rust + Slint on libVLC, adapting the community \"VLC Redesign\" Figma concept by Juxtopposed."
+msgstr "Un lecteur multimédia multiplateforme rapide et natif pour Windows, Linux et macOS — écrit en Rust + Slint sur libVLC, d’après le concept Figma communautaire « VLC Redesign » de Juxtopposed."
 
-msgid "Made with Slint (slint.dev) · Playback by libVLC (videolan.org)"
-msgstr "Réalisé avec Slint (slint.dev) · Lecture par libVLC (videolan.org)"
+msgid "Built with Rust & Slint (slint.dev) · Playback engine: libVLC (videolan.org)"
+msgstr "Conçu en Rust & Slint (slint.dev) · Moteur de lecture : libVLC (videolan.org)"
+
+msgid "Active engine:"
+msgstr "Moteur actif :"
+
+msgid "Check for Updates"
+msgstr "Vérifier les mises à jour"
+
+msgid "Checking for updates…"
+msgstr "Recherche de mises à jour…"
+
+msgid "Ondrane is up to date (v{})"
+msgstr "Ondrane est à jour (v{})"
+
+msgid "Could not check for updates right now"
+msgstr "Impossible de vérifier les mises à jour pour le moment"
 
 msgid "Playback engine: libVLC"
 msgstr "Moteur de lecture : libVLC"
@@ -410,7 +425,7 @@ msgid "Subtitles: {}"
 msgstr "Sous-titres : {}"
 
 msgid "Ondrane"
-msgstr "Lecteur multimédia VLC"
+msgstr "Ondrane"
 
 msgid "Speed {}"
 msgstr "Vitesse {}"
@@ -946,8 +961,8 @@ msgstr "Rechercher automatiquement les mises à jour"
 msgid "Show the welcome screen on next start"
 msgstr "Afficher l'écran d'accueil au prochain démarrage"
 
-msgid "Shows the onboarding (media folder, theme and colour) the next time VLC starts."
-msgstr "Affiche l'assistant (dossier multimédia, thème et couleur) au prochain lancement de VLC."
+msgid "Shows the onboarding (media folder, theme and colour) the next time Ondrane starts."
+msgstr "Affiche l'assistant (dossier multimédia, thème et couleur) au prochain lancement d'Ondrane."
 
 msgid "Diagnostics"
 msgstr "Diagnostic"
@@ -1087,8 +1102,8 @@ msgstr "Mémoriser les éléments lus récemment"
 msgid "Remember the playback position"
 msgstr "Mémoriser la position de lecture"
 
-msgid "Clear history when VLC closes"
-msgstr "Effacer l'historique à la fermeture de VLC"
+msgid "Clear history when Ondrane closes"
+msgstr "Effacer l'historique à la fermeture d'Ondrane"
 
 msgid "Clear history now"
 msgstr "Effacer l'historique maintenant"
@@ -1607,7 +1622,7 @@ msgid "Opening Files"
 msgstr "Ouverture des fichiers"
 
 msgid "Only allow one Ondrane window"
-msgstr "N'autoriser qu'une seule fenêtre VLC"
+msgstr "N'autoriser qu'une seule fenêtre Ondrane"
 
 msgid "Files opened later go to this window."
 msgstr "Les fichiers ouverts ensuite vont dans cette fenêtre."
@@ -1729,8 +1744,8 @@ msgstr "Lecture fluide"
 msgid "Drop frames when the system can't keep up"
 msgstr "Ignorer des images quand le système ne suit pas"
 
-msgid "Give VLC real-time priority"
-msgstr "Donner la priorité temps réel à VLC"
+msgid "Give Ondrane real-time priority"
+msgstr "Donner la priorité temps réel à Ondrane"
 
 msgid "Process priority"
 msgstr "Priorité du processus"
@@ -1960,8 +1975,8 @@ msgstr "Écran actuel"
 msgid "Screen"
 msgstr "Écran"
 
-msgid "Show / Hide VLC"
-msgstr "Afficher / masquer VLC"
+msgid "Show / Hide Ondrane"
+msgstr "Afficher / masquer Ondrane"
 
 msgid "Previous"
 msgstr "Précédent"
@@ -2282,7 +2297,7 @@ msgid "Right Sidebar"
 msgstr "Panneau latéral droit"
 
 msgid "Ondrane Settings"
-msgstr "Réglages de VLC"
+msgstr "Réglages d'Ondrane"
 
 msgid "Go Home"
 msgstr "Accueil"

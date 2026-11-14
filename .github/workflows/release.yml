@@ -43,8 +43,13 @@ jobs:
       - name: Linux build dependencies
         if: runner.os == 'Linux'
         run: |
+          for source in /etc/apt/sources.list /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list; do
+            if [ -f "$source" ]; then
+              sudo sed -i 's/azure\.archive\.ubuntu\.com/archive.ubuntu.com/g' "$source"
+            fi
+          done
           sudo apt-get update
-          sudo apt-get install -y libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libfontconfig1-dev libxkbcommon-dev libxkbcommon-x11-dev
       - run: cargo build --release --locked -p ondrane
       - run: cargo xtask licenses
       - name: Prepare distribution
@@ -154,9 +159,14 @@ jobs:
           pattern: package-*
           merge-multiple: true
           path: packages
+      - name: Consolidate SHA256 checksums
+        working-directory: packages
+        run: |
+          cat *.sha256 flatpak-SHA256SUMS > SHA256SUMS 2>/dev/null || true
       - uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.release_tag || github.ref_name }}
-          prerelease: true
+          prerelease: ${{ contains(inputs.release_tag || github.ref_name, '-') }}
+          make_latest: ${{ !contains(inputs.release_tag || github.ref_name, '-') }}
           generate_release_notes: true
           files: packages/*

@@ -357,7 +357,7 @@ pub fn page(n: i32, st: &State, advanced: bool, ctx: &Ctx) -> Vec<SettingRow> {
                 "app.welcome",
                 "Show the welcome screen on next start",
                 !g.onboarding_completed,
-                "Shows the onboarding (media folder, theme and colour) the next time VLC starts.",
+                "Shows the onboarding (media folder, theme and colour) the next time Ondrane starts.",
             ));
             r.push(header("Diagnostics"));
             r.push(toggle_info(
@@ -524,7 +524,7 @@ pub fn page(n: i32, st: &State, advanced: bool, ctx: &Ctx) -> Vec<SettingRow> {
             ));
             r.push(toggle(
                 "privacy.clear-exit",
-                "Clear history when VLC closes",
+                "Clear history when Ondrane closes",
                 p.clear_history_on_exit,
             ));
             r.push(button("privacy.clear", "Clear history now", "Clear"));
@@ -1253,7 +1253,7 @@ pub fn page(n: i32, st: &State, advanced: bool, ctx: &Ctx) -> Vec<SettingRow> {
                 "Drop frames when the system can't keep up",
                 p.drop_late_frames,
             ));
-            r.push(ot(s, "perf.rt", "Give VLC real-time priority"));
+            r.push(ot(s, "perf.rt", "Give Ondrane real-time priority"));
             if s.ob("perf.rt") {
                 let pr = s.oi("perf.priority") as f32;
                 r.push(slider(

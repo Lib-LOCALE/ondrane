@@ -790,14 +790,14 @@ export component OnboardingDialog inherits Rectangle {
 
 export component AboutDialog inherits DialogFrame {
     title: @tr("About Ondrane");
-    width: 560px;
+    width: 600px;
     footer: false;
     cancel => {
         AppState.dialog = 0;
     }
     VerticalLayout {
-        padding: 30px;
-        spacing: 16px;
+        padding: 28px;
+        spacing: 14px;
         HorizontalLayout {
             alignment: center;
             Icon {
@@ -810,11 +810,19 @@ export component AboutDialog inherits DialogFrame {
             text: "Ondrane";
             font-family: Theme.font;
             font-size: 22px;
+            font-weight: 600;
             color: Theme.fg-1;
             horizontal-alignment: center;
         }
         Text {
-            text: @tr("A Rust + Slint media player built on libVLC, following the community \"VLC Redesign\" Figma concept by Juxtopposed.");
+            text: AppState.about-version;
+            font-family: Theme.font;
+            font-size: 13px;
+            color: Theme.accent-bright;
+            horizontal-alignment: center;
+        }
+        Text {
+            text: @tr("A fast, native cross-platform media player for Windows, Linux and macOS — written in Rust + Slint on libVLC, adapting the community \"VLC Redesign\" Figma concept by Juxtopposed.");
             font-family: Theme.font;
             font-size: 14px;
             color: Theme.fg-a2;
@@ -822,19 +830,45 @@ export component AboutDialog inherits DialogFrame {
             wrap: word-wrap;
         }
         Text {
-            text: @tr("Made with Slint (slint.dev) · Playback by libVLC (videolan.org)");
+            text: @tr("Built with Rust & Slint (slint.dev) · Playback engine: libVLC (videolan.org)");
             font-family: Theme.font;
             font-size: 13px;
             color: Theme.fg-a3;
             horizontal-alignment: center;
         }
-        AboutSlint { height: 96px; }
+        AboutSlint { height: 90px; }
         Text {
-            text: AppState.engine-ok ? @tr("Playback engine: libVLC") : @tr("libVLC not found — playback disabled");
+            text: AppState.about-engine != ""
+                ? (@tr("Active engine:") + " " + AppState.about-engine)
+                : (AppState.engine-ok ? @tr("Playback engine: libVLC") : @tr("libVLC not found — playback disabled"));
             font-family: Theme.font;
             font-size: 13px;
-            color: Theme.fg-a3;
+            color: AppState.engine-ok ? Theme.fg-a2 : Theme.fg-a3;
             horizontal-alignment: center;
+        }
+        HorizontalLayout {
+            alignment: center;
+            spacing: 10px;
+            padding-top: 6px;
+            Button {
+                text: "GitHub";
+                clicked => {
+                    AppState.act("open-repo");
+                }
+            }
+            Button {
+                text: @tr("Check for Updates");
+                clicked => {
+                    AppState.act("check-updates-now");
+                }
+            }
+            Button {
+                text: @tr("Close");
+                solid: true;
+                clicked => {
+                    AppState.dialog = 0;
+                }
+            }
         }
     }
 }

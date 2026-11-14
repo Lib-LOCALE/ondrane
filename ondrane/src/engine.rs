@@ -329,6 +329,52 @@ struct LibVlcSymbols {
     ext: ExtSymbols,
 }
 
+/// Read the COFF `Machine` field from a Windows PE executable/DLL stream in pure Rust.
+#[cfg(any(target_os = "windows", test))]
+fn pe_machine_from_reader(mut r: impl std::io::Read + std::io::Seek) -> Option<u16> {
+    let mut dos = [0u8; 64];
+    r.read_exact(&mut dos).ok()?;
+    if &dos[0..2] != b"MZ" {
+        return None;
+    }
+    let pe_offset = u32::from_le_bytes([dos[60], dos[61], dos[62], dos[63]]) as u64;
+    r.seek(std::io::SeekFrom::Start(pe_offset)).ok()?;
+    let mut pe = [0u8; 6];
+    r.read_exact(&mut pe).ok()?;
+    if &pe[0..4] != b"PE\0\0" {
+        return None;
+    }
+    Some(u16::from_le_bytes([pe[4], pe[5]]))
+}
+
+/// True when `path` appears to be a Windows DLL matching this process's CPU architecture.
+#[cfg(target_os = "windows")]
+fn is_compatible_pe_dll(path: &Path) -> bool {
+    let Ok(f) = std::fs::File::open(path) else {
+        return false;
+    };
+    let Some(machine) = pe_machine_from_reader(f) else {
+        return true; // Unknown/non-standard header: let the loader try
+    };
+    #[cfg(target_arch = "x86_64")]
+    {
+        machine == 0x8664
+    }
+    #[cfg(target_arch = "aarch64")]
+    {
+        machine == 0xAA64
+    }
+    #[cfg(target_arch = "x86")]
+    {
+        machine == 0x014C
+    }
+    #[cfg(not(any(target_arch = "x86_64", target_arch = "aarch64", target_arch = "x86")))]
+    {
+        let _ = machine;
+        true
+    }
+}
+
 /// Preload companion shared libraries (such as `libvlccore.dll` on Windows or `libvlccore.so.9` on Linux)
 /// and configure `VLC_PLUGIN_PATH` automatically when loading from a standalone or system VLC directory.
 fn prepare_vlc_environment(lib_path: &Path) -> Vec<libloading::Library> {
@@ -352,10 +398,22 @@ fn prepare_vlc_environment(lib_path: &Path) -> Vec<libloading::Library> {
         }
     }
 
-    // 2. On Windows 10/11 x64, ensure parent directory is in PATH so dependent DLLs resolve,
-    //    and preload libvlccore.dll before loading libvlc.dll.
+    // 2. On Windows 10/11 x64, register the VLC directory via SetDllDirectoryW + PATH
+    //    so dependent DLLs and plugins resolve cleanly, and preload libvlccore.dll.
     #[cfg(target_os = "windows")]
     {
+        #[link(name = "kernel32")]
+        extern "system" {
+            fn SetDllDirectoryW(lp_path_name: *const u16) -> i32;
+        }
+        let parent_wide: Vec<u16> = parent
+            .as_os_str()
+            .to_string_lossy()
+            .encode_utf16()
+            .chain(std::iter::once(0))
+            .collect();
+        unsafe { SetDllDirectoryW(parent_wide.as_ptr()) };
+
         if let Ok(current_path) = std::env::var("PATH") {
             let parent_str = parent.to_string_lossy();
             if !current_path.contains(parent_str.as_ref()) {
@@ -398,6 +456,13 @@ fn prepare_vlc_environment(lib_path: &Path) -> Vec<libloading::Library> {
 
 impl LibVlcSymbols {
     pub unsafe fn load(lib_path: &Path) -> Result<Self, EngineError> {
+        #[cfg(target_os = "windows")]
+        if lib_path.exists() && !is_compatible_pe_dll(lib_path) {
+            return Err(EngineError::LibraryLoadError(format!(
+                "{} does not match this Ondrane build architecture (install 64-bit VLC 3)",
+                lib_path.display()
+            )));
+        }
         let companions = prepare_vlc_environment(lib_path);
 
         let lib = libloading::Library::new(lib_path)
@@ -594,18 +659,20 @@ fn locate_libvlc() -> Option<PathBuf> {
 
     #[cfg(target_os = "windows")]
     {
-        let mut candidates = vec![
-            PathBuf::from(r"C:\Program Files\VideoLAN\VLC\libvlc.dll"),
-            PathBuf::from(r"C:\Program Files (x86)\VideoLAN\VLC\libvlc.dll"),
-            PathBuf::from(r"C:\tools\vlc\libvlc.dll"),
-        ];
-        for env_key in [
-            "ProgramW6432",
-            "ProgramFiles",
-            "ProgramFiles(x86)",
-            "LOCALAPPDATA",
-            "APPDATA",
+        let mut candidates = Vec::new();
+        // Custom / official VLC directory from the registry in-process (no `reg.exe`).
+        for (hive, key) in [
+            (crate::system::registry::HKLM, r"SOFTWARE\VideoLAN\VLC"),
+            (crate::system::registry::HKCU, r"Software\VideoLAN\VLC"),
         ] {
+            if let Some(dir) = crate::system::registry::get_string(hive, key, "InstallDir") {
+                if !dir.is_empty() {
+                    candidates.push(PathBuf::from(dir).join("libvlc.dll"));
+                }
+            }
+        }
+        candidates.push(PathBuf::from(r"C:\Program Files\VideoLAN\VLC\libvlc.dll"));
+        for env_key in ["ProgramW6432", "ProgramFiles", "LOCALAPPDATA", "APPDATA"] {
             if let Some(dir) = std::env::var_os(env_key).map(PathBuf::from) {
                 candidates.push(dir.join("VideoLAN").join("VLC").join("libvlc.dll"));
                 candidates.push(
@@ -618,9 +685,6 @@ fn locate_libvlc() -> Option<PathBuf> {
             }
         }
         if let Some(user) = std::env::var_os("USERPROFILE").map(PathBuf::from) {
-            candidates.push(user.join("ondrane_test").join("libvlc.dll"));
-            candidates.push(user.join("Downloads").join("libvlc.dll"));
-            candidates.push(user.join("Downloads").join("vlc").join("libvlc.dll"));
             candidates.push(
                 user.join("scoop")
                     .join("apps")
@@ -628,29 +692,32 @@ fn locate_libvlc() -> Option<PathBuf> {
                     .join("current")
                     .join("libvlc.dll"),
             );
+            candidates.push(user.join("ondrane_test").join("libvlc.dll"));
+            candidates.push(user.join("Downloads").join("libvlc.dll"));
+            candidates.push(user.join("Downloads").join("vlc").join("libvlc.dll"));
         }
-        for p in &candidates {
+        candidates.push(PathBuf::from(r"C:\tools\vlc\libvlc.dll"));
+        // Last resort: check 32-bit default path / WOW6432Node so mismatched DLLs report a clear error.
+        if let Some(dir) = std::env::var_os("ProgramFiles(x86)").map(PathBuf::from) {
+            candidates.push(dir.join("VideoLAN").join("VLC").join("libvlc.dll"));
+        }
+        candidates.push(PathBuf::from(
+            r"C:\Program Files (x86)\VideoLAN\VLC\libvlc.dll",
+        ));
+
+        let mut incompatible = None;
+        for p in candidates {
             if p.exists() {
-                return Some(p.clone());
-            }
-        }
-        // Custom VLC installation directory, read from the registry in-process
-        // (spawning `reg.exe` costs hundreds of milliseconds per call).
-        candidates.clear();
-        for (hive, key) in [
-            (crate::system::registry::HKLM, r"SOFTWARE\VideoLAN\VLC"),
-            (crate::system::registry::HKCU, r"Software\VideoLAN\VLC"),
-        ] {
-            if let Some(dir) = crate::system::registry::get_string(hive, key, "InstallDir") {
-                if !dir.is_empty() {
-                    candidates.push(PathBuf::from(dir).join("libvlc.dll"));
+                if is_compatible_pe_dll(&p) {
+                    return Some(p);
+                }
+                if incompatible.is_none() {
+                    incompatible = Some(p);
                 }
             }
         }
-        for p in candidates {
-            if p.exists() {
-                return Some(p);
-            }
+        if incompatible.is_some() {
+            return incompatible;
         }
     }
 
@@ -858,6 +925,7 @@ pub struct VideoBufferState {
     pub width: u32,
     pub height: u32,
     pub pitch: u32,
+    pub frame_seq: u64,
     pub buffer: Vec<u8>,
     decoding: Vec<u8>,
     pub callback: Option<FrameCallback>,
@@ -977,6 +1045,7 @@ unsafe extern "C" fn video_unlock_cb(
                     .copy_from_slice(&decoding[offset + y * pitch..offset + y * pitch + row]);
             }
         }
+        state.frame_seq = state.frame_seq.wrapping_add(1);
     }
 }
 
@@ -1023,6 +1092,7 @@ impl VlcEngine {
             width: 0,
             height: 0,
             pitch: 0,
+            frame_seq: 0,
             buffer: Vec::new(),
             decoding: Vec::new(),
             callback: None,
@@ -1786,6 +1856,7 @@ mod tests {
             width: 0,
             height: 0,
             pitch: 0,
+            frame_seq: 0,
             buffer: Vec::new(),
             decoding: Vec::new(),
             callback: None,
@@ -1897,6 +1968,7 @@ mod tests {
             width: 0,
             height: 0,
             pitch: 0,
+            frame_seq: 0,
             buffer: Vec::new(),
             decoding: Vec::new(),
             callback: None,
@@ -1936,6 +2008,7 @@ mod tests {
             width: 10,
             height: 10,
             pitch: 40,
+            frame_seq: 0,
             buffer: vec![0u8; 400],
             decoding: vec![0u8; 431],
             callback: None,
@@ -1973,5 +2046,29 @@ mod tests {
         unsafe {
             video_lock_cb(opaque_ptr, std::ptr::null_mut());
         }
+    }
+
+    #[test]
+    fn test_pe_machine_detection() {
+        let mut fake_pe = vec![0u8; 128];
+        fake_pe[0..2].copy_from_slice(b"MZ");
+        fake_pe[60..64].copy_from_slice(&64u32.to_le_bytes());
+        fake_pe[64..68].copy_from_slice(b"PE\0\0");
+        fake_pe[68..70].copy_from_slice(&0x8664u16.to_le_bytes());
+        assert_eq!(
+            pe_machine_from_reader(std::io::Cursor::new(&fake_pe)),
+            Some(0x8664)
+        );
+
+        fake_pe[68..70].copy_from_slice(&0x014Cu16.to_le_bytes());
+        assert_eq!(
+            pe_machine_from_reader(std::io::Cursor::new(&fake_pe)),
+            Some(0x014C)
+        );
+
+        assert_eq!(
+            pe_machine_from_reader(std::io::Cursor::new(b"\x7fELF")),
+            None
+        );
     }
 }

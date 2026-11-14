@@ -369,6 +369,10 @@ pub use tray_impl::Tray;
 // ---------------------------------------------------------------- updates
 
 pub const RELEASES_API: &str = "https://api.github.com/repos/Lib-LOCALE/ondrane/releases/latest";
+pub const RELEASES_LIST_API: &str =
+    "https://api.github.com/repos/Lib-LOCALE/ondrane/releases?per_page=1";
+pub const REPO_URL: &str = "https://github.com/Lib-LOCALE/ondrane";
+pub const RELEASES_PAGE_URL: &str = "https://github.com/Lib-LOCALE/ondrane/releases";
 
 fn version_tuple(v: &str) -> Vec<u64> {
     let mut t: Vec<u64> = v
@@ -388,28 +392,91 @@ pub fn is_newer(latest: &str, current: &str) -> bool {
     version_tuple(latest) > version_tuple(current)
 }
 
-/// Latest published release tag, fetched with the system `curl` (present on
-/// Windows 10+, macOS and Linux desktops). Blocking: call from a thread.
-pub fn latest_release() -> Option<String> {
-    let out = Command::new("curl")
-        .args([
-            "-fsSL",
-            "--max-time",
-            "10",
-            "-H",
-            "Accept: application/vnd.github+json",
-            "-A",
-            "Ondrane",
-            RELEASES_API,
-        ])
-        .stderr(Stdio::null())
-        .output()
-        .ok()?;
-    if !out.status.success() {
-        return None;
+fn parse_tag_name(bytes: &[u8]) -> Option<String> {
+    let v: serde_json::Value = serde_json::from_slice(bytes).ok()?;
+    let pick = |obj: &serde_json::Value| -> Option<String> {
+        if obj.get("draft").and_then(|d| d.as_bool()) == Some(true) {
+            return None;
+        }
+        obj.get("tag_name")?.as_str().map(str::to_string)
+    };
+    if let Some(arr) = v.as_array() {
+        arr.iter().find_map(pick)
+    } else {
+        pick(&v)
     }
-    let v: serde_json::Value = serde_json::from_slice(&out.stdout).ok()?;
-    v.get("tag_name")?.as_str().map(str::to_string)
+}
+
+fn fetch_release_json(url: &str) -> Option<Vec<u8>> {
+    let mut cmd = Command::new("curl");
+    cmd.args([
+        "-fsSL",
+        "--max-time",
+        "10",
+        "-H",
+        "Accept: application/vnd.github+json",
+        "-A",
+        "Ondrane",
+        url,
+    ])
+    .stderr(Stdio::null());
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        cmd.creation_flags(0x0800_0000); // CREATE_NO_WINDOW
+    }
+    let out = cmd.output().ok()?;
+    out.status.success().then_some(out.stdout)
+}
+
+/// Latest published release tag, fetched with the system `curl` (present on
+/// Windows 10+, macOS and Linux desktops). Falls back to the newest non-draft
+/// release if `/releases/latest` is unavailable (e.g. pre-releases). Blocking: call from a thread.
+pub fn latest_release() -> Option<String> {
+    if let Some(bytes) = fetch_release_json(RELEASES_API) {
+        if let Some(tag) = parse_tag_name(&bytes) {
+            return Some(tag);
+        }
+    }
+    fetch_release_json(RELEASES_LIST_API).and_then(|bytes| parse_tag_name(&bytes))
+}
+
+/// Open an external `https://` or `http://` URL in the user's default browser.
+pub fn open_url(url: &str) {
+    if !(url.starts_with("https://") || url.starts_with("http://")) {
+        return;
+    }
+    #[cfg(target_os = "windows")]
+    {
+        type FnShellExecuteW = unsafe extern "system" fn(
+            usize,
+            *const u16,
+            *const u16,
+            *const u16,
+            *const u16,
+            i32,
+        ) -> usize;
+        if let Ok(lib) = unsafe { libloading::Library::new("shell32.dll") } {
+            if let Ok(exec) = unsafe { lib.get::<FnShellExecuteW>(b"ShellExecuteW\0") } {
+                let op: Vec<u16> = "open\0".encode_utf16().collect();
+                let target: Vec<u16> = url.encode_utf16().chain(Some(0)).collect();
+                unsafe {
+                    exec(
+                        0,
+                        op.as_ptr(),
+                        target.as_ptr(),
+                        std::ptr::null(),
+                        std::ptr::null(),
+                        1, // SW_SHOWNORMAL
+                    );
+                }
+            }
+        }
+    }
+    #[cfg(target_os = "macos")]
+    let _ = Command::new("open").arg(url).spawn();
+    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    let _ = Command::new("xdg-open").arg(url).spawn();
 }
 
 #[cfg(test)]
@@ -440,6 +507,16 @@ mod tests {
         assert!(!is_newer("2.0", "2.0.0"));
         assert!(is_newer("2.0.1", "2.0"));
         assert!(is_newer("v2.1", "2.0.3"));
+    }
+
+    #[test]
+    fn release_tag_parsing() {
+        let latest = br#"{"tag_name":"v0.2.0","draft":false}"#;
+        assert_eq!(parse_tag_name(latest).as_deref(), Some("v0.2.0"));
+
+        let list =
+            br#"[{"tag_name":"v0.3.0-rc1","draft":true},{"tag_name":"v0.2.1","draft":false}]"#;
+        assert_eq!(parse_tag_name(list).as_deref(), Some("v0.2.1"));
     }
 }
 
