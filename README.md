@@ -19,13 +19,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.1.0/ondrane-showcase.mp4" title="Watch the Full HD presentation video with soundtrack">
+  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.2.0/ondrane-showcase.mp4" title="Watch the Full HD presentation video with soundtrack">
     <img src="docs/ondrane-showcase.gif" alt="Ondrane — Presentation Showcase (Pure Rust + Slint + libVLC)" width="100%">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.1.0/ondrane-showcase.mp4">
+  <a href="https://github.com/Lib-LOCALE/ondrane/releases/download/v0.2.0/ondrane-showcase.mp4">
     <img src="https://img.shields.io/badge/%E2%96%B6%20Watch%20Full%20HD%20Video%20(with%20Sound)-MP4%20720p%20%C2%B7%201.1%20MB-78e3cb?style=for-the-badge&labelColor=101827" alt="Watch Full HD Video (with Sound)">
   </a>
 </p>

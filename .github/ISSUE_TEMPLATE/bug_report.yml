@@ -6,7 +6,7 @@ body:
     id: versions
     attributes:
       label: Ondrane and VLC versions
-      placeholder: "Ondrane 0.1.0, VLC 3.0.x"
+      placeholder: "Ondrane 0.2.0, VLC 3.0.x"
     validations:
       required: true
   - type: input

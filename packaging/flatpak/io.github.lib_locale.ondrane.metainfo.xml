@@ -11,6 +11,6 @@
   <url type="bugtracker">https://github.com/Lib-LOCALE/ondrane/issues</url>
   <description><p>Ondrane is an independent Rust and Slint media player powered by libVLC. It includes a media library, resume history, subtitles, six colour-scheme families and native Wayland portals. The Flatpak includes its playback engine and uses desktop portals to select files and share the screen.</p></description>
   <screenshots><screenshot type="default"><caption>Video playback with Ondrane’s native interface</caption><image>https://raw.githubusercontent.com/Lib-LOCALE/ondrane/main/docs/screenshots/player.png</image></screenshot></screenshots>
-  <releases><release version="0.1.0" date="2026-11-06"/></releases>
+  <releases><release version="0.2.0" date="2026-11-15"/><release version="0.1.0" date="2026-11-06"/></releases>
   <content_rating type="oars-1.1"/>
 </component>

@@ -17,7 +17,7 @@ The build downloads checksummed sources first, then compiles offline. It builds 
 The output is `target/ondrane-<version>-<arch>.flatpak`. Install and run it with:
 
 ```sh
-flatpak install --user ./target/ondrane-0.1.0-x86_64.flatpak
+flatpak install --user ./target/ondrane-0.2.0-x86_64.flatpak
 flatpak run io.github.lib_locale.ondrane
 ```
 
