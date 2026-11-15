@@ -27,9 +27,6 @@ jobs:
           - os: windows-latest
             platform: windows-x86_64
             binary: ondrane.exe
-          - os: macos-latest
-            platform: macos-arm64
-            binary: ondrane
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7.0.1
@@ -63,17 +60,6 @@ jobs:
           cp target/release/${{ matrix.binary }} "$dest/"
           cp LICENSE THIRD_PARTY_NOTICES.md README.md "$dest/"
           cp -R target/third-party-licenses "$dest/licenses"
-          if [ "${{ runner.os }}" = "macOS" ]; then
-            app="$dest/Ondrane.app/Contents"
-            mkdir -p "$app/MacOS" "$app/Resources"
-            mv "$dest/ondrane" "$app/MacOS/ondrane"
-            cp packaging/macos/Info.plist "$app/Info.plist"
-            cp packaging/macos/ondrane.icns "$app/Resources/ondrane.icns"
-            cp LICENSE THIRD_PARTY_NOTICES.md "$app/Resources/"
-            cp -R target/third-party-licenses "$app/Resources/licenses"
-            /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" "$app/Info.plist"
-            /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $version" "$app/Info.plist"
-          fi
       - name: Windows installer and portable archive
         if: runner.os == 'Windows'
         shell: pwsh

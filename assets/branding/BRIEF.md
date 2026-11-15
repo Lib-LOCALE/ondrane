@@ -4,7 +4,7 @@ An original orbit and play symbol: midnight rounded tile, a mint open orbit, a p
 
 Palette: Midnight #101827, Mint #78E3CB, Periwinkle #A6B5FF, Ivory #F3F7FF. Primary app accent: Mint. Rounded geometry, strong silhouette at 24px, no embedded photos, no generated imagery. Icon source: VectorCraft 0.21.1. Motion source: EffectCraft 0.21.1, CPU rendering; a restrained 3-second pulse with static support for reduced motion.
 
-Deliverables: editable native files, static icon and outlined wordmark SVG, animated SVG and vector Lottie, PNG/ICO/ICNS platform exports, and a GIF preview for GitHub (which does not play CSS inside SVG images).
+Deliverables: editable native files, static icon and outlined wordmark SVG, animated SVG and vector Lottie, PNG/ICO platform exports, and a GIF preview for GitHub (which does not play CSS inside SVG images).
 
 ## Editable sources and exports
 
@@ -16,7 +16,7 @@ Deliverables: editable native files, static icon and outlined wordmark SVG, anim
   3. **Ondrane — Showcase (EN)** (`1280×720`, 30 fps, 12 s): 4-scene English product presentation combining the Orbit Pulse emblem, Player/Settings screenshots, VectorCraft plates (`showcase-bg.png`, `platforms-card.png`), and SoundCraft soundtrack.
 - `ondrane-showcase.scproj` / `ondrane-showcase-audio.wav`: original 3-track stereo ambient soundtrack composed in **SoundCraft** (48 kHz, Warm Pad + Mint Chimes + Sub Pulse, normalized to −0.1 dBFS / −10.8 LUFS).
 - `showcase-bg.vectorcraft` / `showcase-bg.png` / `showcase-bg.svg`: `1280×720` Midnight/Mint/Periwinkle orbital showcase backdrop created in **VectorCraft**.
-- `platforms-card.vectorcraft` / `platforms-card.png`: `1040×680` (@2x) Windows / Linux / macOS release card created in **VectorCraft**.
+- `platforms-card.vectorcraft` / `platforms-card.png`: `1040×680` (@2x) Windows / Linux release card created in **VectorCraft**.
 - `docs/ondrane-showcase.mp4` & `docs/ondrane-showcase.gif`: H.264 720p30 master video with AAC audio and `960×540` 15 fps palette-optimized GIF preview embedded in `README.md`.
 - `ondrane-motion.json`: EffectCraft Lottie export, no embedded raster assets, zero export warnings.
 - `ondrane-animated.svg`: the VectorCraft paths with a CSS adaptation of the native EffectCraft keyframes, plus `prefers-reduced-motion`. This is not claimed as a direct animated-SVG export from EffectCraft.

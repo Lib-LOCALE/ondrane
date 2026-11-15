@@ -91,16 +91,7 @@ impl Inhibitor {
             unsafe { SetThreadExecutionState(0x8000_0000 | 0x2 | 0x1) };
             Self { child: None }
         }
-        #[cfg(target_os = "macos")]
-        {
-            let child = Command::new("caffeinate")
-                .args(["-d", "-i", "-w", &std::process::id().to_string()])
-                .stdout(Stdio::null())
-                .spawn()
-                .ok();
-            Self { child }
-        }
-        #[cfg(not(any(target_os = "linux", target_os = "windows", target_os = "macos")))]
+        #[cfg(not(any(target_os = "linux", target_os = "windows")))]
         Self { child: None }
     }
 }
@@ -163,20 +154,6 @@ pub fn notify(title: &str, body: &str, timeout_ms: u32) {
                 .icon("ondrane")
                 .timeout(notify_rust::Timeout::Milliseconds(timeout_ms))
                 .show();
-        }
-        #[cfg(target_os = "macos")]
-        {
-            let _ = timeout_ms;
-            let _ = Command::new("osascript")
-                .args([
-                    "-e",
-                    "on run argv\n\
-                     display notification (item 1 of argv) with title (item 2 of argv)\n\
-                     end run",
-                    &body,
-                    &title,
-                ])
-                .status();
         }
     });
 }
@@ -292,7 +269,7 @@ mod tray_impl {
     }
 }
 
-#[cfg(any(target_os = "windows", target_os = "macos"))]
+#[cfg(target_os = "windows")]
 mod tray_impl {
     use super::*;
     use tray_icon::menu::{Menu, MenuEvent, MenuId, MenuItem, PredefinedMenuItem};
@@ -350,7 +327,7 @@ mod tray_impl {
     }
 }
 
-#[cfg(not(any(target_os = "linux", target_os = "windows", target_os = "macos")))]
+#[cfg(not(any(target_os = "linux", target_os = "windows")))]
 mod tray_impl {
     use super::*;
     pub struct Tray;
@@ -430,7 +407,7 @@ fn fetch_release_json(url: &str) -> Option<Vec<u8>> {
 }
 
 /// Latest published release tag, fetched with the system `curl` (present on
-/// Windows 10+, macOS and Linux desktops). Falls back to the newest non-draft
+/// Windows 10+ and Linux desktops). Falls back to the newest non-draft
 /// release if `/releases/latest` is unavailable (e.g. pre-releases). Blocking: call from a thread.
 pub fn latest_release() -> Option<String> {
     if let Some(bytes) = fetch_release_json(RELEASES_API) {
@@ -473,9 +450,7 @@ pub fn open_url(url: &str) {
             }
         }
     }
-    #[cfg(target_os = "macos")]
-    let _ = Command::new("open").arg(url).spawn();
-    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    #[cfg(not(target_os = "windows"))]
     let _ = Command::new("xdg-open").arg(url).spawn();
 }
 

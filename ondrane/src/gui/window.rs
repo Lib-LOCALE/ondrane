@@ -444,7 +444,7 @@ impl Controller {
     pub(super) fn tick_services(self: &Rc<Self>, playing: bool) {
         let w = self.ui();
         let a = w.global::<AppState>();
-        // tray (Windows / macOS poll their menu events)
+        // tray (Windows polls its menu events)
         let cmd = self.services().tray.as_ref().and_then(|t| t.poll());
         if let Some(cmd) = cmd {
             self.on_tray(cmd);

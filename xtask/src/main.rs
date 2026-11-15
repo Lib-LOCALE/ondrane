@@ -2,7 +2,7 @@
 //!
 //! Tasks:
 //!   figma [path.fig]   Re-extract the icon set and app icons from the Figma file
-//!   app-icons          Regenerate only the application icons (png / ico / icns)
+//!   app-icons          Regenerate only the application icons (png / ico)
 //!   run [args..]       Build in release mode and launch the player
 //!   diag               Print engine / settings diagnostics
 //!   install            Install binary, desktop entry and icon for the current user
@@ -127,14 +127,6 @@ fn app_icons() {
         ico.add_entry(ico::IconDirEntry::encode(&img).unwrap());
     }
     ico.write(std::fs::File::create(root.join("packaging/windows/ondrane.ico")).unwrap())
-        .unwrap();
-    let mut icns = icns::IconFamily::new();
-    for size in [16, 32, 64, 128, 256, 512] {
-        let img =
-            icns::Image::from_data(icns::PixelFormat::RGBA, size, size, rgba(&svg, size)).unwrap();
-        icns.add_icon(&img).unwrap();
-    }
-    icns.write(std::fs::File::create(root.join("packaging/macos/ondrane.icns")).unwrap())
         .unwrap();
     eprintln!("==> app icons written to packaging/");
 }

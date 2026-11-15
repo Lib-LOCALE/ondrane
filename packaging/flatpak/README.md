@@ -21,7 +21,7 @@ flatpak install --user ./target/ondrane-0.1.0-x86_64.flatpak
 flatpak run io.github.lib_locale.ondrane
 ```
 
-The Flatpak includes its playback engine; **no host VLC installation is needed**. Native Windows/macOS/standalone Linux packages still require VLC 3 separately. The release's Flatpak source archive includes the native dependency source archives, Rust crate download cache, application source and build instructions.
+The Flatpak includes its playback engine; **no host VLC installation is needed**. Native Windows and standalone Linux packages still require VLC 3 separately. The release's Flatpak source archive includes the native dependency source archives, Rust crate download cache, application source and build instructions.
 
 ## Sandbox
 

@@ -47,14 +47,7 @@ pub fn user_dir() -> PathBuf {
             .join("vlc")
             .join("lua")
     }
-    #[cfg(target_os = "macos")]
-    {
-        std::env::var_os("HOME")
-            .map(PathBuf::from)
-            .unwrap_or_default()
-            .join("Library/Application Support/org.videolan.vlc/lua")
-    }
-    #[cfg(not(any(target_os = "windows", target_os = "macos")))]
+    #[cfg(not(target_os = "windows"))]
     {
         std::env::var_os("XDG_DATA_HOME")
             .map(PathBuf::from)

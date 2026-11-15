@@ -5,7 +5,7 @@
   </picture>
 </p>
 
-<h3 align="center">Fast, native cross-platform media player for Windows, Linux & macOS</h3>
+<h3 align="center">Fast, native desktop media player for Windows & Linux</h3>
 
 <p align="center">
   Written in <strong>Rust</strong> · GPU-accelerated <strong>Slint</strong> interface · Powered by <strong>libVLC 3</strong>
@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://github.com/Lib-LOCALE/ondrane/actions/workflows/ci.yml"><img src="https://github.com/Lib-LOCALE/ondrane/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/Lib-LOCALE/ondrane/releases/latest"><img src="https://img.shields.io/github/v/release/Lib-LOCALE/ondrane?color=78e3cb&label=release" alt="Latest release"></a>
-  <img src="https://img.shields.io/badge/platforms-Windows%20%7C%20Linux%20%7C%20macOS-blue" alt="Platforms">
+  <img src="https://img.shields.io/badge/platforms-Windows%2010%2F11%20(x64)%20%7C%20Linux-blue" alt="Platforms">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-78e3cb" alt="License: MIT"></a>
 </p>
 
@@ -30,7 +30,7 @@
   </a>
 </p>
 
-> **Ondrane** is an independent, pure-Rust desktop media player implementing [Juxtopposed](https://www.figma.com/@juxtopposed)'s [*VLC Redesign*](https://www.figma.com/community/file/1691465999134370980/vlc-redesign) (CC BY 4.0) with a GPU-accelerated Slint interface, zero-bloat native OS integrations across Windows, Linux, and macOS, and pure-Rust engine modules that go well beyond the stock VLC Qt interface.
+> **Ondrane** is an independent, pure-Rust desktop media player implementing [Juxtopposed](https://www.figma.com/@juxtopposed)'s [*VLC Redesign*](https://www.figma.com/community/file/1691465999134370980/vlc-redesign) (CC BY 4.0) with a GPU-accelerated Slint interface, zero-bloat native OS integrations across Windows and Linux, and pure-Rust engine modules that go well beyond the stock VLC Qt interface.
 > It is not affiliated with or endorsed by [VideoLAN](https://www.videolan.org/videolan/) or Juxtopposed.
 
 ---
@@ -44,7 +44,7 @@ Stock VLC delegates almost everything (UI, dialogs, discovery, skins, preference
 | **Window startup** | Blocks while scanning plugins | **Non-blocking startup** — window opens immediately while libVLC loads on a worker thread |
 | **UI stack** | Qt widgets / legacy skin bitmap engine | **Declarative GPU-rendered Slint UI** with 6 built-in themes (**Catppuccin**, **Dracula**, **Nord**, **Gruvbox**, **Tokyo Night**, **Rosé Pine**) + custom JSON skins |
 | **Windows dialogs & registry** | Qt file dialogs / heavy wrappers | **Direct Win32 FFI** (`GetOpenFileNameW`, `GetSaveFileNameW`, `SHBrowseForFolderW`, `RegGetValueW`, `SetDllDirectoryW`, `ShellExecuteW`, `SetThreadExecutionState`) — zero PowerShell, zero flashing console windows |
-| **macOS & Linux integration** | Partial Qt abstraction | **Native Wayland XDG Portals** (FileChooser, ScreenCast + PipeWire, Inhibit), StatusNotifier tray, CoreFoundation/caffeinate on macOS |
+| **Linux integration** | Partial Qt abstraction | **Native Wayland XDG Portals** (FileChooser, ScreenCast + PipeWire, Inhibit), StatusNotifier tray & D-Bus inhibit |
 | **Seekbar preview & posters** | None out of the box | **SHA-1 keyed sprite-sheet cache & background poster worker** with frame-sequence sync |
 | **Music waveform** | Flat progress slider | **Pure-Rust acoustic RMS waveform** (direct RIFF/WAVE PCM/float parsing) + smooth deterministic fallback for streams |
 | **Playlists** | C module pipeline | **Pure-Rust parser** with BOM handling, `file://` decoding, and auto-detection for **M3U / M3U8 / PLS / XSPF** |
@@ -59,14 +59,13 @@ Stock VLC delegates almost everything (UI, dialogs, discovery, skins, preference
 Download packages and checksums from [**Releases**](https://github.com/Lib-LOCALE/ondrane/releases).
 
 > [!NOTE]
-> The **Linux Flatpak** bundles its own `libvlc5`. For **Windows**, **macOS**, and native **Linux archives**, install **VLC 3 (64-bit)** — Ondrane automatically discovers it (including via the Windows Registry, Program Files, Scoop, or `VLC_LIB_PATH`) with no extra configuration.
+> The **Linux Flatpak** bundles its own `libvlc5`. For **Windows** and native **Linux archives**, install **VLC 3 (64-bit)** — Ondrane automatically discovers it (including via the Windows Registry, Program Files, Scoop, or `VLC_LIB_PATH`) with no extra configuration.
 
 | Platform | Download | Notes |
 | --- | --- | --- |
 | **Windows 10 / 11 (x64)** | `Ondrane-Setup-<ver>.exe` or `ondrane-<ver>-windows-x86_64.zip` | Per-user installer (no admin rights required) & portable ZIP. Install **64-bit VLC 3** (`winget install VideoLAN.VLC` or [videolan.org](https://www.videolan.org/vlc/download-windows.html)) and the [VC++ x64 Runtime](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist/). |
 | **Linux (Flatpak)** | `ondrane-<ver>-x86_64.flatpak` | Self-contained (`flatpak install` then `flatpak run io.github.lib_locale.ondrane`). See [Flatpak guide](packaging/flatpak/README.md). |
 | **Linux (Native archive)** | `ondrane-<ver>-linux-x86_64.tar.gz` | Requires system `libvlc5` (`sudo apt install vlc`). Supports native Wayland & X11. |
-| **macOS (Apple Silicon)** | `ondrane-<ver>-macos-arm64.tar.gz` | Unsigned `Ondrane.app` bundle. Install VLC 3 in `/Applications/VLC.app`. |
 
 ---
 
@@ -115,7 +114,7 @@ ondrane/
 ├── ondrane/
 │   ├── src/
 │   │   ├── engine.rs         # Dynamic libVLC loader, PE bitness check, frame callbacks, equalizer & dialogs
-│   │   ├── pickers.rs        # Win32 common DLL dialogs (Open/Save/Browse), XDG portals, macOS osascript
+│   │   ├── pickers.rs        # Win32 common DLL dialogs (Open/Save/Browse) & Linux XDG portals
 │   │   ├── library.rs        # Folder browser, history, M3U/PLS/XSPF parsers, pure-Rust WAV RMS waveform
 │   │   ├── thumbs.rs         # SHA-1 seekbar sprite sheets & background poster extractor
 │   │   ├── mdns.rs           # Pure-Rust mDNS (_googlecast._tcp.local) Chromecast discovery
@@ -162,7 +161,7 @@ ondrane --diag                          # Verify libVLC detection, PE/ELF paths,
 SLINT_BACKEND=winit-software ondrane    # Software fallback when GPU acceleration is unavailable
 ```
 
-See [packaging/BUILD.md](packaging/BUILD.md) for Windows NSIS installer generation (`cargo xtask windows-installer`), macOS bundles, and [docs/VALIDATION.md](docs/VALIDATION.md) for CI test coverage and known engine constraints (e.g. embedded video RGBA CPU buffer vs. separate-window hardware decoding).
+See [packaging/BUILD.md](packaging/BUILD.md) for Windows NSIS installer generation (`cargo xtask windows-installer`), Linux packaging, and [docs/VALIDATION.md](docs/VALIDATION.md) for CI test coverage and known engine constraints (e.g. embedded video RGBA CPU buffer vs. separate-window hardware decoding).
 
 ---
 

@@ -18472,7 +18472,7 @@
                       "value": {
                         "t": "Text",
                         "v": {
-                          "text": "Official binaries for Windows, Linux & macOS.",
+                          "text": "Official binaries for Windows 10/11 & Linux.",
                           "font": "Inter",
                           "style": "Regular",
                           "size": 18.0,
@@ -20258,7 +20258,7 @@
                       "value": {
                         "t": "Text",
                         "v": {
-                          "text": "• D3D11VA, VA-API & VideoToolbox GPUs",
+                          "text": "• D3D11VA, DXVA2, VA-API & VDPAU GPUs",
                           "font": "Inter",
                           "style": "Regular",
                           "size": 18.0,
@@ -52688,7 +52688,7 @@
                       "value": {
                         "t": "Text",
                         "v": {
-                          "text": "Windows 10/11 x64   ·   Linux   ·   macOS",
+                          "text": "Windows 10/11 x64   ·   Linux (Wayland & X11)",
                           "font": "Inter",
                           "style": "Medium",
                           "size": 16.0,
@@ -61363,7 +61363,7 @@
                       "value": {
                         "t": "Text",
                         "v": {
-                          "text": "WINDOWS  ·  LINUX  ·  MACOS",
+                          "text": "WINDOWS 10/11  ·  LINUX",
                           "font": "Inter",
                           "style": "SemiBold",
                           "size": 13.0,
@@ -63960,7 +63960,7 @@
       "id": 1,
       "comp": 493,
       "render": true,
-      "status": "Queued",
+      "status": "Done",
       "settings": {
         "name": "Best Settings",
         "quality": "Best",
@@ -64027,9 +64027,9 @@
         "opus_application": "Audio",
         "include_project_link": true
       },
-      "started": null,
-      "render_time": null,
-      "last_output": null
+      "started": 1794707556,
+      "render_time": 5.1268067,
+      "last_output": "c:/Users/TonyBoySUPER/Documents/Projets/ondrane/docs/ondrane-showcase-raw.mp4"
     }
   ]
 }

@@ -32,10 +32,6 @@ cargo xtask windows-installer
 
 The installer is written to `target/Ondrane-Setup-<version>.exe`. It is per-user and includes the application and notices. It deliberately does not copy adjacent VLC DLLs or plugins. Portable archives are assembled by the release workflow.
 
-## macOS
-
-Install Xcode Command Line Tools, stable Rust and VLC 3. Build with `cargo build --release --locked`. The release workflow packages `Ondrane.app` using `packaging/macos/Info.plist` and the ICNS resource; its `Contents/Resources` includes third-party notices. The app loads libVLC from the separately installed VLC app or a custom path. The initial preview is unsigned and not notarised; native playback and device parity are not established by a CI build alone.
-
 ## Required distribution notices
 
 ```sh
@@ -48,6 +44,6 @@ Ship the generated directory, root `LICENSE` and `THIRD_PARTY_NOTICES.md` with t
 
 ## Artwork
 
-`cargo xtask app-icons` derives platform PNG, ICO and ICNS files from `packaging/ondrane.svg`. That canonical SVG was exported from `assets/branding/ondrane.vectorcraft` using VectorCraft. Motion is authored in `assets/branding/ondrane-motion.ecproj` using EffectCraft. See the branding brief for native sources, Lottie and SVG/GIF exports.
+`cargo xtask app-icons` derives platform PNG and ICO files from `packaging/ondrane.svg`. That canonical SVG was exported from `assets/branding/ondrane.vectorcraft` using VectorCraft. Motion is authored in `assets/branding/ondrane-motion.ecproj` using EffectCraft. See the branding brief for native sources, Lottie and SVG/GIF exports.
 
 The original Juxtopposed Figma archive is not redistributed. To regenerate its CC BY pictograms, obtain the source from its Community listing, export a `.fig`, then run `cargo xtask figma /path/to/design.fig`. The task keeps the separately authored Ondrane app symbol and excludes the original cone. Preserve the attribution in `THIRD_PARTY_NOTICES.md`.

@@ -594,7 +594,7 @@ impl LibVlcSymbols {
 // HIGH-LEVEL SAFE ENGINE & PLAYER WRAPPERS
 // ============================================================================
 
-/// Locate libVLC on Linux, Windows 10/11 x64, and macOS. The search touches
+/// Locate libVLC on Linux and Windows 10/11 x64. The search touches
 /// the disk (and the registry on Windows), so it only runs once.
 pub fn find_libvlc() -> Option<PathBuf> {
     static FOUND: std::sync::OnceLock<Option<PathBuf>> = std::sync::OnceLock::new();
@@ -607,7 +607,7 @@ fn locate_libvlc() -> Option<PathBuf> {
         if p.is_file() {
             return Some(p);
         } else if p.is_dir() {
-            for name in ["libvlc.dll", "libvlc.so.5", "libvlc.so", "libvlc.dylib"] {
+            for name in ["libvlc.dll", "libvlc.so.5", "libvlc.so"] {
                 let candidate = p.join(name);
                 if candidate.exists() {
                     return Some(candidate);
@@ -718,20 +718,6 @@ fn locate_libvlc() -> Option<PathBuf> {
         }
         if incompatible.is_some() {
             return incompatible;
-        }
-    }
-
-    #[cfg(target_os = "macos")]
-    {
-        let candidates = [
-            "/Applications/VLC.app/Contents/MacOS/lib/libvlc.dylib",
-            "libvlc.dylib",
-        ];
-        for c in candidates {
-            let p = PathBuf::from(c);
-            if p.exists() {
-                return Some(p);
-            }
         }
     }
 

@@ -18,7 +18,7 @@ The inherited Linux integration was also previously exercised with COSMIC’s re
 
 ## Automated CI
 
-The public workflow builds and tests Linux, Windows and macOS. Linux runs isolated FileChooser/ScreenCast protocol tests, synthetic capture transport, and headless Wayland/X11 desktop scenarios. The headless runner uses a PulseAudio null sink so missing physical sound hardware does not create native audio-error dialogs during input tests. Its software renderer does not test physical GPU acceleration or a user’s actual screen-sharing permission dialog. Passing CI does not establish macOS/Windows playback or device parity; native runtime/peripheral tests remain separate.
+The public workflow builds and tests Linux and Windows. Linux runs isolated FileChooser/ScreenCast protocol tests, synthetic capture transport, and headless Wayland/X11 desktop scenarios. The headless runner uses a PulseAudio null sink so missing physical sound hardware does not create native audio-error dialogs during input tests. Its software renderer does not test physical GPU acceleration or a user’s actual screen-sharing permission dialog. Passing CI does not establish Windows hardware playback or device parity; native runtime/peripheral tests remain separate.
 
 ## Upstream Flatpak validation
 
@@ -38,6 +38,6 @@ These are real runtime tests, but the file-selection action test does not automa
 - Embedded video uses CPU decoding and pixel copies; zero-copy GPU video and HDR passthrough are not implemented.
 - Native Wayland drag-and-drop is limited by winit 0.30; optional XWayland mode provides a workaround.
 - Optical media, removable storage and Chromecast behaviour have not been verified with matching physical devices in this campaign.
-- macOS preview packages are unsigned and not notarised. No Windows/macOS hardware certification is claimed.
+- No Windows hardware certification is claimed.
 
 Private local runtime files, screen recordings, personal configuration and raw desktop-capture screenshots are excluded from the public source tree. Public screenshots show only generated media, including a wordmark demo rendered in EffectCraft.

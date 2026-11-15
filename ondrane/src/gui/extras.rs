@@ -167,17 +167,6 @@ pub fn optical_drives() -> Vec<String> {
             }
         }
     }
-    #[cfg(target_os = "macos")]
-    {
-        if let Ok(rd) = std::fs::read_dir("/Volumes") {
-            for e in rd.flatten() {
-                let p = e.path();
-                if p.join("VIDEO_TS").is_dir() || p.join("BDMV").is_dir() {
-                    out.push(p.to_string_lossy().to_string());
-                }
-            }
-        }
-    }
     out
 }
 
@@ -237,11 +226,6 @@ pub fn capture_devices() -> Vec<(String, String)> {
             }
         }
     }
-    #[cfg(target_os = "macos")]
-    out.push((
-        "avfoundation://default".into(),
-        crate::i18n::tr("Default camera"),
-    ));
     out
 }
 

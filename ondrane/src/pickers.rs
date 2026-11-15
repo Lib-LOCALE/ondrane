@@ -1,5 +1,5 @@
-//! Native file pickers: Win32 common dialogs on Windows, zenity / kdialog on
-//! Linux, osascript on macOS. All functions block, so the GUI calls them from
+//! Native file pickers: Win32 common dialogs on Windows, XDG Desktop Portal /
+//! zenity / kdialog on Linux. All functions block, so the GUI calls them from
 //! a worker thread.
 
 use std::path::PathBuf;
@@ -413,26 +413,6 @@ pub fn pick_files(title: &str, label: &str, patterns: &str, multiple: bool) -> V
         let filter = format!("{label}\0{win_patterns}\0All Files\0*.*\0\0");
         return win32_open_file_dialog(title, &filter, multiple);
     }
-    #[cfg(target_os = "macos")]
-    {
-        let _ = (label, patterns); // the AppleScript chooser has no filter
-        let script = if multiple {
-            "on run argv\n\
-             set fs to choose file with prompt (item 1 of argv) with multiple selections allowed\n\
-             set out to \"\"\n\
-             repeat with f in fs\n\
-             set out to out & POSIX path of f & \"\\n\"\n\
-             end repeat\n\
-             return out\n\
-             end run"
-        } else {
-            "on run argv\n\
-             POSIX path of (choose file with prompt (item 1 of argv))\n\
-             end run"
-        };
-        return run_lines(Command::new("osascript").args(["-e", script, title]), '\n')
-            .unwrap_or_default();
-    }
     #[allow(unreachable_code)]
     {
         let mut z = Command::new("zenity");
@@ -474,14 +454,6 @@ pub fn pick_folder(title: &str) -> Option<PathBuf> {
     {
         return win32::pick_folder_dialog(title);
     }
-    #[cfg(target_os = "macos")]
-    {
-        let script = "on run argv\n\
-                      POSIX path of (choose folder with prompt (item 1 of argv))\n\
-                      end run";
-        return run_lines(Command::new("osascript").args(["-e", script, title]), '\n')
-            .and_then(|v| v.into_iter().next());
-    }
     #[allow(unreachable_code)]
     {
         if let Some(v) = run_lines(
@@ -510,17 +482,6 @@ pub fn pick_save(title: &str, file_name: &str) -> Option<PathBuf> {
     #[cfg(target_os = "windows")]
     {
         return win32::save_file_dialog(title, file_name);
-    }
-    #[cfg(target_os = "macos")]
-    {
-        let script = "on run argv\n\
-                      POSIX path of (choose file name with prompt (item 1 of argv) default name (item 2 of argv))\n\
-                      end run";
-        return run_lines(
-            Command::new("osascript").args(["-e", script, title, file_name]),
-            '\n',
-        )
-        .and_then(|v| v.into_iter().next());
     }
     #[allow(unreachable_code)]
     {
@@ -571,9 +532,6 @@ pub fn reveal(path: &std::path::Path) {
         } else {
             path.parent().map(|p| p.to_path_buf()).unwrap_or_default()
         };
-        #[cfg(target_os = "macos")]
-        let _ = Command::new("open").arg(&target).spawn();
-        #[cfg(not(target_os = "macos"))]
         let _ = Command::new("xdg-open").arg(&target).spawn();
     }
 }

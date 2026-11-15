@@ -139,8 +139,8 @@ msgstr "Retour"
 msgid "About Ondrane"
 msgstr "À propos d’Ondrane"
 
-msgid "A fast, native cross-platform media player for Windows, Linux and macOS — written in Rust + Slint on libVLC, adapting the community \"VLC Redesign\" Figma concept by Juxtopposed."
-msgstr "Un lecteur multimédia multiplateforme rapide et natif pour Windows, Linux et macOS — écrit en Rust + Slint sur libVLC, d’après le concept Figma communautaire « VLC Redesign » de Juxtopposed."
+msgid "A fast, native desktop media player for Windows and Linux — written in Rust + Slint on libVLC, adapting the community \"VLC Redesign\" Figma concept by Juxtopposed."
+msgstr "Un lecteur multimédia de bureau rapide et natif pour Windows et Linux — écrit en Rust + Slint sur libVLC, d’après le concept Figma communautaire « VLC Redesign » de Juxtopposed."
 
 msgid "Built with Rust & Slint (slint.dev) · Playback engine: libVLC (videolan.org)"
 msgstr "Conçu en Rust & Slint (slint.dev) · Moteur de lecture : libVLC (videolan.org)"
